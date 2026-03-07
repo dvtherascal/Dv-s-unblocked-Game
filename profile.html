@@ -7,41 +7,45 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-.profile-wrap{margin-top:58px;padding:24px 16px 80px;max-width:500px;margin-left:auto;margin-right:auto;}
-.profile-card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:28px 20px;text-align:center;margin-bottom:20px;}
-.profile-avatar-big{width:72px;height:72px;border-radius:50%;background:var(--accent);color:#000;font-size:2rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border:3px solid var(--yellow);}
-.profile-name{font-size:1.4rem;font-weight:900;margin-bottom:2px;}
-.profile-email{color:var(--muted);font-size:.78rem;margin-bottom:4px;}
-.profile-since{color:var(--muted);font-size:.78rem;}
-.stats-row{display:flex;gap:12px;margin-top:18px;}
-.stat-box{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center;}
-.stat-num{font-size:1.4rem;font-weight:900;color:var(--yellow);}
-.stat-lbl{font-size:.7rem;color:var(--muted);margin-top:2px;font-weight:700;}
-.section-title{font-size:1rem;font-weight:900;margin:20px 0 12px;}
-.history-list{display:flex;flex-direction:column;gap:10px;}
-.history-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:14px;cursor:pointer;}
+.profile-wrap{margin-top:58px;padding:20px 16px 80px;max-width:500px;margin-left:auto;margin-right:auto;}
+.profile-card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:24px 18px;text-align:center;margin-bottom:18px;}
+.profile-avatar-big{width:80px;height:80px;border-radius:50%;background:var(--accent);color:#000;font-size:2rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;border:3px solid var(--yellow);overflow:hidden;cursor:pointer;position:relative;}
+.profile-avatar-big img{width:100%;height:100%;object-fit:cover;}
+.pfp-hint{font-size:.72rem;color:var(--muted);margin-bottom:10px;}
+.profile-name{font-size:1.35rem;font-weight:900;margin-bottom:2px;}
+.profile-email{color:var(--muted);font-size:.76rem;margin-bottom:3px;}
+.profile-since{color:var(--muted);font-size:.76rem;}
+.stats-row{display:flex;gap:10px;margin-top:16px;}
+.stat-box{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 6px;text-align:center;}
+.stat-num{font-size:1.35rem;font-weight:900;color:var(--yellow);}
+.stat-lbl{font-size:.68rem;color:var(--muted);margin-top:2px;font-weight:700;}
+.sec-title{font-size:.95rem;font-weight:900;margin:18px 0 10px;}
+.history-list{display:flex;flex-direction:column;gap:9px;}
+.history-item{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:11px 12px;display:flex;align-items:center;gap:12px;cursor:pointer;}
 .history-item:hover{border-color:var(--accent);}
-.history-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:var(--surface2);flex-shrink:0;}
-.history-info h4{font-size:.95rem;font-weight:900;}
-.history-info p{font-size:.75rem;color:var(--muted);margin-top:2px;}
+.history-thumb{width:46px;height:46px;border-radius:8px;object-fit:cover;background:var(--surface2);flex-shrink:0;}
+.history-info h4{font-size:.92rem;font-weight:900;}
+.history-info p{font-size:.72rem;color:var(--muted);margin-top:2px;}
 </style>
 </head>
 <body>
 <nav class="navbar">
   <div class="nav-left">
-    <svg width="36" height="36" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#FFD700"/><rect x="10" y="24" width="44" height="8" rx="4" fill="#111"/><circle cx="26" cy="28" r="4" fill="#fff"/><circle cx="27.5" cy="27" r="2" fill="#111"/></svg>
+    <svg width="34" height="34" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#FFD700"/><rect x="10" y="24" width="44" height="8" rx="4" fill="#111"/><circle cx="26" cy="28" r="4" fill="#fff"/><circle cx="27.5" cy="27" r="2" fill="#111"/></svg>
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
   <div class="nav-right">
     <div class="avatar-bubble" id="navAvatar">G</div>
-    <span class="nav-username" id="navUsername">Guest</span>
+    <span class="nav-username" id="navUsername">—</span>
     <button class="nav-logout" onclick="doLogout()">↩</button>
   </div>
 </nav>
 
 <div class="profile-wrap">
   <div class="profile-card">
-    <div class="profile-avatar-big" id="profAvatar">G</div>
+    <div class="profile-avatar-big" id="profAvatar" onclick="triggerPfp()" title="Click to change profile picture">G</div>
+    <div class="pfp-hint">📷 Tap picture to change</div>
+    <input type="file" id="pfpInput" accept="image/*" style="display:none" onchange="uploadPfp(event)">
     <div class="profile-name" id="profName">—</div>
     <div class="profile-email" id="profEmail">—</div>
     <div class="profile-since">Member since: <span id="profSince">—</span></div>
@@ -50,8 +54,8 @@
       <div class="stat-box"><div class="stat-num" id="statFriends">0</div><div class="stat-lbl">Friends</div></div>
     </div>
   </div>
-  <div class="section-title">🕹️ Recently Played</div>
-  <div class="history-list" id="historyList"><p style="color:var(--muted);font-size:.88rem">No games played yet!</p></div>
+  <div class="sec-title">🕹️ Recently Played</div>
+  <div class="history-list" id="historyList"><p style="color:var(--muted);font-size:.85rem">No games played yet!</p></div>
 </div>
 
 <nav class="bnav">
@@ -62,36 +66,71 @@
 
 <script src="games-data.js"></script>
 <script>
-function getUser(){ try{return JSON.parse(localStorage.getItem('dvs_user'))||null;}catch(e){return null;} }
-function getAllAccounts(){ try{return JSON.parse(localStorage.getItem('dvs_accounts'))||{};}catch(e){return{};} }
-function doLogout(){ localStorage.removeItem('dvs_user'); location.href='index.html'; }
-function timeAgo(ts){ var d=(Date.now()-ts)/1000; if(d<60)return'Just now'; if(d<3600)return Math.floor(d/60)+'m ago'; if(d<86400)return Math.floor(d/3600)+'h ago'; return Math.floor(d/86400)+'d ago'; }
+function getUser(){try{return JSON.parse(localStorage.getItem('dvs_user'))||null;}catch(e){return null;}}
+function getAllAccounts(){try{return JSON.parse(localStorage.getItem('dvs_accounts'))||{};}catch(e){return{};}}
+function saveUser(u){localStorage.setItem('dvs_user',JSON.stringify(u));}
+function saveAllAccounts(a){localStorage.setItem('dvs_accounts',JSON.stringify(a));}
+function doLogout(){localStorage.removeItem('dvs_user');location.href='index.html';}
+function timeAgo(ts){var d=(Date.now()-ts)/1000;if(d<60)return'Just now';if(d<3600)return Math.floor(d/60)+'m ago';if(d<86400)return Math.floor(d/3600)+'h ago';return Math.floor(d/86400)+'d ago';}
+
+function triggerPfp(){ document.getElementById('pfpInput').click(); }
+
+function uploadPfp(e){
+  var file = e.target.files[0];
+  if(!file) return;
+  if(file.size > 2*1024*1024){ alert('Image too large! Max 2MB.'); return; }
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    var data = ev.target.result;
+    var u = getUser();
+    if(!u) return;
+    u.pfp = data;
+    saveUser(u);
+    var all = getAllAccounts();
+    all[u.username.toLowerCase()] = u;
+    saveAllAccounts(all);
+    renderPfp(data);
+    document.getElementById('navAvatar').innerHTML = '<img src="'+data+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderPfp(src){
+  var av = document.getElementById('profAvatar');
+  if(src){ av.innerHTML='<img src="'+src+'" style="width:100%;height:100%;object-fit:cover;">'; }
+}
+
 function openGame(name,url){
   var w=window.open('about:blank','_blank');
   if(!w){alert('Allow pop-ups!');return;}
   w.document.write('<!DOCTYPE html><html><head><title>'+name+'</title><style>*{margin:0;padding:0}html,body{width:100%;height:100%;overflow:hidden;background:#000}iframe{position:fixed;inset:0;width:100%;height:100%;border:none}</style></head><body><iframe src="'+url+'" allow="autoplay;fullscreen;gamepad" allowfullscreen></iframe></body></html>');
   w.document.close();
 }
+
 (function(){
-  var user=getUser();
+  var user = getUser();
   if(!user){location.href='index.html';return;}
-  document.getElementById('navAvatar').textContent=(user.username||'G')[0].toUpperCase();
-  document.getElementById('navUsername').textContent=user.username||'Guest';
-  document.getElementById('profAvatar').textContent=(user.username||'G')[0].toUpperCase();
-  document.getElementById('profName').textContent=user.name||user.username||'—';
-  document.getElementById('profEmail').textContent=user.email||'—';
-  document.getElementById('profSince').textContent=user.since||'—';
-  document.getElementById('statPlayed').textContent=user.gamesPlayed||0;
-  document.getElementById('statFriends').textContent=(user.friends||[]).length;
-  var list=document.getElementById('historyList');
-  if(user.history&&user.history.length>0){
+  var all = getAllAccounts();
+  user = all[user.username.toLowerCase()]||user;
+  saveUser(user);
+  document.getElementById('navAvatar').innerHTML = user.pfp ? '<img src="'+user.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">' : user.username[0].toUpperCase();
+  document.getElementById('navUsername').textContent = user.username;
+  document.getElementById('profName').textContent = user.name||user.username;
+  document.getElementById('profEmail').textContent = user.email||'—';
+  document.getElementById('profSince').textContent = user.since||'—';
+  document.getElementById('statPlayed').textContent = user.gamesPlayed||0;
+  document.getElementById('statFriends').textContent = (user.friends||[]).length;
+  if(user.pfp) renderPfp(user.pfp);
+  var list = document.getElementById('historyList');
+  if(user.history && user.history.length>0){
     list.innerHTML='';
     user.history.forEach(function(h){
       var g=GAMES.find(function(g){return g.id===h.id;});
       if(!g)return;
       var div=document.createElement('div');
       div.className='history-item';
-      div.innerHTML='<img class="history-thumb" src="'+h.thumb+'" onerror="this.style.display=\'none\'"><div class="history-info"><h4>'+h.name+'</h4><p>'+timeAgo(h.ts)+'</p></div><div style="margin-left:auto;color:var(--muted);font-size:.8rem">▶ Play</div>';
+      var tSrc = h.thumb==='ULTRAKILL_ICON'?'ultrakill.png':h.thumb;
+      div.innerHTML='<img class="history-thumb" src="'+tSrc+'" onerror="this.style.display=\'none\'"><div class="history-info"><h4>'+h.name+'</h4><p>'+timeAgo(h.ts)+'</p></div><div style="margin-left:auto;color:var(--muted);font-size:.78rem">▶ Play</div>';
       div.addEventListener('click',function(){openGame(g.name,g.url);});
       list.appendChild(div);
     });
