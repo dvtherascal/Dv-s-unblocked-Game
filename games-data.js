@@ -223,5 +223,15 @@ const GAMES = [
     url: "https://krunker.io/",
     thumb: "https://krunker.io/img/krunker_icon.png",
     color: "#212121"
+  },
+    {
+    id: "minecraft",
+    name: "minecraft 1.80",
+    desc: "Minecraft",
+    hot: false, isNew: false,
+    url: "https://eaglercraft1-8.github.io/",
+    thumb: "https://krunker.io/img/krunker_icon.png",
+    color: "#212121"
   }
 ];
+
