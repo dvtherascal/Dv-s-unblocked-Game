@@ -1,0 +1,14 @@
+{
+  "name": "dvs-unblocked-games",
+  "version": "1.0.0",
+  "description": "Unblocked school games by Dvtherascal",
+  "main": "index.html",
+  "author": "Dvtherascal",
+  "license": "ISC",
+  "scripts": {
+    "start": "http-server . -p 8080 -o"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
