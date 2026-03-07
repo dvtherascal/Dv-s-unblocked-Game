@@ -14,7 +14,7 @@ const GAMES = [
     desc: "Sprint through endless space tunnels!",
     hot: true, isNew: false,
     url: "https://run3game.io/",
-    thumb: "https://run3game.io/img/run3.png",
+    thumb: "https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co54z9.jpg",
     color: "#0d1b2a"
   },
   {
@@ -23,7 +23,7 @@ const GAMES = [
     desc: "Roll a neon ball, don't fall off!",
     hot: true, isNew: false,
     url: "https://slope-ball.github.io/",
-    thumb: "https://i.imgur.com/3BJF9AZ.png",
+    thumb: "https://play-lh.googleusercontent.com/FFrKIqKVpB9HMpaaF0HUc5Sza5W2sM8GFZGfkddU39xPcKCa4BYXQghoWVGlQGpaAA=w526-h296-rw",
     color: "#0a0020"
   },
   {
