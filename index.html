@@ -9,6 +9,7 @@
 </head>
 <body>
 
+<!-- LOGIN MODAL -->
 <div id="loginModal" class="modal-overlay">
   <div class="modal-box">
     <svg width="64" height="64" viewBox="0 0 64 64">
@@ -18,15 +19,45 @@
       <circle cx="27.5" cy="27" r="2" fill="#111"/>
     </svg>
     <h2 class="modal-title">Dv's Unblocked Games</h2>
-    <p class="modal-sub">Pick a username to save your progress!</p>
-    <input type="text" id="loginUsername" class="modal-input" placeholder="Enter username..." maxlength="20" onkeydown="if(event.key==='Enter')doLogin()">
+    <p class="modal-sub">Sign in to get the full experience!</p>
+    <input type="text" id="regName" class="modal-input" placeholder="Full name..." maxlength="40">
+    <input type="email" id="regEmail" class="modal-input" placeholder="Gmail or email..." maxlength="80">
+    <input type="text" id="regUsername" class="modal-input" placeholder="Pick a username..." maxlength="20" onkeydown="if(event.key==='Enter')doLogin()">
     <div id="loginError" class="modal-error"></div>
-    <button class="modal-btn" onclick="doLogin()">▶ Play Now</button>
-    <button class="modal-btn modal-btn-guest" onclick="doGuest()">Play as Guest</button>
+    <button class="modal-btn" onclick="doLogin()">▶ Sign In / Register</button>
+    <button class="modal-btn modal-btn-guest" onclick="doGuest()">Browse as Guest</button>
   </div>
 </div>
 
-<nav class="navbar">
+<!-- GAME POPUP -->
+<div id="gamePopup" class="popup-overlay hidden">
+  <div class="popup-box">
+    <img id="popupThumb" src="" alt="" class="popup-thumb">
+    <div class="popup-title" id="popupTitle">Game Name</div>
+    <div class="popup-desc" id="popupDesc">Description here</div>
+    <div class="popup-buttons">
+      <button class="popup-btn popup-btn-green" onclick="launchGame('iframe')">▶ Play Here</button>
+      <button class="popup-btn popup-btn-blue" onclick="launchGame('blank')">🔲 Play Here (Alt)</button>
+      <button class="popup-btn popup-btn-purple" onclick="launchGame('fullscreen')">⛶ Fullscreen</button>
+      <button class="popup-btn popup-btn-alt" onclick="launchGame('blankfull')">⛶ Fullscreen (Alt)</button>
+    </div>
+    <button class="popup-close" onclick="closePopup()">✕ Close</button>
+  </div>
+</div>
+
+<!-- IN-PAGE GAME VIEW -->
+<div id="inPageGame" class="inpage-game hidden">
+  <div class="inpage-bar">
+    <button onclick="closeInPage()" class="inpage-back">← Back</button>
+    <span id="inPageTitle" class="inpage-title"></span>
+    <button onclick="launchGame('blank')" class="inpage-btn inpage-blue">🔲 Alt</button>
+    <button onclick="launchGame('fullscreen')" class="inpage-btn inpage-purple">⛶ Full</button>
+  </div>
+  <iframe id="inPageFrame" src="" allowfullscreen allow="autoplay; fullscreen; gamepad" frameborder="0"></iframe>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
   <div class="nav-left">
     <svg width="36" height="36" viewBox="0 0 64 64">
       <circle cx="32" cy="32" r="32" fill="#FFD700"/>
@@ -36,7 +67,7 @@
     </svg>
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
-  <div class="nav-mid">
+  <div class="nav-mid" id="navMid">
     <input class="nav-search" type="text" id="searchInput" placeholder="🔍 Search games..." oninput="filterGames()">
   </div>
   <div class="nav-right">
@@ -46,8 +77,20 @@
   </div>
 </nav>
 
-<main class="page-main">
+<!-- GUEST VIEW (Classroom 6x style) -->
+<main class="page-main" id="guestView" style="display:none">
+  <div class="c6x-banner">
+    <div class="c6x-alarm">⏰ Please play only during breaks or after school — learning comes first! 📚</div>
+  </div>
+  <div class="c6x-hero">
+    <h1 class="c6x-title">Unblocked Games — Dv's</h1>
+    <p class="c6x-sub">Play unblocked games at school. Fast load, no downloads, safe on Chromebooks.</p>
+  </div>
+  <div class="c6x-grid" id="guestGrid"></div>
+</main>
 
+<!-- SIGNED IN VIEW (Roblox style) -->
+<main class="page-main" id="userView" style="display:none">
   <section class="hero">
     <h1 class="hero-h1">Welcome back, <span id="heroName">Player</span>! 👾</h1>
     <p class="hero-p">Real unblocked games — works on Chromebooks, phones and PCs.</p>
@@ -74,15 +117,18 @@
     <div class="all-grid" id="allGrid"></div>
     <p id="noResults" style="display:none;text-align:center;padding:40px;color:#888">No games found 😕</p>
   </section>
-
 </main>
 
-<nav class="bnav">
+<nav class="bnav" id="bnavBar">
   <a href="index.html" class="bnav-btn active">
     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     <span>Home</span>
   </a>
-  <a href="profile.html" class="bnav-btn">
+  <a href="friends.html" class="bnav-btn" id="friendsNavBtn" style="display:none">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+    <span>Friends</span>
+  </a>
+  <a href="profile.html" class="bnav-btn" id="profileNavBtn" style="display:none">
     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
     <span>Profile</span>
   </a>
