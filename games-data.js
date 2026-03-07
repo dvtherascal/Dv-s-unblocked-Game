@@ -5,7 +5,7 @@ const GAMES = [
     desc: "Fast parkour platformer. Run, jump and slide!",
     hot: true, isNew: false,
     url: "https://ubg98.github.io/OvO/",
-    thumb: "https://i.imgur.com/6oGNGAK.png",
+    thumb: "https://play-lh.googleusercontent.com/v7KwGdPjJGjJjRXn46sck4DwDBdKSeRzGN44CjiXUtKV0jjOi51Bt4wcXud0m-SkXg",
     color: "#1a1a2e"
   },
   {
