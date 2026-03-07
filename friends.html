@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friends — Dv's Unblocked Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.friends-wrap{margin-top:58px;padding:20px 16px 80px;max-width:500px;margin-left:auto;margin-right:auto;}
+.search-bar{display:flex;gap:10px;margin-bottom:20px;}
+.friend-search-input{flex:1;padding:11px 14px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:.95rem;font-family:'Nunito',sans-serif;outline:none;}
+.friend-search-input:focus{border-color:var(--accent);}
+.search-go{background:var(--accent);color:#000;border:none;padding:11px 18px;border-radius:10px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;}
+.section-title{font-size:1rem;font-weight:900;margin:16px 0 10px;}
+.friend-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.friend-avatar{width:42px;height:42px;border-radius:50%;background:var(--accent);color:#000;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.friend-info{flex:1;}
+.friend-info h4{font-size:.95rem;font-weight:900;}
+.friend-info p{font-size:.75rem;color:var(--muted);}
+.friend-btn{border:none;padding:7px 14px;border-radius:8px;font-weight:900;cursor:pointer;font-size:.8rem;font-family:'Nunito',sans-serif;}
+.btn-add{background:var(--green);color:#000;}
+.btn-added{background:var(--surface2);color:var(--muted);border:1px solid var(--border);}
+.btn-accept{background:#1e90ff;color:#fff;}
+.btn-remove{background:var(--accent2);color:#fff;}
+.msg{color:var(--muted);font-size:.88rem;padding:10px 0;}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);display:inline-block;margin-left:6px;}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-left">
+    <svg width="36" height="36" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#FFD700"/><rect x="10" y="24" width="44" height="8" rx="4" fill="#111"/><circle cx="26" cy="28" r="4" fill="#fff"/><circle cx="27.5" cy="27" r="2" fill="#111"/></svg>
+    <span class="nav-brand">Dv's Unblocked Games</span>
+  </div>
+  <div class="nav-right">
+    <div class="avatar-bubble" id="navAvatar">G</div>
+    <span class="nav-username" id="navUsername">Guest</span>
+    <button class="nav-logout" onclick="doLogout()">↩</button>
+  </div>
+</nav>
+
+<div class="friends-wrap">
+  <div class="search-bar">
+    <input type="text" id="friendSearchInput" class="friend-search-input" placeholder="Search by username...">
+    <button class="search-go" onclick="searchUser()">Search</button>
+  </div>
+  <div id="searchResult"></div>
+
+  <div class="section-title" id="reqTitle" style="display:none">📬 Friend Requests <span class="notif-dot"></span></div>
+  <div id="requestsList"></div>
+
+  <div class="section-title">👥 My Friends</div>
+  <div id="friendsList"><p class="msg">No friends yet. Search for someone above!</p></div>
+</div>
+
+<nav class="bnav">
+  <a href="index.html" class="bnav-btn"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
+  <a href="friends.html" class="bnav-btn active"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span></a>
+  <a href="profile.html" class="bnav-btn"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span></a>
+</nav>
+
+<script>
+function getUser(){try{return JSON.parse(localStorage.getItem('dvs_user'))||null;}catch(e){return null;}}
+function getAllAccounts(){try{return JSON.parse(localStorage.getItem('dvs_accounts'))||{};}catch(e){return{};}}
+function saveAllAccounts(a){localStorage.setItem('dvs_accounts',JSON.stringify(a));}
+function saveUser(u){localStorage.setItem('dvs_user',JSON.stringify(u));}
+function doLogout(){localStorage.removeItem('dvs_user');location.href='index.html';}
+
+var me = null;
+
+function render(){
+  me = getUser();
+  if(!me){location.href='index.html';return;}
+  var all = getAllAccounts();
+  me = all[me.username.toLowerCase()] || me;
+  saveUser(me);
+
+  document.getElementById('navAvatar').textContent=(me.username||'G')[0].toUpperCase();
+  document.getElementById('navUsername').textContent=me.username||'Guest';
+
+  // Friend requests
+  var reqs = me.friendRequests||[];
+  var reqDiv = document.getElementById('requestsList');
+  var reqTitle = document.getElementById('reqTitle');
+  reqDiv.innerHTML='';
+  if(reqs.length>0){
+    reqTitle.style.display='block';
+    reqs.forEach(function(un){
+      var them=all[un.toLowerCase()];
+      if(!them)return;
+      var card=document.createElement('div');
+      card.className='friend-card';
+      card.innerHTML='<div class="friend-avatar">'+un[0].toUpperCase()+'</div><div class="friend-info"><h4>@'+un+'</h4><p>'+them.name+'</p></div><button class="friend-btn btn-accept" onclick="acceptFriend(\''+un+'\')">Accept</button>';
+      reqDiv.appendChild(card);
+    });
+  } else { reqTitle.style.display='none'; }
+
+  // Friends list
+  var friends = me.friends||[];
+  var fDiv = document.getElementById('friendsList');
+  fDiv.innerHTML='';
+  if(friends.length===0){
+    fDiv.innerHTML='<p class="msg">No friends yet. Search for someone above!</p>';
+  } else {
+    friends.forEach(function(un){
+      var them=all[un.toLowerCase()];
+      if(!them)return;
+      var card=document.createElement('div');
+      card.className='friend-card';
+      card.innerHTML='<div class="friend-avatar">'+un[0].toUpperCase()+'</div><div class="friend-info"><h4>@'+un+'</h4><p>'+them.name+' • '+( them.gamesPlayed||0)+' games played</p></div><button class="friend-btn btn-remove" onclick="removeFriend(\''+un+'\')">Remove</button>';
+      fDiv.appendChild(card);
+    });
+  }
+}
+
+function searchUser(){
+  var q=(document.getElementById('friendSearchInput').value||'').trim().toLowerCase();
+  var res=document.getElementById('searchResult');
+  res.innerHTML='';
+  if(!q){return;}
+  var all=getAllAccounts();
+  var them=all[q];
+  if(!them||q===me.username.toLowerCase()){
+    res.innerHTML='<p class="msg">User not found.</p>';return;
+  }
+  var isFriend=(me.friends||[]).map(function(f){return f.toLowerCase();}).includes(q);
+  var sentReq=(them.friendRequests||[]).map(function(f){return f.toLowerCase();}).includes(me.username.toLowerCase());
+  var btnHtml=isFriend?'<button class="friend-btn btn-added">Already Friends</button>':sentReq?'<button class="friend-btn btn-added">Request Sent</button>':'<button class="friend-btn btn-add" onclick="sendRequest(\''+them.username+'\')">+ Add Friend</button>';
+  var card=document.createElement('div');
+  card.className='friend-card';
+  card.innerHTML='<div class="friend-avatar">'+them.username[0].toUpperCase()+'</div><div class="friend-info"><h4>@'+them.username+'</h4><p>'+them.name+'</p></div>'+btnHtml;
+  res.appendChild(card);
+}
+
+function sendRequest(toUsername){
+  var all=getAllAccounts();
+  var them=all[toUsername.toLowerCase()];
+  if(!them)return;
+  them.friendRequests=them.friendRequests||[];
+  if(!them.friendRequests.includes(me.username)) them.friendRequests.push(me.username);
+  all[toUsername.toLowerCase()]=them;
+  saveAllAccounts(all);
+  searchUser();
+}
+
+function acceptFriend(fromUsername){
+  var all=getAllAccounts();
+  me.friends=me.friends||[];
+  me.friendRequests=(me.friendRequests||[]).filter(function(f){return f.toLowerCase()!==fromUsername.toLowerCase();});
+  if(!me.friends.map(function(f){return f.toLowerCase();}).includes(fromUsername.toLowerCase())) me.friends.push(fromUsername);
+  var them=all[fromUsername.toLowerCase()];
+  if(them){
+    them.friends=them.friends||[];
+    if(!them.friends.map(function(f){return f.toLowerCase();}).includes(me.username.toLowerCase())) them.friends.push(me.username);
+    all[fromUsername.toLowerCase()]=them;
+  }
+  all[me.username.toLowerCase()]=me;
+  saveAllAccounts(all);
+  saveUser(me);
+  render();
+}
+
+function removeFriend(username){
+  var all=getAllAccounts();
+  me.friends=(me.friends||[]).filter(function(f){return f.toLowerCase()!==username.toLowerCase();});
+  var them=all[username.toLowerCase()];
+  if(them){
+    them.friends=(them.friends||[]).filter(function(f){return f.toLowerCase()!==me.username.toLowerCase();});
+    all[username.toLowerCase()]=them;
+  }
+  all[me.username.toLowerCase()]=me;
+  saveAllAccounts(all);
+  saveUser(me);
+  render();
+}
+
+render();
+document.getElementById('friendSearchInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchUser();});
+</script>
+</body>
+</html>
