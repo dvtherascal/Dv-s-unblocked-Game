@@ -6,17 +6,30 @@
 <title>Profile — Dv's Unblocked Games</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+.profile-wrap{margin-top:58px;padding:24px 16px 80px;max-width:500px;margin-left:auto;margin-right:auto;}
+.profile-card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:28px 20px;text-align:center;margin-bottom:20px;}
+.profile-avatar-big{width:72px;height:72px;border-radius:50%;background:var(--accent);color:#000;font-size:2rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border:3px solid var(--yellow);}
+.profile-name{font-size:1.4rem;font-weight:900;margin-bottom:2px;}
+.profile-email{color:var(--muted);font-size:.78rem;margin-bottom:4px;}
+.profile-since{color:var(--muted);font-size:.78rem;}
+.stats-row{display:flex;gap:12px;margin-top:18px;}
+.stat-box{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center;}
+.stat-num{font-size:1.4rem;font-weight:900;color:var(--yellow);}
+.stat-lbl{font-size:.7rem;color:var(--muted);margin-top:2px;font-weight:700;}
+.section-title{font-size:1rem;font-weight:900;margin:20px 0 12px;}
+.history-list{display:flex;flex-direction:column;gap:10px;}
+.history-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:14px;cursor:pointer;}
+.history-item:hover{border-color:var(--accent);}
+.history-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:var(--surface2);flex-shrink:0;}
+.history-info h4{font-size:.95rem;font-weight:900;}
+.history-info p{font-size:.75rem;color:var(--muted);margin-top:2px;}
+</style>
 </head>
 <body>
-
 <nav class="navbar">
   <div class="nav-left">
-    <svg width="36" height="36" viewBox="0 0 64 64">
-      <circle cx="32" cy="32" r="32" fill="#FFD700"/>
-      <rect x="10" y="24" width="44" height="8" rx="4" fill="#111"/>
-      <circle cx="26" cy="28" r="4" fill="#fff"/>
-      <circle cx="27.5" cy="27" r="2" fill="#111"/>
-    </svg>
+    <svg width="36" height="36" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#FFD700"/><rect x="10" y="24" width="44" height="8" rx="4" fill="#111"/><circle cx="26" cy="28" r="4" fill="#fff"/><circle cx="27.5" cy="27" r="2" fill="#111"/></svg>
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
   <div class="nav-right">
@@ -29,92 +42,57 @@
 <div class="profile-wrap">
   <div class="profile-card">
     <div class="profile-avatar-big" id="profAvatar">G</div>
-    <div class="profile-name" id="profName">Guest</div>
+    <div class="profile-name" id="profName">—</div>
+    <div class="profile-email" id="profEmail">—</div>
     <div class="profile-since">Member since: <span id="profSince">—</span></div>
     <div class="stats-row">
-      <div class="stat-box">
-        <div class="stat-num" id="statPlayed">0</div>
-        <div class="stat-lbl">Games Played</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num" id="statHistory">0</div>
-        <div class="stat-lbl">Recent Games</div>
-      </div>
+      <div class="stat-box"><div class="stat-num" id="statPlayed">0</div><div class="stat-lbl">Games Played</div></div>
+      <div class="stat-box"><div class="stat-num" id="statFriends">0</div><div class="stat-lbl">Friends</div></div>
     </div>
   </div>
-
-  <div class="history-title">🕹️ Recently Played</div>
-  <div class="history-list" id="historyList">
-    <p style="color:var(--muted);font-size:.88rem">No games played yet. Go play something!</p>
-  </div>
+  <div class="section-title">🕹️ Recently Played</div>
+  <div class="history-list" id="historyList"><p style="color:var(--muted);font-size:.88rem">No games played yet!</p></div>
 </div>
 
 <nav class="bnav">
-  <a href="index.html" class="bnav-btn">
-    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-    <span>Home</span>
-  </a>
-  <a href="profile.html" class="bnav-btn active">
-    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-    <span>Profile</span>
-  </a>
+  <a href="index.html" class="bnav-btn"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
+  <a href="friends.html" class="bnav-btn"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span></a>
+  <a href="profile.html" class="bnav-btn active"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span></a>
 </nav>
 
 <script src="games-data.js"></script>
 <script>
-function getUser(){
-  try{ return JSON.parse(localStorage.getItem('dvs_user'))||null; }
-  catch(e){ return null; }
-}
-function doLogout(){
-  localStorage.removeItem('dvs_user');
-  location.href = 'index.html';
-}
-function timeAgo(ts){
-  var d = (Date.now()-ts)/1000;
-  if(d < 60) return 'Just now';
-  if(d < 3600) return Math.floor(d/60)+'m ago';
-  if(d < 86400) return Math.floor(d/3600)+'h ago';
-  return Math.floor(d/86400)+'d ago';
-}
-function openGame(name, url){
-  var w = window.open('about:blank','_blank');
-  if(!w){ alert('Allow pop-ups then try again!'); return; }
-  w.document.write(
-    '<!DOCTYPE html><html>' +
-    '<head><title>'+name+'</title>' +
-    '<style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;background:#000}iframe{position:fixed;inset:0;width:100%;height:100%;border:none}</style>' +
-    '</head><body>' +
-    '<iframe src="'+url+'" allow="autoplay;fullscreen;gamepad" allowfullscreen></iframe>' +
-    '</body></html>'
-  );
+function getUser(){ try{return JSON.parse(localStorage.getItem('dvs_user'))||null;}catch(e){return null;} }
+function getAllAccounts(){ try{return JSON.parse(localStorage.getItem('dvs_accounts'))||{};}catch(e){return{};} }
+function doLogout(){ localStorage.removeItem('dvs_user'); location.href='index.html'; }
+function timeAgo(ts){ var d=(Date.now()-ts)/1000; if(d<60)return'Just now'; if(d<3600)return Math.floor(d/60)+'m ago'; if(d<86400)return Math.floor(d/3600)+'h ago'; return Math.floor(d/86400)+'d ago'; }
+function openGame(name,url){
+  var w=window.open('about:blank','_blank');
+  if(!w){alert('Allow pop-ups!');return;}
+  w.document.write('<!DOCTYPE html><html><head><title>'+name+'</title><style>*{margin:0;padding:0}html,body{width:100%;height:100%;overflow:hidden;background:#000}iframe{position:fixed;inset:0;width:100%;height:100%;border:none}</style></head><body><iframe src="'+url+'" allow="autoplay;fullscreen;gamepad" allowfullscreen></iframe></body></html>');
   w.document.close();
 }
 (function(){
-  var user = getUser();
-  if(!user){ location.href='index.html'; return; }
-  document.getElementById('navAvatar').textContent = (user.username||'G')[0].toUpperCase();
-  document.getElementById('navUsername').textContent = user.username||'Guest';
-  document.getElementById('profAvatar').textContent = (user.username||'G')[0].toUpperCase();
-  document.getElementById('profName').textContent = user.username||'Guest';
-  document.getElementById('profSince').textContent = user.since||'Unknown';
-  document.getElementById('statPlayed').textContent = user.gamesPlayed||0;
-  document.getElementById('statHistory').textContent = (user.history||[]).length;
-  var list = document.getElementById('historyList');
-  if(user.history && user.history.length > 0){
-    list.innerHTML = '';
+  var user=getUser();
+  if(!user){location.href='index.html';return;}
+  document.getElementById('navAvatar').textContent=(user.username||'G')[0].toUpperCase();
+  document.getElementById('navUsername').textContent=user.username||'Guest';
+  document.getElementById('profAvatar').textContent=(user.username||'G')[0].toUpperCase();
+  document.getElementById('profName').textContent=user.name||user.username||'—';
+  document.getElementById('profEmail').textContent=user.email||'—';
+  document.getElementById('profSince').textContent=user.since||'—';
+  document.getElementById('statPlayed').textContent=user.gamesPlayed||0;
+  document.getElementById('statFriends').textContent=(user.friends||[]).length;
+  var list=document.getElementById('historyList');
+  if(user.history&&user.history.length>0){
+    list.innerHTML='';
     user.history.forEach(function(h){
-      var g = GAMES.find(function(g){ return g.id===h.id; });
-      if(!g) return;
-      var div = document.createElement('div');
-      div.className = 'history-item';
-      div.innerHTML =
-        '<div class="history-icon">'+(h.emoji||'🎮')+'</div>' +
-        '<div class="history-info"><h4>'+h.name+'</h4><p>'+timeAgo(h.ts)+'</p></div>' +
-        '<div style="margin-left:auto;color:var(--muted);font-size:.8rem">▶ Play</div>';
-      div.addEventListener('click', function(){
-        openGame(g.name, g.url);
-      });
+      var g=GAMES.find(function(g){return g.id===h.id;});
+      if(!g)return;
+      var div=document.createElement('div');
+      div.className='history-item';
+      div.innerHTML='<img class="history-thumb" src="'+h.thumb+'" onerror="this.style.display=\'none\'"><div class="history-info"><h4>'+h.name+'</h4><p>'+timeAgo(h.ts)+'</p></div><div style="margin-left:auto;color:var(--muted);font-size:.8rem">▶ Play</div>';
+      div.addEventListener('click',function(){openGame(g.name,g.url);});
       list.appendChild(div);
     });
   }
