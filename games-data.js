@@ -49,7 +49,7 @@ const GAMES = [
     name: "Cookie Clicker",
     desc: "Click cookies, build an empire.",
     hot: false, isNew: false,
-    url: "https://orteil.dashnet.org/cookieclicker/",
+    url: "https://hub-pro.github.io/cookie/index.html",
     thumb: "https://orteil.dashnet.org/cookieclicker/img/favicon.ico",
     color: "#3e1e00"
   },
@@ -193,7 +193,7 @@ const GAMES = [
     name: "Friday Night Funkin",
     desc: "Rhythm battle game!",
     hot: true, isNew: false,
-    url: "https://www.crazygames.com/embed/friday-night-funkin",
+    url: "https://hub-pro.github.io/games/fridaynightfunkin/index.html",
     thumb: "https://imgs.crazygames.com/friday-night-funkin_16x9/20210702124038/friday-night-funkin_16x9-cover?metadata=none&quality=85&width=400",
     color: "#6a1b9a"
   },
