@@ -86,7 +86,7 @@ const GAMES = [
     desc: "Manage and play your NFL team.",
     hot: false, isNew: true,
     url: "https://retrobowl.me/",
-    thumb: "",
+    thumb: "https://upload.wikimedia.org/wikipedia/en/b/bf/Retro_Bowl_cover.png",
     color: "#1b5e20"
   },
   {
@@ -95,7 +95,7 @@ const GAMES = [
     desc: "Sled down snowy hills, dodge trees.",
     hot: false, isNew: true,
     url: "https://www.crazygames.com/embed/snow-rider-3d",
-    thumb: "",
+    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO62rqZYDwjwbdFYiMxqKExDM7tJLwMIxYh6hKQaeF0HFVz4skQUPrbNQ&s=10",
     color: "#0d47a1"
   },
   {
@@ -104,7 +104,7 @@ const GAMES = [
     desc: "Crazy physics car game.",
     hot: true, isNew: false,
     url: "https://www.crazygames.com/embed/drive-mad",
-    thumb: "",
+    thumb: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/4abc77cf2ca8a1ca37416249429501f4/drive-mad.png",
     color: "#212121"
   },
   {
