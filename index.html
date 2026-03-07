@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dv's Unblocked Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="loginModal" class="modal-overlay">
+  <div class="modal-box">
+    <svg width="64" height="64" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="32" fill="#FFD700"/>
+      <rect x="10" y="24" width="44" height="8" rx="4" fill="#111"/>
+      <circle cx="26" cy="28" r="4" fill="#fff"/>
+      <circle cx="27.5" cy="27" r="2" fill="#111"/>
+    </svg>
+    <h2 class="modal-title">Dv's Unblocked Games</h2>
+    <p class="modal-sub">Pick a username to save your progress!</p>
+    <input type="text" id="loginUsername" class="modal-input" placeholder="Enter username..." maxlength="20" onkeydown="if(event.key==='Enter')doLogin()">
+    <div id="loginError" class="modal-error"></div>
+    <button class="modal-btn" onclick="doLogin()">▶ Play Now</button>
+    <button class="modal-btn modal-btn-guest" onclick="doGuest()">Play as Guest</button>
+  </div>
+</div>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <svg width="36" height="36" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="32" fill="#FFD700"/>
+      <rect x="10" y="24" width="44" height="8" rx="4" fill="#111"/>
+      <circle cx="26" cy="28" r="4" fill="#fff"/>
+      <circle cx="27.5" cy="27" r="2" fill="#111"/>
+    </svg>
+    <span class="nav-brand">Dv's Unblocked Games</span>
+  </div>
+  <div class="nav-mid">
+    <input class="nav-search" type="text" id="searchInput" placeholder="🔍 Search games..." oninput="filterGames()">
+  </div>
+  <div class="nav-right">
+    <div class="avatar-bubble" id="navAvatar">G</div>
+    <span class="nav-username" id="navUsername">Guest</span>
+    <button class="nav-logout" onclick="doLogout()">↩</button>
+  </div>
+</nav>
+
+<main class="page-main">
+
+  <section class="hero">
+    <h1 class="hero-h1">Welcome back, <span id="heroName">Player</span>! 👾</h1>
+    <p class="hero-p">Real unblocked games — works on Chromebooks, phones and PCs.</p>
+    <div class="hero-tags">
+      <span>✅ Always Unblocked</span>
+      <span>📱 Mobile Ready</span>
+      <span>💾 Saves Progress</span>
+      <span>🆓 Free Forever</span>
+    </div>
+  </section>
+
+  <section class="row-section" id="continueSection" style="display:none">
+    <div class="row-head"><h2>Continue ›</h2></div>
+    <div class="card-row" id="continueRow"></div>
+  </section>
+
+  <section class="row-section">
+    <div class="row-head"><h2>🔥 Hot Right Now</h2></div>
+    <div class="card-row" id="hotRow"></div>
+  </section>
+
+  <section class="row-section">
+    <div class="row-head"><h2>All Games</h2></div>
+    <div class="all-grid" id="allGrid"></div>
+    <p id="noResults" style="display:none;text-align:center;padding:40px;color:#888">No games found 😕</p>
+  </section>
+
+</main>
+
+<nav class="bnav">
+  <a href="index.html" class="bnav-btn active">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span>Home</span>
+  </a>
+  <a href="profile.html" class="bnav-btn">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+    <span>Profile</span>
+  </a>
+</nav>
+
+<script src="games-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
