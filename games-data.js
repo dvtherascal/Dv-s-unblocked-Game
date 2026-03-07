@@ -113,7 +113,7 @@ const GAMES = [
     desc: "Run a supermarket as a monkey.",
     hot: false, isNew: true,
     url: "https://www.crazygames.com/embed/monkey-mart",
-    thumb: "https://imgs.crazygames.com/monkey-mart_16x9/20220906155924/monkey-mart_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "https://play-lh.googleusercontent.com/rWReIdyvDaYJPeOxn7hbC0b-96ixGpQKM_EndiQa3SUME8TtI_rNUcI4qsw5teK9mqk",
     color: "#f57f17"
   },
   {
@@ -122,7 +122,7 @@ const GAMES = [
     desc: "Jump across speeding trucks.",
     hot: false, isNew: true,
     url: "https://www.crazygames.com/embed/cluster-rush",
-    thumb: "https://imgs.crazygames.com/cluster-rush_16x9/20211006155604/cluster-rush_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "https://clusterrush.io/data/image/game/cluster-rush-game-icon-1.jpg",
     color: "#4a148c"
   },
   {
@@ -131,7 +131,7 @@ const GAMES = [
     desc: "Ragdoll physics chaos.",
     hot: false, isNew: false,
     url: "https://www.crazygames.com/embed/happy-wheels",
-    thumb: "https://imgs.crazygames.com/happy-wheels_16x9/20231010093000/happy-wheels_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "https://imgs.crazygames.com/games/happy-wheels/cover-1688034516340.png?metadata=none&quality=100&width=1200&height=630&fit=crop",
     color: "#880e4f"
   },
   {
@@ -140,7 +140,7 @@ const GAMES = [
     desc: "Idle clicker breakout game.",
     hot: false, isNew: false,
     url: "https://kodiqi.com/idlebreakout/",
-    thumb: "https://kodiqi.com/idlebreakout/icon.png",
+    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPEK1zMDCQDE6OmCti_c1Dvc7fgV0jZ2aoMS_XUT7Oww&s=10",
     color: "#1a237e"
   },
   {
@@ -149,7 +149,7 @@ const GAMES = [
     desc: "Claim territory, cut rivals off.",
     hot: false, isNew: false,
     url: "https://www.crazygames.com/embed/paper-io-2",
-    thumb: "https://imgs.crazygames.com/paper-io-2_16x9/20230209094103/paper-io-2_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "https://imgs.crazygames.com/paper-io-2_1x1/20250214024144/paper-io-2_1x1-cover?format=auto&quality=100&metadata=none&width=1200",
     color: "#004d40"
   },
   {
@@ -167,7 +167,7 @@ const GAMES = [
     desc: "Run from the inspector!",
     hot: true, isNew: false,
     url: "https://www.crazygames.com/embed/subway-surfers",
-    thumb: "https://imgs.crazygames.com/subway-surfers_16x9/20230404130228/subway-surfers_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "https://i.ytimg.com/vi/MSNXVDvp3lo/maxresdefault.jpg",
     color: "#ff6d00"
   },
   {
@@ -185,7 +185,7 @@ const GAMES = [
     desc: "Find the impostor among your crew!",
     hot: false, isNew: false,
     url: "https://www.crazygames.com/embed/among-us-online",
-    thumb: "https://imgs.crazygames.com/among-us-online_16x9/20230928100208/among-us-online_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "https://www.esrb.org/wp-content/uploads/2023/01/V1_ESRB_AmongUs-blog-header-01-1024x740-_1.jpg",
     color: "#c62828"
   },
   {
@@ -194,7 +194,7 @@ const GAMES = [
     desc: "Rhythm battle game!",
     hot: true, isNew: false,
     url: "https://hub-pro.github.io/games/fridaynightfunkin/index.html",
-    thumb: "https://imgs.crazygames.com/friday-night-funkin_16x9/20210702124038/friday-night-funkin_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "https://play-lh.googleusercontent.com/eH7CbOlUv_4ysRxicJbncfdfK3nsA_YtIpu8cvPRi2rRvXAQOLwXhoNybAwHptYIpbY",
     color: "#6a1b9a"
   },
   {
@@ -203,7 +203,7 @@ const GAMES = [
     desc: "Build and shoot in this battle royale!",
     hot: true, isNew: false,
     url: "https://www.crazygames.com/embed/1v1-lol",
-    thumb: "https://imgs.crazygames.com/1v1-lol_16x9/20230928095614/1v1-lol_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "https://gamefaqs.gamespot.com/a/box/8/3/0/927830_front.jpg",
     color: "#0d47a1"
   },
   {
@@ -212,7 +212,7 @@ const GAMES = [
     desc: "Egg-based FPS shooter!",
     hot: false, isNew: false,
     url: "https://shellshock.io/",
-    thumb: "https://shellshock.io/img/ss-og.jpg",
+    thumb: "https://imgs.crazygames.com/shellshockersio_1x1/20260203211252/shellshockersio_1x1-cover?format=auto&quality=100&metadata=none&width=1200",
     color: "#f57f17"
   },
   {
@@ -221,7 +221,7 @@ const GAMES = [
     desc: "Fast paced browser FPS!",
     hot: false, isNew: false,
     url: "https://krunker.io/",
-    thumb: "https://krunker.io/img/krunker_icon.png",
+    thumb: "https://play-lh.googleusercontent.com/YiIdFPGRikQVMAcT8Bg5MiYRgi9YHwsFfP5RsfBcpwKqsl_y3AWqbJ8rhJ0TnLIsdg",
     color: "#212121"
   }
 ];
