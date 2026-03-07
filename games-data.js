@@ -32,7 +32,7 @@ const GAMES = [
     desc: "Drift epic cars on wild tracks.",
     hot: false, isNew: false,
     url: "https://drifthunters.io/",
-    thumb: "https://drifthunters.io/img/drifthunters.jpg",
+    thumb: "https://imgs.crazygames.com/games/drift-hunters/cover-1656950639575.png?metadata=none&quality=100&width=1200&height=630&fit=crop",
     color: "#1a0500"
   },
   {
@@ -41,7 +41,7 @@ const GAMES = [
     desc: "Crazy motorcycle stunt tracks.",
     hot: false, isNew: false,
     url: "https://www.crazygames.com/embed/moto-x3m",
-    thumb: "https://imgs.crazygames.com/moto-x3m_16x9/20240515114229/moto-x3m_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDIPyyTpUGYaOTHiRolgG9HRcgYJxrdfHMC9IilRXoNHz4ql7oEXlru4s&s=10",
     color: "#1b0000"
   },
   {
@@ -50,7 +50,7 @@ const GAMES = [
     desc: "Click cookies, build an empire.",
     hot: false, isNew: false,
     url: "https://hub-pro.github.io/cookie/index.html",
-    thumb: "https://orteil.dashnet.org/cookieclicker/img/favicon.ico",
+    thumb: "https://play-lh.googleusercontent.com/Z1MOuuiD05ZN5LkVmMEvKF0mqAc-FknaQ2j8s4dZiO-LSPQX4EEA3RVJdlQEtxe96ok",
     color: "#3e1e00"
   },
   {
@@ -59,7 +59,7 @@ const GAMES = [
     desc: "Slide tiles and reach 2048!",
     hot: false, isNew: false,
     url: "https://play2048.co/",
-    thumb: "https://play2048.co/meta/og-image.png",
+    thumb: "https://upload.wikimedia.org/wikipedia/commons/1/1a/2048_Icon.png",
     color: "#776e65"
   },
   {
@@ -68,7 +68,7 @@ const GAMES = [
     desc: "Jump to the beat through insane levels.",
     hot: true, isNew: false,
     url: "https://www.crazygames.com/embed/geometry-dash-lite",
-    thumb: "https://imgs.crazygames.com/geometry-dash-lite_16x9/20240102120115/geometry-dash-lite_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "https://m.media-amazon.com/images/I/61mVIP6Oo1L.png",
     color: "#1a237e"
   },
   {
@@ -77,7 +77,7 @@ const GAMES = [
     desc: "1v1 basketball action.",
     hot: false, isNew: false,
     url: "https://www.crazygames.com/embed/basketball-stars",
-    thumb: "https://imgs.crazygames.com/basketball-stars_16x9/20230822124733/basketball-stars_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "https://imgs.crazygames.com/games/basketball-stars-2019/cover-1583231506155.png?metadata=none&quality=100&width=1200&height=630&fit=crop",
     color: "#e65100"
   },
   {
@@ -86,7 +86,7 @@ const GAMES = [
     desc: "Manage and play your NFL team.",
     hot: false, isNew: true,
     url: "https://retrobowl.me/",
-    thumb: "https://retrobowl.me/img/retrobowl.png",
+    thumb: "",
     color: "#1b5e20"
   },
   {
@@ -95,7 +95,7 @@ const GAMES = [
     desc: "Sled down snowy hills, dodge trees.",
     hot: false, isNew: true,
     url: "https://www.crazygames.com/embed/snow-rider-3d",
-    thumb: "https://imgs.crazygames.com/snow-rider-3d_16x9/20231201093430/snow-rider-3d_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "",
     color: "#0d47a1"
   },
   {
@@ -104,7 +104,7 @@ const GAMES = [
     desc: "Crazy physics car game.",
     hot: true, isNew: false,
     url: "https://www.crazygames.com/embed/drive-mad",
-    thumb: "https://imgs.crazygames.com/drive-mad_16x9/20220926103400/drive-mad_16x9-cover?metadata=none&quality=85&width=400",
+    thumb: "",
     color: "#212121"
   },
   {
@@ -157,8 +157,8 @@ const GAMES = [
     name: "Ultrakill Demo",
     desc: "MANKIND IS DEAD. BLOOD IS FUEL. HELL IS FULL.",
     hot: true, isNew: true,
-    url: "https://www.crazygames.com/embed/ultrakill",
-    thumb: "ULTRAKILL_ICON",
+    url: "https://cake-logic.itch.io/ultrakill-web-port",
+    thumb: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1229490/capsule_616x353.jpg?t=1771983912",
     color: "#7f0000"
   },
   {
@@ -176,7 +176,7 @@ const GAMES = [
     desc: "The original Minecraft in your browser!",
     hot: true, isNew: false,
     url: "https://eaglercraft1-8.github.io/",
-    thumb: "https://www.minecraft.net/content/dam/games/minecraft/key-art/MC_Vanilla_Keyart_1280x768.jpg",
+    thumb: "https://store-images.s-microsoft.com/image/apps.58378.13850085746326678.826cc014-d610-46af-bdb3-c5c96be4d22c.64287a91-c69e-4723-bb61-03fecd348c2a?q=90&w=480&h=270",
     color: "#4caf50"
   },
   {
