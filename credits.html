@@ -14,7 +14,8 @@
 .credits-section{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;text-align:left;}
 .credits-section h3{font-size:1rem;font-weight:900;color:var(--accent);margin-bottom:14px;}
 .credit-person{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border);}
-.credit-avatar{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;flex-shrink:0;}
+.credit-avatar{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;}
+.credit-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
 .credit-info h4{font-size:.92rem;font-weight:900;}
 .credit-info p{font-size:.76rem;color:var(--muted);margin-top:2px;}
 .credit-badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.68rem;font-weight:900;margin-top:4px;}
@@ -22,15 +23,20 @@
 .badge-dev{background:var(--accent);color:#000;}
 .badge-mod{background:#8e24aa;color:#fff;}
 .credit-game{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg);border-radius:9px;border:1px solid var(--border);margin-bottom:8px;}
-.credit-game img{width:38px;height:38px;border-radius:7px;object-fit:cover;}
+.credit-game img{width:38px;height:38px;border-radius:7px;object-fit:cover;flex-shrink:0;}
 .credit-game span{font-size:.85rem;font-weight:700;}
-.credits-footer{color:var(--muted);font-size:.78rem;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);}
+.credits-footer{color:var(--muted);font-size:.78rem;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);line-height:1.8;}
+.built-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+.built-tag{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.78rem;font-weight:700;}
 </style>
 </head>
 <body>
+
 <nav class="navbar">
   <div class="nav-left">
-    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif" style="width:34px;height:34px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
+    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif"
+         style="width:34px;height:34px;border-radius:50%;object-fit:cover;"
+         onerror="this.style.display='none'">
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
   <div class="nav-right">
@@ -39,87 +45,138 @@
     <button class="nav-logout" onclick="doLogout()">↩</button>
   </div>
 </nav>
+
 <nav class="bnav">
-  <a href="index.html" class="bnav-btn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
-  <a href="friends.html" class="bnav-btn" id="friendsBtn" style="display:none"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span></a>
-  <a href="profile.html" class="bnav-btn" id="profileBtn" style="display:none"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span></a>
-  <a href="credits.html" class="bnav-btn active"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span></a>
+  <a href="index.html" class="bnav-btn">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span>Home</span>
+  </a>
+  <a href="friends.html" class="bnav-btn" id="friendsBtn" style="display:none">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+    <span>Friends</span>
+  </a>
+  <a href="profile.html" class="bnav-btn" id="profileBtn" style="display:none">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+    <span>Profile</span>
+  </a>
+  <a href="credits.html" class="bnav-btn active">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+    <span>Credits</span>
+  </a>
 </nav>
 
 <div class="credits-wrap" style="margin-top:var(--navbar-h);">
-  <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif" class="credits-logo" onerror="this.style.display='none'">
-  <div class="credits-title">Dv's Unblocked Games</div>
-  <div class="credits-sub">The #1 unblocked games site built for students 🎮</div>
 
+  <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif"
+       class="credits-logo"
+       onerror="this.style.display='none'">
+  <div class="credits-title">Dv's Unblocked Games</div>
+  <div class="credits-sub">The #1 unblocked games site built for students 🎮<br>Free forever. Always unblocked. Built with ❤️</div>
+
+  <!-- TEAM -->
   <div class="credits-section">
     <h3>👑 Team</h3>
+
+    <!-- DvRascal -->
     <div class="credit-person">
-      <div class="credit-avatar" style="background:#FFD700;color:#000;">D</div>
+      <div class="credit-avatar">
+        <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f9924296-fc6c-478f-8f61-f2618116785e/dl4oapv-f640c477-8450-4f35-9c2f-c1cd63e036dd.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9mOTkyNDI5Ni1mYzZjLTQ3OGYtOGY2MS1mMjYxODExNjc4NWUvZGw0b2Fwdi1mNjQwYzQ3Ny04NDUwLTRmMzUtOWMyZi1jMWNkNjNlMDM2ZGQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.clrJe3PyRdebNwEDy4yBhAXnwUbVkAU31-0gsCn45H4"
+             onerror="this.outerHTML='D'">
+      </div>
       <div class="credit-info">
         <h4>DvRascal</h4>
         <p>Founder, Owner & Lead Developer</p>
         <span class="credit-badge badge-owner">👑 Owner</span>
       </div>
     </div>
+
+    <!-- Claude -->
     <div class="credit-person">
-      <div class="credit-avatar" style="background:#00d4ff;color:#000;">C</div>
+      <div class="credit-avatar">
+        <img src="https://thumbs.dreamstime.com/b/uu-logo-monogram-big-alphabet-vector-design-template-images-424364318.jpg"
+             onerror="this.outerHTML='C'">
+      </div>
       <div class="credit-info">
-        <h4>UPG (Production studio)</h4>
-        <p>UPG — Built the entire site</p>
+        <h4>Claude (Anthropic)</h4>
+        <p>AI Assistant — Designed & built the entire site from scratch</p>
         <span class="credit-badge badge-dev">🤖 Developer</span>
       </div>
     </div>
+
   </div>
 
+  <!-- BUILT WITH -->
+  <div class="credits-section">
+    <h3>🛠️ Built With</h3>
+    <div class="built-tags">
+      <span class="built-tag">HTML5</span>
+      <span class="built-tag">CSS3</span>
+      <span class="built-tag">Vanilla JS</span>
+      <span class="built-tag">localStorage</span>
+      <span class="built-tag">Google Fonts</span>
+      <span class="built-tag">Render</span>
+      <span class="built-tag">GitHub</span>
+      <span class="built-tag">YouTube Embed</span>
+    </div>
+  </div>
+
+  <!-- GAMES -->
   <div class="credits-section">
     <h3>🎮 Games Included</h3>
     <div id="gameCredits"></div>
   </div>
 
-  <div class="credits-section">
-    <h3>🛠️ Built With</h3>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;">
-      <span style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.78rem;font-weight:700;">HTML5</span>
-      <span style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.78rem;font-weight:700;">CSS3</span>
-      <span style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.78rem;font-weight:700;">Vanilla JS</span>
-      <span style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.78rem;font-weight:700;">Netlify</span>
-      <span style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.78rem;font-weight:700;">Google Fonts</span>
-      <span style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:.78rem;font-weight:700;">localStorage</span>
-    </div>
-  </div>
-
+  <!-- FOOTER -->
   <div class="credits-footer">
     Made with ❤️ by DvRascal • Hosted on Render<br>
     All games belong to their respective developers.<br>
-    This site is for educational/entertainment use only.
+    This site is for educational &amp; entertainment use only.<br>
+    <span style="color:var(--accent);">© 2025 Dv's Unblocked Games</span>
   </div>
+
 </div>
 
 <script src="games-data.js"></script>
 <script>
 function getUser(){try{return JSON.parse(localStorage.getItem('dvs_user'))||null;}catch(e){return null;}}
-function doLogout(){localStorage.removeItem('dvs_user');location.href='index.html';}
+function getAllAccounts(){try{return JSON.parse(localStorage.getItem('dvs_accounts'))||{};}catch(e){return{};}}
+function doLogout(){
+  var u=getUser();
+  if(u){var all=getAllAccounts();u.lastSeen=Date.now();all[u.username.toLowerCase()]=u;localStorage.setItem('dvs_accounts',JSON.stringify(all));}
+  localStorage.removeItem('dvs_user');
+  location.href='index.html';
+}
+
 (function(){
-  var user=getUser();
-  var nav=document.getElementById('navAvatar');
-  var un=document.getElementById('navUsername');
+  var user = getUser();
+  var nav = document.getElementById('navAvatar');
+  var un = document.getElementById('navUsername');
+
   if(user){
-    nav.innerHTML=user.pfp?'<img src="'+user.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">':user.username[0].toUpperCase();
-    un.textContent=user.username;
-    var fb=document.getElementById('friendsBtn');
-    var pb=document.getElementById('profileBtn');
-    if(fb)fb.style.display='flex';
-    if(pb)pb.style.display='flex';
+    var all = getAllAccounts();
+    user = all[user.username.toLowerCase()]||user;
+    nav.innerHTML = user.pfp
+      ? '<img src="'+user.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">'
+      : user.username[0].toUpperCase();
+    un.textContent = user.username;
+    var fb = document.getElementById('friendsBtn');
+    var pb = document.getElementById('profileBtn');
+    if(fb) fb.style.display='flex';
+    if(pb) pb.style.display='flex';
   } else {
-    nav.textContent='G'; un.textContent='Guest';
+    nav.textContent = 'G';
+    un.textContent = 'Guest';
   }
-  // Game credits
-  var gc=document.getElementById('gameCredits');
-  if(gc&&typeof GAMES!=='undefined'){
+
+  // Build game credits list
+  var gc = document.getElementById('gameCredits');
+  if(gc && typeof GAMES !== 'undefined'){
     GAMES.forEach(function(g){
-      var d=document.createElement('div');
-      d.className='credit-game';
-      d.innerHTML='<img src="'+g.thumb+'" onerror="this.style.display=\'none\'"><span>'+g.name+'</span>';
+      var d = document.createElement('div');
+      d.className = 'credit-game';
+      d.innerHTML =
+        '<img src="'+g.thumb+'" onerror="this.style.display=\'none\'">' +
+        '<span>'+g.name+'</span>';
       gc.appendChild(d);
     });
   }
