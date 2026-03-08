@@ -128,10 +128,5 @@ const GAMES = [
     id: "smashkarts", name: "Smash karts", desc: "Knock your opponent off the roof!", hot: false, isNew: true,
     url: "https://smashkarts.io/",
     thumb: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/9c9e529b14731be871b07b89660bbc2a/smash-karts.png", color: "#263238"
-  },
-  {
-    id: "eggy", name: "Eggy Car", desc: "Balance an egg on top of your car!", hot: false, isNew: true,
-    url: "https://eggy-car.github.io/",
-    thumb: "https://imgs.crazygames.com/eggy-car_16x9/20221212143623/eggy-car_16x9-cover?metadata=none&quality=85&width=400", color: "#f9a825"
   }
 ];
