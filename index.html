@@ -9,25 +9,32 @@
 </head>
 <body>
 
-<!-- BG VIDEO -->
-<video id="bgVideo" autoplay muted loop playsinline style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;pointer-events:none;transition:opacity 1s;">
-  <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4" type="video/mp4">
-</video>
+<!-- SPACE BG - fixed with actual working video embed -->
+<div id="bgWrap" style="position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 2s;">
+  <iframe
+    src="https://www.youtube.com/embed/Bj3qepNUFyE?autoplay=1&mute=1&loop=1&playlist=Bj3qepNUFyE&controls=0&showinfo=0&rel=0&modestbranding=1"
+    style="position:absolute;inset:0;width:100%;height:100%;border:none;transform:scale(1.2);"
+    allow="autoplay; fullscreen"
+    allowfullscreen>
+  </iframe>
+</div>
 
 <!-- MUSIC -->
 <audio id="bgMusic" loop style="display:none">
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+  <source src="music.mp3" type="audio/mp3">
 </audio>
 
 <!-- LOGIN MODAL -->
-<div id="loginModal" class="modal-overlay">
+<div id="loginModal" class="modal-overlay hidden">
   <div class="modal-box">
-    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid #FFD700;" onerror="this.style.display='none'">
+    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif"
+         style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid #FFD700;"
+         onerror="this.style.display='none'">
     <h2 class="modal-title">Dv's Unblocked Games</h2>
     <p class="modal-sub">Sign in to get the full experience!</p>
     <input type="text" id="regName" class="modal-input" placeholder="Full name...">
     <input type="email" id="regEmail" class="modal-input" placeholder="Gmail or email...">
-    <input type="text" id="regUsername" class="modal-input" placeholder="Pick a username..." maxlength="20" onkeydown="if(event.key==='Enter')doLogin()">
+    <input type="text" id="regUsername" class="modal-input" placeholder="Pick a username..." maxlength="20">
     <input type="password" id="regSecret" class="modal-input" placeholder="??? (optional)" autocomplete="off">
     <div id="loginError" class="modal-error"></div>
     <button class="modal-btn" onclick="doLogin()">▶ Sign In / Register</button>
@@ -65,19 +72,45 @@
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <div class="nav-left">
-    <div id="navLogo" style="cursor:pointer;display:flex;align-items:center;flex-shrink:0;">
-      <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif" style="width:36px;height:36px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
-    </div>
+    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif"
+         id="logoImg"
+         style="width:36px;height:36px;border-radius:50%;object-fit:cover;cursor:default;flex-shrink:0;"
+         onerror="this.style.display='none'">
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
   <div class="nav-mid" id="navMid" style="display:none">
     <input class="nav-search" type="text" id="searchInput" placeholder="🔍 Search games..." oninput="filterGames()">
   </div>
   <div class="nav-right">
+    <!-- Admin button — hidden by default, shown only for admins -->
+    <button id="adminNavBtn" onclick="showAdminPanel()" style="display:none;background:none;border:none;padding:0;cursor:pointer;margin-right:4px;" title="Admin Panel">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbxG68RG-Zgp8zo8TpQrPJgpBFbfGMsxqbRcPlkwcMbN9rZpgdpl1Zgkz7&s=10"
+           style="width:28px;height:28px;border-radius:6px;object-fit:cover;border:2px solid #FFD700;">
+    </button>
     <div class="avatar-bubble" id="navAvatar">G</div>
     <span class="nav-username" id="navUsername">Guest</span>
-    <button class="nav-logout" onclick="doLogout()">↩</button>
+    <button class="nav-logout" id="navLogoutBtn" onclick="doLogout()" style="display:none">↩</button>
   </div>
+</nav>
+
+<!-- BOTTOM / DESKTOP NAV -->
+<nav class="bnav" id="bnavBar">
+  <a href="index.html" class="bnav-btn active" id="homeNavBtn">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span>Home</span>
+  </a>
+  <a href="friends.html" class="bnav-btn" id="friendsNavBtn" style="display:none">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+    <span>Friends</span>
+  </a>
+  <a href="profile.html" class="bnav-btn" id="profileNavBtn" style="display:none">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+    <span>Profile</span>
+  </a>
+  <a href="credits.html" class="bnav-btn" id="creditsNavBtn" style="display:none">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+    <span>Credits</span>
+  </a>
 </nav>
 
 <!-- GUEST VIEW -->
@@ -110,42 +143,13 @@
     <div class="row-head"><h2>🔥 Hot Right Now</h2></div>
     <div class="card-row" id="hotRow"></div>
   </section>
-  <section class="row-section" style="padding-bottom:20px;">
+  <section class="row-section" style="padding-bottom:24px;">
     <div class="row-head"><h2>All Games</h2></div>
     <div class="all-grid" id="allGrid"></div>
   </section>
 </main>
 
-<!-- BOTTOM NAV -->
-<nav class="bnav" id="bnavBar">
-  <a href="index.html" class="bnav-btn active">
-    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-    <span>Home</span>
-  </a>
-  <a href="friends.html" class="bnav-btn" id="friendsNavBtn" style="display:none">
-    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-    <span>Friends</span>
-  </a>
-  <a href="profile.html" class="bnav-btn" id="profileNavBtn" style="display:none">
-    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-    <span>Profile</span>
-  </a>
-  <a href="credits.html" class="bnav-btn" id="creditsNavBtn" style="display:none">
-    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-    <span>Credits</span>
-  </a>
-</nav>
-
 <script src="games-data.js"></script>
 <script src="app.js"></script>
-<script>
-// Show space BG video only for signed in users
-function showSpaceBg(){
-  var v=document.getElementById('bgVideo');
-  if(v) v.style.opacity='0.18';
-}
-var _origBootSignedIn=bootSignedIn;
-bootSignedIn=function(user){_origBootSignedIn(user);showSpaceBg();};
-</script>
 </body>
 </html>
