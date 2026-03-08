@@ -36,52 +36,37 @@ const GAMES = [
   },
   {
     id: "geometrydash", name: "Geometry Dash", desc: "Jump to the beat!", hot: true, isNew: false,
-    url: "https://geometrydash.github.io/",
+    url: "soteris24.github.io/genetrydash.github.io/",
     thumb: "https://m.media-amazon.com/images/I/61mVIP6Oo1L.png", color: "#1a237e"
   },
   {
     id: "basketball", name: "Basketball Stars", desc: "1v1 basketball action.", hot: false, isNew: false,
-    url: "https://basketball-stars.github.io/",
+    url: "https://ubg98.github.io/BasketballStars/",
     thumb: "https://imgs.crazygames.com/games/basketball-stars-2019/cover-1583231506155.png?metadata=none&quality=100&width=1200&height=630&fit=crop", color: "#e65100"
   },
   {
-    id: "retrobowl", name: "Retro Bowl", desc: "Manage and play your NFL team.", hot: false, isNew: true,
-    url: "https://retrobowl.me/",
-    thumb: "https://upload.wikimedia.org/wikipedia/en/b/bf/Retro_Bowl_cover.png", color: "#1b5e20"
-  },
-  {
     id: "snowrider", name: "Snow Rider 3D", desc: "Sled down snowy hills.", hot: false, isNew: true,
-    url: "https://snow-rider-3d.github.io/",
+    url: "https://tsnowrider.github.io/",
     thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO62rqZYDwjwbdFYiMxqKExDM7tJLwMIxYh6hKQaeF0HFVz4skQUPrbNQ&s=10", color: "#0d47a1"
   },
   {
     id: "drivemad", name: "Drive Mad", desc: "Crazy physics car game.", hot: true, isNew: false,
-    url: "https://drive-mad.github.io/",
+    url: "https://ubg98.github.io/drive-mad-unblocked.html",
     thumb: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/4abc77cf2ca8a1ca37416249429501f4/drive-mad.png", color: "#212121"
   },
   {
     id: "monkeymart", name: "Monkey Mart", desc: "Run a supermarket as a monkey.", hot: false, isNew: true,
-    url: "https://monkey-mart.github.io/",
+    url: "https://ubg98.github.io/MonkeyMart/",
     thumb: "https://play-lh.googleusercontent.com/rWReIdyvDaYJPeOxn7hbC0b-96ixGpQKM_EndiQa3SUME8TtI_rNUcI4qsw5teK9mqk", color: "#f57f17"
   },
   {
-    id: "clusterrush", name: "Cluster Rush", desc: "Jump across speeding trucks.", hot: false, isNew: true,
-    url: "https://cluster-rush.github.io/",
-    thumb: "https://clusterrush.io/data/image/game/cluster-rush-game-icon-1.jpg", color: "#4a148c"
-  },
-  {
     id: "happywheels", name: "Happy Wheels", desc: "Ragdoll physics chaos.", hot: false, isNew: false,
-    url: "https://happy-wheels.github.io/",
+    url: "https://cbgamesdev.github.io/chilibowlflash/hw/index.html",
     thumb: "https://imgs.crazygames.com/games/happy-wheels/cover-1688034516340.png?metadata=none&quality=100&width=1200&height=630&fit=crop", color: "#880e4f"
   },
   {
-    id: "idlebreakout", name: "Idle Breakout", desc: "Idle clicker breakout game.", hot: false, isNew: false,
-    url: "https://kodiqi.com/idlebreakout/",
-    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPEK1zMDCQDE6OmCti_c1Dvc7fgV0jZ2aoMS_XUT7Oww&s=10", color: "#1a237e"
-  },
-  {
     id: "paperiov2", name: "Paper.io 2", desc: "Claim territory, cut rivals off.", hot: false, isNew: false,
-    url: "https://paper-io.github.io/",
+    url: "https://mountain658.github.io/paperio2.html",
     thumb: "https://imgs.crazygames.com/paper-io-2_1x1/20250214024144/paper-io-2_1x1-cover?format=auto&quality=100&metadata=none&width=1200", color: "#004d40"
   },
   {
@@ -91,7 +76,7 @@ const GAMES = [
   },
   {
     id: "subway", name: "Subway Surfers", desc: "Run from the inspector!", hot: true, isNew: false,
-    url: "https://subway-surfers.github.io/",
+    url: "https://mountain658.github.io/subwaysurfers.html",
     thumb: "https://i.ytimg.com/vi/MSNXVDvp3lo/maxresdefault.jpg", color: "#ff6d00"
   },
   {
@@ -101,7 +86,7 @@ const GAMES = [
   },
   {
     id: "amongus", name: "Among Us", desc: "Find the impostor!", hot: false, isNew: false,
-    url: "https://among-us-online.github.io/",
+    url: "https://freezenova-unblocked.github.io/projects/among-us/index.html",
     thumb: "https://www.esrb.org/wp-content/uploads/2023/01/V1_ESRB_AmongUs-blog-header-01-1024x740-_1.jpg", color: "#c62828"
   },
   {
@@ -111,7 +96,7 @@ const GAMES = [
   },
   {
     id: "1v1lol", name: "1v1.LOL", desc: "Build and shoot!", hot: true, isNew: false,
-    url: "https://1v1lol.github.io/",
+    url: "https://ubg17.github.io/1v1LOL/",
     thumb: "https://gamefaqs.gamespot.com/a/box/8/3/0/927830_front.jpg", color: "#0d47a1"
   },
   {
@@ -128,5 +113,10 @@ const GAMES = [
     id: "smashkarts", name: "Smash karts", desc: "Knock your opponent off the roof!", hot: false, isNew: true,
     url: "https://smashkarts.io/",
     thumb: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/9c9e529b14731be871b07b89660bbc2a/smash-karts.png", color: "#263238"
+  },
+  {
+    id: "smashkarts", name: "Smash karts", desc: "Knock your opponent off the roof!", hot: false, isNew: true,
+    url: "https://ljgjm.github.io/7/",
+    thumb: "https://www.coolmathgames.com/sites/default/files/Vex7_OG-logo.jpg", color: "#263238"
   }
 ];
