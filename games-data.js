@@ -138,5 +138,15 @@ const GAMES = [
     id: "Driftboss", name: "Drift boss", desc: "Drift like a boss", hot: false, isNew: true,
     url: "https://nb-ga.github.io/games-site/projects/drift-boss/index.html",
     thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8tcCD8A5Tj8jITRkENdYgP7NECj9firPbDTEdE8ZA9Jmav2HXDmx3Br4&s=10", color: "#263238"
+  },
+  {
+    id: "Basketball", name: "Basket&ball", desc: "Basket and ball", hot: false, isNew: true,
+    url: "https://games-site.github.io/projects/basket-and-ball/index.html",
+    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTe-YKtsh0rhOBfRF2CEYs0H4E9BjRXGKESm0Kvum3QQ&s", color: "#263238"
+  },
+  {
+    id: "RandomBasketball", name: "Random Basketball", desc: "Basket", hot: false, isNew: true,
+    url: "https://games-site.github.io/projects/basket-random/frame.html",
+    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOOqOc5iuDD8BP5iD34PeOBcof3HTZQed2iSCiSqDzEw&s=10", color: "#263238"
   }
 ];
