@@ -7,123 +7,210 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-.rw{padding:16px 14px 80px;max-width:600px;margin:0 auto;}
-.r-hero{background:linear-gradient(135deg,#13132a,#1a1a2e);border-bottom:1px solid var(--border);padding:18px 16px;text-align:center;}
-.r-hero h1{font-size:1.4rem;font-weight:900;margin-bottom:5px;}
-.r-hero p{color:var(--muted);font-size:.84rem;}
-.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:16px;}
-.tab-btn{flex:1;padding:10px;background:none;border:none;color:var(--muted);font-weight:900;font-size:.84rem;cursor:pointer;font-family:'Nunito',sans-serif;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .15s;}
+:root{--bg:#0f0f13;--surface:#1a1a24;--surface2:#13131c;--border:#2e2e3e;--accent:#00d4ff;--text:#e8e8f0;--muted:#7878a0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;padding-top:56px;padding-bottom:70px;}
+
+/* SPACE BG */
+#bgWrap{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 2s;}
+#bgWrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;transform:scale(1.2);}
+
+/* LAYOUT */
+.rp-wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:14px 12px 80px;}
+
+/* HERO */
+.rp-hero{background:linear-gradient(135deg,#13132a,#1a1a2e);border-bottom:1px solid var(--border);padding:14px 16px;text-align:center;position:relative;z-index:1;}
+.rp-hero h1{font-size:1.25rem;font-weight:900;display:flex;align-items:center;justify-content:center;gap:8px;}
+.rp-hero p{color:var(--muted);font-size:.8rem;margin-top:3px;}
+
+/* SUBMIT FORM */
+.submit-form{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px;}
+.submit-form h3{font-size:.9rem;font-weight:900;margin-bottom:11px;color:var(--accent);display:flex;align-items:center;gap:7px;}
+.sf-input{width:100%;padding:9px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:.86rem;font-family:'Nunito',sans-serif;outline:none;margin-bottom:8px;resize:none;}
+.sf-input:focus{border-color:var(--accent);}
+.sf-select{width:100%;padding:9px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:.86rem;font-family:'Nunito',sans-serif;outline:none;margin-bottom:8px;-webkit-appearance:none;}
+.sf-select:focus{border-color:var(--accent);}
+.submit-btn{width:100%;padding:10px;background:var(--accent);color:#000;border:none;border-radius:10px;font-weight:900;font-size:.88rem;font-family:'Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;}
+.submit-btn:hover{opacity:.9;}
+
+/* TABS */
+.tab-bar{display:flex;border-bottom:2px solid var(--border);margin-bottom:14px;gap:2px;}
+.tab-btn{flex:1;padding:8px 4px;background:none;border:none;color:var(--muted);font-weight:900;font-size:.76rem;cursor:pointer;font-family:'Nunito',sans-serif;border-bottom:3px solid transparent;margin-bottom:-2px;display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;}
 .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
-.new-report-form{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;}
-.new-report-form h3{font-size:.92rem;font-weight:900;margin-bottom:12px;color:var(--accent);}
-.ri{width:100%;padding:9px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:.86rem;font-family:'Nunito',sans-serif;outline:none;box-sizing:border-box;margin-bottom:8px;}
-.ri:focus{border-color:var(--accent);}
-.rt{width:100%;padding:9px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:.86rem;font-family:'Nunito',sans-serif;outline:none;box-sizing:border-box;margin-bottom:8px;resize:vertical;min-height:80px;}
-.rt:focus{border-color:var(--accent);}
-.cat-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
-.cat-pill{padding:5px 12px;border-radius:999px;font-size:.74rem;font-weight:900;cursor:pointer;border:1.5px solid var(--border);background:var(--bg);color:var(--muted);font-family:'Nunito',sans-serif;}
-.cat-pill.selected{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,.1);}
-.submit-btn{width:100%;padding:11px;background:var(--accent);color:#000;border:none;border-radius:10px;font-weight:900;font-size:.9rem;font-family:'Nunito',sans-serif;cursor:pointer;}
-.report-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;cursor:pointer;transition:border-color .15s;}
-.report-card:hover{border-color:var(--accent);}
-.report-card.open-card{border-color:var(--accent);}
-.rc-top{display:flex;align-items:flex-start;gap:10px;}
-.rc-avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#000;font-weight:900;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
-.rc-avatar img{width:100%;height:100%;object-fit:cover;}
-.rc-title{font-weight:900;font-size:.92rem;margin-bottom:3px;}
-.rc-meta{font-size:.72rem;color:var(--muted);}
-.rc-body{font-size:.82rem;color:#ccc;margin-top:8px;line-height:1.5;}
-.rc-footer{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;}
-.status-pill{padding:2px 10px;border-radius:999px;font-size:.68rem;font-weight:900;}
-.sp-open{background:#ff6b35;color:#fff;}
-.sp-investigating{background:#FFD700;color:#000;}
-.sp-resolved{background:#2ed573;color:#000;}
-.sp-closed{background:#555;color:#fff;}
-.cat-tag{padding:2px 9px;border-radius:6px;font-size:.68rem;font-weight:900;background:rgba(0,212,255,.15);color:var(--accent);}
-.upvote-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:3px 9px;border-radius:8px;cursor:pointer;font-size:.76rem;font-weight:900;font-family:'Nunito',sans-serif;}
-.upvote-btn.upvoted{background:var(--accent);color:#000;border-color:var(--accent);}
-.comments-section{margin-top:12px;border-top:1px solid var(--border);padding-top:12px;display:none;}
-.comments-section.open{display:block;}
-.comment{display:flex;gap:9px;margin-bottom:10px;}
-.comment-av{width:28px;height:28px;border-radius:50%;background:var(--surface2);color:var(--text);font-size:.72rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+
+/* REPORT CARD */
+.report-card{background:var(--surface);border:1.5px solid var(--border);border-radius:13px;padding:13px 14px;margin-bottom:10px;transition:border-color .15s;}
+.report-card:hover{border-color:rgba(0,212,255,.35);}
+.rc-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.rc-av{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.8rem;}
+.rc-av img{width:100%;height:100%;object-fit:cover;}
+.rc-info{flex:1;min-width:0;}
+.rc-username{font-weight:900;font-size:.88rem;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.rc-meta{font-size:.7rem;color:var(--muted);margin-top:2px;}
+.rc-title{font-weight:900;font-size:.92rem;margin-bottom:5px;}
+.rc-body{font-size:.84rem;color:#ccc;line-height:1.5;}
+.rc-footer{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.rc-upvote{display:flex;align-items:center;gap:5px;background:var(--bg);border:1.5px solid var(--border);border-radius:999px;padding:5px 11px;cursor:pointer;font-weight:900;font-size:.78rem;color:var(--muted);transition:border-color .15s,color .15s;}
+.rc-upvote:hover,.rc-upvote.voted{border-color:var(--accent);color:var(--accent);}
+.rc-comment-btn{display:flex;align-items:center;gap:5px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.78rem;font-weight:900;font-family:'Nunito',sans-serif;padding:5px 8px;}
+.rc-comment-btn:hover{color:var(--accent);}
+
+/* CATEGORY BADGES */
+.cat-badge{font-size:.62rem;padding:2px 8px;border-radius:5px;font-weight:900;display:inline-flex;align-items:center;gap:3px;}
+.cat-bug{background:rgba(255,71,87,.15);color:#ff4757;border:1px solid rgba(255,71,87,.3);}
+.cat-suggestion{background:rgba(0,212,255,.12);color:#00d4ff;border:1px solid rgba(0,212,255,.25);}
+.cat-game{background:rgba(46,213,115,.12);color:#2ed573;border:1px solid rgba(46,213,115,.25);}
+.cat-ui{background:rgba(224,64,251,.12);color:#e040fb;border:1px solid rgba(224,64,251,.25);}
+.cat-other{background:rgba(120,120,160,.12);color:#7878a0;border:1px solid rgba(120,120,160,.3);}
+
+/* STATUS BADGES */
+.status-badge{font-size:.6rem;padding:2px 8px;border-radius:5px;font-weight:900;display:inline-flex;align-items:center;gap:3px;}
+.status-open{background:rgba(0,212,255,.12);color:#00d4ff;border:1px solid rgba(0,212,255,.3);}
+.status-investigating{background:rgba(255,165,0,.12);color:#ffa500;border:1px solid rgba(255,165,0,.3);}
+.status-resolved{background:rgba(46,213,115,.12);color:#2ed573;border:1px solid rgba(46,213,115,.3);}
+.status-closed{background:rgba(120,120,160,.12);color:#7878a0;border:1px solid rgba(120,120,160,.3);}
+
+/* COMMENTS */
+.comments-section{margin-top:10px;border-top:1px solid var(--border);padding-top:10px;display:none;}
+.comment-row{display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;}
+.comment-av{width:26px;height:26px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.66rem;color:#000;}
 .comment-av img{width:100%;height:100%;object-fit:cover;}
-.comment-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:8px 11px;flex:1;}
-.comment-user{font-size:.72rem;font-weight:900;display:flex;align-items:center;gap:5px;}
-.comment-text{font-size:.82rem;color:#ccc;margin-top:3px;line-height:1.4;}
-.comment-time{font-size:.65rem;color:var(--muted);margin-top:3px;}
-.comment-input-row{display:flex;gap:8px;margin-top:10px;}
-.comment-input{flex:1;padding:8px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:999px;color:var(--text);font-size:.84rem;font-family:'Nunito',sans-serif;outline:none;}
+.comment-bubble{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:7px 10px;flex:1;}
+.comment-sender{font-size:.72rem;font-weight:900;color:var(--accent);margin-bottom:2px;}
+.comment-text{font-size:.82rem;color:#ccc;}
+.comment-input-row{display:flex;gap:7px;margin-top:8px;}
+.comment-input{flex:1;padding:8px 11px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:.82rem;font-family:'Nunito',sans-serif;outline:none;}
 .comment-input:focus{border-color:var(--accent);}
-.comment-send{background:var(--accent);color:#000;border:none;padding:8px 14px;border-radius:999px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.8rem;}
-.staff-controls{background:rgba(255,215,0,.07);border:1px solid #FFD700;border-radius:9px;padding:9px 12px;margin-top:10px;}
-.staff-controls div{font-size:.72rem;font-weight:900;color:#FFD700;margin-bottom:7px;}
-.no-reports{text-align:center;color:var(--muted);padding:30px;font-size:.88rem;}
+.comment-send-btn{padding:8px 13px;background:var(--accent);color:#000;border:none;border-radius:9px;cursor:pointer;font-weight:900;font-family:'Nunito',sans-serif;font-size:.8rem;display:flex;align-items:center;gap:4px;}
+
+/* STAFF ACTIONS */
+.staff-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
+.sa-btn{display:flex;align-items:center;gap:4px;padding:5px 10px;border:none;border-radius:7px;cursor:pointer;font-weight:900;font-size:.72rem;font-family:'Nunito',sans-serif;}
+
+/* EMPTY */
+.no-reports{text-align:center;color:var(--muted);padding:32px 16px;font-size:.88rem;}
+
+/* SORT BAR */
+.sort-bar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.sort-btn{padding:5px 11px;background:var(--bg);border:1.5px solid var(--border);border-radius:999px;color:var(--muted);font-size:.74rem;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;display:flex;align-items:center;gap:4px;}
+.sort-btn.active{border-color:var(--accent);color:var(--accent);}
 </style>
 </head>
 <body>
 
-<nav class="navbar">
+<!-- SPACE BG -->
+<div id="bgWrap">
+  <iframe src="https://www.youtube.com/embed/Bj3qepNUFyE?autoplay=1&mute=1&loop=1&playlist=Bj3qepNUFyE&controls=0&showinfo=0&rel=0&modestbranding=1"
+    allow="autoplay; fullscreen" allowfullscreen></iframe>
+</div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar" style="position:fixed;top:0;left:0;right:0;z-index:100;">
   <div class="nav-left">
-    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif"
-         style="width:34px;height:34px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="#FFD700">
+      <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5S14.67 12 15.5 12s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+    </svg>
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
   <div class="nav-right">
-    <div class="avatar-bubble" id="navAvatar">G</div>
-    <span class="nav-username" id="navUsername">—</span>
-    <button class="nav-logout" onclick="doLogout()">↩</button>
+    <div class="avatar-bubble" id="navAvatar" style="width:32px;height:32px;border-radius:50%;background:var(--accent);color:#000;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:.82rem;overflow:hidden;">G</div>
+    <span style="font-size:.82rem;font-weight:700;color:var(--muted);" id="navUsername">—</span>
+    <button onclick="doLogout()" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;" title="Sign Out">
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+    </button>
   </div>
 </nav>
 
+<!-- ═══ BOTTOM NAV ═══ -->
 <nav class="bnav">
   <a href="index.html" class="bnav-btn">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span>
   </a>
   <a href="friends.html" class="bnav-btn">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span>
   </a>
-  <a href="profile.html" class="bnav-btn">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span>
+  <a href="groupchats.html" class="bnav-btn">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg><span>Groups</span>
   </a>
   <a href="reports.html" class="bnav-btn active">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg><span>Reports</span>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg><span>Reports</span>
+  </a>
+  <a href="profile.html" class="bnav-btn">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span>
   </a>
   <a href="credits.html" class="bnav-btn">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span>
   </a>
 </nav>
 
-<div class="r-hero" style="margin-top:var(--navbar-h);">
-  <h1>📋 Reports & Bug Forum</h1>
-  <p>Report bugs, suggest features, or flag issues. Staff can view and respond here.</p>
+<!-- ═══ HERO ═══ -->
+<div class="rp-hero">
+  <h1>
+    <svg width="22" height="22" fill="var(--accent)" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg>
+    Reports & Feedback
+  </h1>
+  <p>Report bugs, suggest features, or flag issues. Staff will respond here.</p>
 </div>
 
-<div class="rw">
+<!-- ═══ MAIN ═══ -->
+<div class="rp-wrap">
+
+  <!-- Submit form -->
+  <div class="submit-form" id="submitFormWrap">
+    <h3>
+      <svg width="16" height="16" fill="var(--accent)" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      Submit a Report
+    </h3>
+    <select class="sf-select" id="reportCat">
+      <option value="Bug">🐛 Bug Report</option>
+      <option value="Suggestion">💡 Suggestion</option>
+      <option value="Game Issue">🎮 Game Issue</option>
+      <option value="UI">🎨 UI / Design</option>
+      <option value="Other">📋 Other</option>
+    </select>
+    <input type="text" class="sf-input" id="reportTitle" placeholder="Short title (e.g. Login button broken)..." maxlength="80">
+    <textarea class="sf-input" id="reportBody" placeholder="Describe the issue or suggestion in detail..." rows="3" maxlength="1000"></textarea>
+    <button class="submit-btn" onclick="submitReport()">
+      <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      Submit Report
+    </button>
+  </div>
+
+  <!-- Tabs -->
   <div class="tab-bar">
-    <button class="tab-btn active" id="tab-all" onclick="switchTab('all')">📋 All Reports</button>
-    <button class="tab-btn" id="tab-bugs" onclick="switchTab('bug')">🐛 Bugs</button>
-    <button class="tab-btn" id="tab-suggest" onclick="switchTab('suggestion')">💡 Suggestions</button>
-    <button class="tab-btn" id="tab-mine" onclick="switchTab('mine')">👤 Mine</button>
+    <button class="tab-btn active" id="rtab-all"        onclick="switchTab('all')">
+      <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>All
+    </button>
+    <button class="tab-btn" id="rtab-Bug"               onclick="switchTab('Bug')">
+      <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5s-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"/></svg>Bugs
+    </button>
+    <button class="tab-btn" id="rtab-Suggestion"        onclick="switchTab('Suggestion')">
+      <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>Ideas
+    </button>
+    <button class="tab-btn" id="rtab-mine"              onclick="switchTab('mine')">
+      <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>Mine
+    </button>
   </div>
 
-  <!-- New report form -->
-  <div class="new-report-form" id="newReportForm">
-    <h3>➕ Submit a Report</h3>
-    <input type="text" id="repTitle" class="ri" placeholder="Title (e.g. OvO game won't load)..." maxlength="80">
-    <div class="cat-pills" id="catPills">
-      <button class="cat-pill selected" data-cat="bug" onclick="selectCat(this)">🐛 Bug</button>
-      <button class="cat-pill" data-cat="suggestion" onclick="selectCat(this)">💡 Suggestion</button>
-      <button class="cat-pill" data-cat="game-issue" onclick="selectCat(this)">🎮 Game Issue</button>
-      <button class="cat-pill" data-cat="ui" onclick="selectCat(this)">🎨 UI/Design</button>
-      <button class="cat-pill" data-cat="other" onclick="selectCat(this)">❓ Other</button>
-    </div>
-    <textarea id="repBody" class="rt" placeholder="Describe the issue in detail. What happened? What were you doing? What device/browser?"></textarea>
-    <button class="submit-btn" onclick="submitReport()">📋 Submit Report</button>
+  <!-- Sort bar -->
+  <div class="sort-bar">
+    <span style="font-size:.74rem;color:var(--muted);font-weight:700;">Sort:</span>
+    <button class="sort-btn active" id="sort-newest" onclick="setSort('newest')">
+      <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+      Newest
+    </button>
+    <button class="sort-btn" id="sort-top" onclick="setSort('top')">
+      <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      Top
+    </button>
   </div>
 
-  <div id="reportsList"><div class="no-reports">Loading reports...</div></div>
+  <!-- Report list -->
+  <div id="reportList"><div class="no-reports">Loading reports...</div></div>
+
 </div>
 
+<!-- ═══ SCRIPTS ═══ -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -131,11 +218,36 @@
 <script>
 var me = null;
 var currentTab = 'all';
-var selectedCat = 'bug';
+var currentSort = 'newest';
 var allReports = [];
+var unsubReports = null;
+var ROLE_RANK = {owner:5,developer:4,admin:3,mod:2,helper:1,user:0};
 
-function doLogout(){ auth.signOut().then(function(){location.href='index.html';}); }
+// ── AUTH ──
+function doLogout(){auth.signOut().then(function(){location.href='index.html';});}
 
+auth.onAuthStateChanged(function(firebaseUser){
+  if(!firebaseUser){location.href='index.html';return;}
+  db.collection('users').doc(firebaseUser.uid).get().then(function(doc){
+    if(!doc.exists){location.href='index.html';return;}
+    me = Object.assign({uid:firebaseUser.uid}, doc.data());
+    renderNavUser(me);
+    listenReports();
+    // Show space bg
+    var bg=document.getElementById('bgWrap');
+    if(bg)bg.style.opacity='0.18';
+  });
+});
+
+function renderNavUser(user){
+  var av=document.getElementById('navAvatar');
+  av.innerHTML=user.pfp
+    ?'<img src="'+user.pfp+'" style="width:100%;height:100%;object-fit:cover;">'
+    :user.username[0].toUpperCase();
+  document.getElementById('navUsername').textContent=user.username;
+}
+
+// ── ROLE HELPERS ──
 function getUserRole(user){
   if(!user)return'user';
   if(user.role==='owner'||user.isOwner)return'owner';
@@ -145,52 +257,44 @@ function getUserRole(user){
   if(user.role==='helper'||user.isHelper)return'helper';
   return'user';
 }
-var ROLE_RANK={owner:5,developer:4,admin:3,mod:2,helper:1,user:0};
-function getRoleBadge(role){
-  var b={owner:'👑',developer:'⚙️',admin:'🛡️',mod:'🔨',helper:'🤝'};
-  return b[role]?b[role]+' '+role.toUpperCase():'';
-}
-function isStaff(user){return ROLE_RANK[getUserRole(user)]>=1;}
+function isStaff(user){return ROLE_RANK[getUserRole(user||me)]>0;}
+function canModerate(user){return ROLE_RANK[getUserRole(user||me)]>=2;}
+function canDelete(user){return ROLE_RANK[getUserRole(user||me)]>=3;}
 
-auth.onAuthStateChanged(function(firebaseUser){
-  if(!firebaseUser){location.href='index.html';return;}
-  db.collection('users').doc(firebaseUser.uid).get().then(function(doc){
-    if(!doc.exists){location.href='index.html';return;}
-    me=Object.assign({uid:firebaseUser.uid},doc.data());
-    var av=document.getElementById('navAvatar');
-    av.innerHTML=me.pfp?'<img src="'+me.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">':me.username[0].toUpperCase();
-    document.getElementById('navUsername').textContent=me.username;
-    loadReports();
-  });
-});
+// ── SUBMIT REPORT ──
+function submitReport(){
+  var cat=document.getElementById('reportCat').value;
+  var title=(document.getElementById('reportTitle').value||'').trim();
+  var body=(document.getElementById('reportBody').value||'').trim();
+  if(!title){alert('Enter a title!');return;}
+  if(!body){alert('Describe the issue!');return;}
 
-function selectCat(el){
-  document.querySelectorAll('.cat-pill').forEach(function(p){p.classList.remove('selected');});
-  el.classList.add('selected');
-  selectedCat=el.getAttribute('data-cat');
-}
-
-function switchTab(tab){
-  currentTab=tab;
-  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
-  document.getElementById('tab-'+tab).classList.add('active');
-  renderReports();
-}
-// Override tab IDs for named tabs
-function switchTab(tab){
-  currentTab=tab;
-  ['all','bugs','suggest','mine'].forEach(function(t){
-    var el=document.getElementById('tab-'+t);
-    if(el)el.classList.remove('active');
-  });
-  var map={'all':'all','bug':'bugs','suggestion':'suggest','mine':'mine'};
-  var tabId='tab-'+(map[tab]||tab);
-  var el=document.getElementById(tabId);if(el)el.classList.add('active');
-  renderReports();
+  db.collection('reports').add({
+    category:cat,title:title,body:body,
+    authorUid:me.uid,authorUsername:me.username,authorPfp:me.pfp||null,
+    status:'open',upvotes:[],commentCount:0,
+    ts:firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    document.getElementById('reportTitle').value='';
+    document.getElementById('reportBody').value='';
+    showToast('Report submitted!');
+    // Notify all staff
+    db.collection('users').where('role','in',['owner','developer','admin','mod','helper']).get().then(function(snap){
+      snap.forEach(function(doc){
+        db.collection('users').doc(doc.id).collection('notifications').add({
+          message:'📋 @'+me.username+' filed a '+cat+' report: "'+title+'"',
+          type:'info',read:false,ts:firebase.firestore.FieldValue.serverTimestamp()
+        });
+      });
+    });
+  }).catch(function(e){alert('Error: '+e.message);});
 }
 
-function loadReports(){
-  db.collection('reports').orderBy('ts','desc').limit(100)
+// ── LISTEN REPORTS ──
+function listenReports(){
+  if(unsubReports)unsubReports();
+  unsubReports=db.collection('reports')
+    .orderBy('ts','desc').limit(100)
     .onSnapshot(function(snap){
       allReports=[];
       snap.forEach(function(doc){allReports.push(Object.assign({id:doc.id},doc.data()));});
@@ -198,244 +302,278 @@ function loadReports(){
     });
 }
 
+function switchTab(tab){
+  currentTab=tab;
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  var tb=document.getElementById('rtab-'+tab);
+  if(tb)tb.classList.add('active');
+  renderReports();
+}
+
+function setSort(s){
+  currentSort=s;
+  document.querySelectorAll('.sort-btn').forEach(function(b){b.classList.remove('active');});
+  var sb=document.getElementById('sort-'+s);
+  if(sb)sb.classList.add('active');
+  renderReports();
+}
+
 function renderReports(){
-  var list=document.getElementById('reportsList');
+  var list=document.getElementById('reportList');
   var filtered=allReports.filter(function(r){
-    if(currentTab==='all')return true;
     if(currentTab==='mine')return r.authorUid===me.uid;
+    if(currentTab==='all')return true;
     return r.category===currentTab;
   });
-  if(filtered.length===0){list.innerHTML='<div class="no-reports">No reports here yet! Be the first to submit one. 📋</div>';return;}
+  if(currentSort==='top'){
+    filtered=filtered.slice().sort(function(a,b){
+      return(b.upvotes||[]).length-(a.upvotes||[]).length;
+    });
+  }
+  if(!filtered.length){
+    list.innerHTML='<div class="no-reports">'+
+      '<svg width="38" height="38" fill="var(--muted)" viewBox="0 0 24 24" style="display:block;margin:0 auto 10px;"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg>'+
+      'No reports here yet.'+
+    '</div>';
+    return;
+  }
   list.innerHTML='';
   filtered.forEach(function(r){list.appendChild(makeReportCard(r));});
 }
 
+// ── REPORT CARD ──
 function makeReportCard(r){
-  var card=document.createElement('div');
-  card.className='report-card'+(r.status==='open'?' open-card':'');
-  card.id='report-'+r.id;
-
-  var statusClass={open:'sp-open',investigating:'sp-investigating',resolved:'sp-resolved',closed:'sp-closed'};
-  var catColors={'bug':'#ff4757','suggestion':'#2ed573','game-issue':'#ff6b35','ui':'#8e24aa','other':'#7878a0'};
-  var catColor=catColors[r.category]||'#7878a0';
-
-  var upvoted=(r.upvotes||[]).includes(me.uid);
+  var myRole=getUserRole(me);
+  var myRank=ROLE_RANK[myRole]||0;
+  var isAuthor=r.authorUid===me.uid;
+  var hasUpvoted=(r.upvotes||[]).includes(me.uid);
   var upvoteCount=(r.upvotes||[]).length;
 
-  var myRoleBadge=r.authorRole?getRoleBadge(r.authorRole):'';
+  // Category badge
+  var catClass={Bug:'cat-bug',Suggestion:'cat-suggestion','Game Issue':'cat-game',UI:'cat-ui',Other:'cat-other'}[r.category]||'cat-other';
+  var catIcons={
+    Bug:'<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5s-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"/></svg>',
+    Suggestion:'<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>',
+    'Game Issue':'<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5S14.67 12 15.5 12s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>',
+    UI:'<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>',
+    Other:'<svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>'
+  };
 
-  card.innerHTML=
-    '<div class="rc-top">'+
-      '<div class="rc-avatar" style="background:'+catColor+'">'+
-        (r.authorPfp?'<img src="'+r.authorPfp+'">':( r.authorUsername||'?')[0].toUpperCase())+
+  // Status badge
+  var statusClass={open:'status-open',investigating:'status-investigating',resolved:'status-resolved',closed:'status-closed'}[r.status]||'status-open';
+  var statusIcons={
+    open:'<svg width="9" height="9" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>',
+    investigating:'<svg width="9" height="9" fill="currentColor" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>',
+    resolved:'<svg width="9" height="9" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>',
+    closed:'<svg width="9" height="9" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>'
+  };
+
+  var div=document.createElement('div');
+  div.className='report-card';
+
+  var staffActionsHtml='';
+  if(isStaff(me)){
+    var statusBtns='';
+    if(r.status!=='investigating'){
+      statusBtns+='<button class="sa-btn" onclick="setReportStatus(\''+r.id+'\',\'investigating\',\''+r.authorUid+'\')" style="background:rgba(255,165,0,.15);color:#ffa500;">'+
+        '<svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>'+
+        'Investigating</button>';
+    }
+    if(r.status!=='resolved'){
+      statusBtns+='<button class="sa-btn" onclick="setReportStatus(\''+r.id+'\',\'resolved\',\''+r.authorUid+'\')" style="background:rgba(46,213,115,.15);color:#2ed573;">'+
+        '<svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>'+
+        'Resolved</button>';
+    }
+    if(r.status!=='closed'){
+      statusBtns+='<button class="sa-btn" onclick="setReportStatus(\''+r.id+'\',\'closed\',\''+r.authorUid+'\')" style="background:rgba(120,120,160,.15);color:#7878a0;">'+
+        '<svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>'+
+        'Close</button>';
+    }
+    if(r.status==='closed'){
+      statusBtns+='<button class="sa-btn" onclick="setReportStatus(\''+r.id+'\',\'open\',\''+r.authorUid+'\')" style="background:rgba(0,212,255,.12);color:#00d4ff;">'+
+        '<svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>'+
+        'Reopen</button>';
+    }
+    // Ping devs from report
+    statusBtns+='<button class="sa-btn" onclick="pingDevsFromReport(\''+r.id+'\',\''+escHtml(r.title)+'\')" style="background:rgba(224,64,251,.12);color:#e040fb;">'+
+      '<svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>'+
+      'Ping Dev</button>';
+    if(canDelete(me)){
+      statusBtns+='<button class="sa-btn" onclick="deleteReport(\''+r.id+'\')" style="background:rgba(255,71,87,.12);color:#ff4757;">'+
+        '<svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>'+
+        'Delete</button>';
+    }
+    staffActionsHtml='<div class="staff-actions">'+statusBtns+'</div>';
+  }
+
+  div.innerHTML=
+    '<div class="rc-header">'+
+      '<div class="rc-av" style="background:'+(r.authorPfp?'transparent':'#00d4ff')+';">'+
+        (r.authorPfp?'<img src="'+r.authorPfp+'">':r.authorUsername[0].toUpperCase())+
       '</div>'+
-      '<div style="flex:1;min-width:0;">'+
-        '<div class="rc-title">'+escHtml(r.title)+'</div>'+
-        '<div class="rc-meta">@'+r.authorUsername+(myRoleBadge?' • <span style="color:#FFD700;font-size:.68rem;">'+myRoleBadge+'</span>':'')+'  •  '+timeAgo(r.ts)+'</div>'+
-      '</div>'+
-    '</div>'+
-    '<div class="rc-body">'+escHtml((r.body||'').substring(0,200))+(r.body&&r.body.length>200?'...':'')+'</div>'+
-    '<div class="rc-footer">'+
-      '<span class="status-pill '+(statusClass[r.status]||'sp-open')+'">'+( r.status||'open').toUpperCase()+'</span>'+
-      '<span class="cat-tag" style="background:'+catColor+'22;color:'+catColor+';">'+r.category+'</span>'+
-      '<button class="upvote-btn'+(upvoted?' upvoted':'')+'" onclick="toggleUpvote(\''+r.id+'\',event)">'+
-        '▲ '+(upvoteCount>0?upvoteCount:'')+' Upvote'+(upvoteCount!==1?'s':'')+
-      '</button>'+
-      '<span style="font-size:.72rem;color:var(--muted);margin-left:auto;">'+( r.commentCount||0)+' comment'+(r.commentCount!==1?'s':'')+'</span>'+
-      '<button onclick="toggleComments(\''+r.id+'\',event)" style="background:none;border:1px solid var(--border);color:var(--muted);padding:3px 9px;border-radius:8px;cursor:pointer;font-size:.74rem;font-weight:900;font-family:Nunito,sans-serif;">'+
-        '💬 Comments'+
-      '</button>'+
-    '</div>'+
-    // Staff controls
-    (isStaff(me)?
-      '<div class="staff-controls">'+
-        '<div>⚙️ Staff Controls</div>'+
-        '<div style="display:flex;gap:6px;flex-wrap:wrap;">'+
-          '<button onclick="setReportStatus(\''+r.id+'\',\'investigating\')" style="background:#FFD700;color:#000;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">🔍 Investigating</button>'+
-          '<button onclick="setReportStatus(\''+r.id+'\',\'resolved\')" style="background:#2ed573;color:#000;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">✅ Resolved</button>'+
-          '<button onclick="setReportStatus(\''+r.id+'\',\'closed\')" style="background:#555;color:#fff;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">🔒 Close</button>'+
-          '<button onclick="setReportStatus(\''+r.id+'\',\'open\')" style="background:#ff6b35;color:#fff;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">🔓 Reopen</button>'+
-          (ROLE_RANK[getUserRole(me)]>=3?'<button onclick="deleteReport(\''+r.id+'\')" style="background:#ff4757;color:#fff;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">🗑️ Delete</button>':'')+
-          '<button onclick="pingStaffAboutReport(\''+r.id+'\',\''+escHtml(r.title)+'\')" style="background:#e040fb;color:#fff;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">📣 Ping Dev</button>'+
+      '<div class="rc-info">'+
+        '<div class="rc-username">@'+escHtml(r.authorUsername||'?')+
+          ' <span class="cat-badge '+catClass+'">'+(catIcons[r.category]||'')+r.category+'</span>'+
+          ' <span class="status-badge '+statusClass+'">'+(statusIcons[r.status]||'')+r.status+'</span>'+
         '</div>'+
-      '</div>'
-    :'')+
-    // Comments section
+        '<div class="rc-meta">'+timeAgo(r.ts)+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="rc-title">'+escHtml(r.title||'')+'</div>'+
+    '<div class="rc-body">'+escHtml(r.body||'')+'</div>'+
+    '<div class="rc-footer">'+
+      '<button class="rc-upvote'+(hasUpvoted?' voted':'')+'" id="upvote-'+r.id+'" onclick="toggleUpvote(\''+r.id+'\','+hasUpvoted+')">'+
+        '<svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>'+
+        '<span id="upvote-count-'+r.id+'">'+upvoteCount+'</span>'+
+      '</button>'+
+      '<button class="rc-comment-btn" onclick="toggleComments(\''+r.id+'\')">'+
+        '<svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 11H7V9h2v2zm4 0h-2V9h2v2zm4 0h-2V9h2v2z"/></svg>'+
+        (r.commentCount||0)+' comments'+
+      '</button>'+
+    '</div>'+
+    staffActionsHtml+
     '<div class="comments-section" id="comments-'+r.id+'">'+
-      '<div id="commentsList-'+r.id+'"><div style="color:var(--muted);font-size:.8rem;padding:8px 0;">Loading comments...</div></div>'+
+      '<div id="comments-list-'+r.id+'"></div>'+
       '<div class="comment-input-row">'+
-        '<input class="comment-input" id="commentInput-'+r.id+'" placeholder="Add a comment..." onkeydown="if(event.key===\'Enter\')postComment(\''+r.id+'\')">'+
-        '<button class="comment-send" onclick="postComment(\''+r.id+'\')">Send</button>'+
+        '<input class="comment-input" id="comment-input-'+r.id+'" placeholder="Add a comment..." onkeydown="if(event.key===\'Enter\')submitComment(\''+r.id+'\',\''+r.authorUid+'\')">'+
+        '<button class="comment-send-btn" onclick="submitComment(\''+r.id+'\',\''+r.authorUid+'\')">'+
+          '<svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>'+
+          'Send'+
+        '</button>'+
       '</div>'+
     '</div>';
 
-  return card;
+  return div;
 }
 
-function toggleComments(reportId, e){
-  if(e)e.stopPropagation();
-  var sec=document.getElementById('comments-'+reportId);
-  if(!sec)return;
-  var isOpen=sec.classList.contains('open');
-  sec.classList.toggle('open');
-  if(!isOpen) loadComments(reportId);
+// ── UPVOTE ──
+function toggleUpvote(reportId,hasUpvoted){
+  var ref=db.collection('reports').doc(reportId);
+  if(hasUpvoted){
+    ref.update({upvotes:firebase.firestore.FieldValue.arrayRemove(me.uid)});
+  } else {
+    ref.update({upvotes:firebase.firestore.FieldValue.arrayUnion(me.uid)});
+  }
 }
 
-function loadComments(reportId){
-  var list=document.getElementById('commentsList-'+reportId);
-  if(!list)return;
-  db.collection('reports').doc(reportId).collection('comments')
-    .orderBy('ts','asc').limit(50)
-    .onSnapshot(function(snap){
-      if(snap.empty){list.innerHTML='<div style="color:var(--muted);font-size:.8rem;padding:4px 0;">No comments yet. Be the first!</div>';return;}
-      list.innerHTML='';
-      snap.forEach(function(doc){
-        var c=doc.data();
-        var roleB=c.authorRole&&c.authorRole!=='user'?getRoleBadge(c.authorRole):'';
-        var div=document.createElement('div');
-        div.className='comment';
-        div.innerHTML=
-          '<div class="comment-av" style="'+(c.authorRole&&c.authorRole!=='user'?'border:2px solid #FFD700;':'')+'">'+
-            (c.authorPfp?'<img src="'+c.authorPfp+'">':(c.authorUsername||'?')[0].toUpperCase())+
-          '</div>'+
-          '<div class="comment-box">'+
-            '<div class="comment-user">@'+c.authorUsername+(roleB?' <span style="font-size:.62rem;color:#FFD700;">'+roleB+'</span>':'')+
-              (c.authorUid===me.uid?' <span style="font-size:.6rem;color:var(--accent);">(you)</span>':'')+
-            '</div>'+
-            '<div class="comment-text">'+escHtml(c.text)+'</div>'+
-            '<div class="comment-time">'+timeAgo(c.ts)+'</div>'+
-          '</div>';
-        list.appendChild(div);
-      });
-    });
-}
-
-function postComment(reportId){
-  var input=document.getElementById('commentInput-'+reportId);
-  var text=(input.value||'').trim();
-  if(!text)return;
-  input.value='';
-  var role=getUserRole(me);
-  db.collection('reports').doc(reportId).collection('comments').add({
-    authorUid:me.uid,
-    authorUsername:me.username,
-    authorPfp:me.pfp||null,
-    authorRole:role,
-    text:text,
-    ts:firebase.firestore.FieldValue.serverTimestamp()
-  });
-  db.collection('reports').doc(reportId).update({
-    commentCount:firebase.firestore.FieldValue.increment(1)
-  });
-  // Notify report author if it's not themselves
-  db.collection('reports').doc(reportId).get().then(function(doc){
-    if(doc.exists&&doc.data().authorUid!==me.uid){
-      db.collection('users').doc(doc.data().authorUid).collection('notifications').add({
-        message:'💬 @'+me.username+' commented on your report: "'+text.substring(0,40)+'"',
+// ── STATUS ──
+function setReportStatus(reportId,status,authorUid){
+  db.collection('reports').doc(reportId).update({status:status}).then(function(){
+    if(authorUid&&authorUid!==me.uid){
+      db.collection('users').doc(authorUid).collection('notifications').add({
+        message:'📋 Your report was marked as "'+status+'" by staff.',
         type:'info',read:false,ts:firebase.firestore.FieldValue.serverTimestamp()
       });
     }
   });
 }
 
-function toggleUpvote(reportId, e){
-  if(e)e.stopPropagation();
-  var ref=db.collection('reports').doc(reportId);
-  ref.get().then(function(doc){
-    if(!doc.exists)return;
-    var upvotes=doc.data().upvotes||[];
-    if(upvotes.includes(me.uid)){
-      ref.update({upvotes:firebase.firestore.FieldValue.arrayRemove(me.uid)});
-    } else {
-      ref.update({upvotes:firebase.firestore.FieldValue.arrayUnion(me.uid)});
-    }
-  });
-}
-
-function submitReport(){
-  var title=(document.getElementById('repTitle').value||'').trim();
-  var body=(document.getElementById('repBody').value||'').trim();
-  if(!title){alert('Please enter a title!');return;}
-  if(!body){alert('Please describe the issue!');return;}
-  var role=getUserRole(me);
-  db.collection('reports').add({
-    title:title,
-    body:body,
-    category:selectedCat,
-    status:'open',
-    authorUid:me.uid,
-    authorUsername:me.username,
-    authorPfp:me.pfp||null,
-    authorRole:role,
-    upvotes:[],
-    commentCount:0,
-    ts:firebase.firestore.FieldValue.serverTimestamp()
-  }).then(function(){
-    document.getElementById('repTitle').value='';
-    document.getElementById('repBody').value='';
-    // Notify all staff about new report
-    db.collection('users').where('role','in',['admin','developer','owner','mod','helper']).get().then(function(snap){
-      snap.forEach(function(doc){
-        if(doc.id!==me.uid){
-          db.collection('users').doc(doc.id).collection('notifications').add({
-            message:'📋 New report by @'+me.username+': "'+title+'"',
-            type:'info',read:false,ts:firebase.firestore.FieldValue.serverTimestamp()
-          });
-        }
-      });
-    });
-    showToast('Report submitted! Staff have been notified. ✅');
-  }).catch(function(e){alert('Error: '+e.message);});
-}
-
-function setReportStatus(reportId, status){
-  db.collection('reports').doc(reportId).update({status:status}).then(function(){
-    showToast('Status updated to: '+status);
-    // Notify report author
-    db.collection('reports').doc(reportId).get().then(function(doc){
-      if(doc.exists){
-        db.collection('users').doc(doc.data().authorUid).collection('notifications').add({
-          message:'📋 Your report "'+doc.data().title+'" status changed to: '+status.toUpperCase(),
-          type:'update',read:false,ts:firebase.firestore.FieldValue.serverTimestamp()
-        });
-      }
-    });
-  });
-}
-
-function deleteReport(reportId){
-  if(!confirm('Delete this report permanently?'))return;
-  db.collection('reports').doc(reportId).delete().then(function(){
-    showToast('Report deleted.');
-  });
-}
-
-function pingStaffAboutReport(reportId, title){
+// ── PING DEVS ──
+function pingDevsFromReport(reportId,title){
   db.collection('users').where('role','in',['developer','owner']).get().then(function(snap){
     snap.forEach(function(doc){
       db.collection('users').doc(doc.id).collection('notifications').add({
-        message:'📣 @'+me.username+' flagged a report for dev attention: "'+title+'"',
+        message:'⚙️ Staff pinged you about report: "'+title+'"',
         type:'warning',read:false,ts:firebase.firestore.FieldValue.serverTimestamp()
       });
     });
-    showToast('Developers have been pinged! 📣');
+    showToast('Developers pinged!');
   });
 }
 
-function showToast(msg){
-  var t=document.createElement('div');
-  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a1a24;border:2px solid #00d4ff;color:#e8e8f0;padding:12px 20px;border-radius:12px;font-family:Nunito,sans-serif;font-weight:700;font-size:.88rem;z-index:9999;max-width:300px;width:90%;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.5);';
-  t.textContent=msg; document.body.appendChild(t);
-  setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .5s';setTimeout(function(){t.remove();},500);},3500);
+// ── DELETE ──
+function deleteReport(reportId){
+  if(!confirm('Delete this report permanently?'))return;
+  db.collection('reports').doc(reportId).delete().then(function(){showToast('Report deleted.');});
 }
 
+// ── COMMENTS ──
+function toggleComments(reportId){
+  var sec=document.getElementById('comments-'+reportId);
+  if(!sec)return;
+  var open=sec.style.display==='block';
+  sec.style.display=open?'none':'block';
+  if(!open)loadComments(reportId);
+}
+
+function loadComments(reportId){
+  var listEl=document.getElementById('comments-list-'+reportId);
+  if(!listEl)return;
+  db.collection('reports').doc(reportId).collection('comments')
+    .orderBy('ts','asc').limit(50)
+    .onSnapshot(function(snap){
+      if(!listEl)return;
+      listEl.innerHTML='';
+      if(snap.empty){
+        listEl.innerHTML='<div style="color:var(--muted);font-size:.76rem;padding:6px 0;">No comments yet. Be first!</div>';
+        return;
+      }
+      snap.forEach(function(doc){
+        var c=doc.data();
+        var canDel=canDelete(me)||c.authorUid===me.uid;
+        var row=document.createElement('div');
+        row.className='comment-row';
+        row.innerHTML=
+          '<div class="comment-av">'+
+            (c.authorPfp?'<img src="'+c.authorPfp+'">':c.authorUsername[0].toUpperCase())+
+          '</div>'+
+          '<div class="comment-bubble" style="flex:1;">'+
+            '<div style="display:flex;align-items:center;justify-content:space-between;">'+
+              '<div class="comment-sender">@'+escHtml(c.authorUsername||'?')+'</div>'+
+              (canDel?
+                '<button onclick="deleteComment(\''+reportId+'\',\''+doc.id+'\')" style="background:none;border:none;cursor:pointer;color:#ff4757;padding:0;">'+
+                  '<svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>'+
+                '</button>':'')+
+            '</div>'+
+            '<div class="comment-text">'+escHtml(c.text||'')+'</div>'+
+            '<div style="font-size:.64rem;color:var(--muted);margin-top:3px;">'+timeAgo(c.ts)+'</div>'+
+          '</div>';
+        listEl.appendChild(row);
+      });
+    });
+}
+
+function submitComment(reportId,authorUid){
+  var inp=document.getElementById('comment-input-'+reportId);
+  var text=(inp.value||'').trim();
+  if(!text)return;
+  inp.value='';
+  db.collection('reports').doc(reportId).collection('comments').add({
+    authorUid:me.uid,authorUsername:me.username,authorPfp:me.pfp||null,
+    text:text,ts:firebase.firestore.FieldValue.serverTimestamp()
+  });
+  db.collection('reports').doc(reportId).update({
+    commentCount:firebase.firestore.FieldValue.increment(1)
+  });
+  // Notify author if not self
+  if(authorUid&&authorUid!==me.uid){
+    db.collection('users').doc(authorUid).collection('notifications').add({
+      message:'💬 @'+me.username+' commented on your report.',
+      type:'info',read:false,ts:firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }
+}
+
+function deleteComment(reportId,commentId){
+  db.collection('reports').doc(reportId).collection('comments').doc(commentId).delete().then(function(){
+    db.collection('reports').doc(reportId).update({
+      commentCount:firebase.firestore.FieldValue.increment(-1)
+    });
+  });
+}
+
+// ── UTILS ──
+function showToast(msg){
+  var t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a1a24;border:2px solid var(--accent);color:var(--text);padding:11px 20px;border-radius:12px;font-family:Nunito,sans-serif;font-weight:700;font-size:.86rem;z-index:9999;max-width:300px;width:90%;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.5);transition:opacity .5s;';
+  t.textContent=msg;document.body.appendChild(t);
+  setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove();},500);},3000);
+}
 function timeAgo(ts){
   if(!ts)return'';
   var d=(Date.now()-(ts.toMillis?ts.toMillis():ts))/1000;
-  if(d<60)return'Just now';
-  if(d<3600)return Math.floor(d/60)+'m ago';
-  if(d<86400)return Math.floor(d/3600)+'h ago';
-  return Math.floor(d/86400)+'d ago';
+  if(d<60)return'Just now';if(d<3600)return Math.floor(d/60)+'m ago';
+  if(d<86400)return Math.floor(d/3600)+'h ago';return Math.floor(d/86400)+'d ago';
 }
 function escHtml(str){
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
