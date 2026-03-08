@@ -9,15 +9,20 @@
 </head>
 <body>
 
+<!-- BG VIDEO -->
+<video id="bgVideo" autoplay muted loop playsinline style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;pointer-events:none;transition:opacity 1s;">
+  <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4" type="video/mp4">
+</video>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop style="display:none">
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+</audio>
+
 <!-- LOGIN MODAL -->
 <div id="loginModal" class="modal-overlay">
   <div class="modal-box">
-    <svg width="64" height="64" viewBox="0 0 64 64">
-      <circle cx="32" cy="32" r="32" fill="#FFD700"/>
-      <rect x="10" y="24" width="44" height="8" rx="4" fill="#111"/>
-      <circle cx="26" cy="28" r="4" fill="#fff"/>
-      <circle cx="27.5" cy="27" r="2" fill="#111"/>
-    </svg>
+    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid #FFD700;" onerror="this.style.display='none'">
     <h2 class="modal-title">Dv's Unblocked Games</h2>
     <p class="modal-sub">Sign in to get the full experience!</p>
     <input type="text" id="regName" class="modal-input" placeholder="Full name...">
@@ -60,13 +65,8 @@
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <div class="nav-left">
-    <div id="navLogo" style="cursor:pointer;display:flex;align-items:center;">
-      <svg width="36" height="36" viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="32" fill="#FFD700"/>
-        <rect x="10" y="24" width="44" height="8" rx="4" fill="#111"/>
-        <circle cx="26" cy="28" r="4" fill="#fff"/>
-        <circle cx="27.5" cy="27" r="2" fill="#111"/>
-      </svg>
+    <div id="navLogo" style="cursor:pointer;display:flex;align-items:center;flex-shrink:0;">
+      <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif" style="width:36px;height:36px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
     </div>
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
@@ -81,7 +81,7 @@
 </nav>
 
 <!-- GUEST VIEW -->
-<main class="page-main" id="guestView" style="display:none">
+<main class="page-main" id="guestView" style="display:none;position:relative;z-index:1;">
   <div class="c6x-banner">⏰ Please play only during breaks or after school — learning comes first! 📚</div>
   <div class="c6x-hero">
     <h1 class="c6x-title">Unblocked Games — Dv's</h1>
@@ -91,7 +91,7 @@
 </main>
 
 <!-- USER VIEW -->
-<main class="page-main" id="userView" style="display:none">
+<main class="page-main" id="userView" style="display:none;position:relative;z-index:1;">
   <section class="hero">
     <h1 class="hero-h1">Welcome back, <span id="heroName">Player</span>! 👾</h1>
     <p class="hero-p">Real unblocked games — works on Chromebooks, phones and PCs.</p>
@@ -110,12 +110,13 @@
     <div class="row-head"><h2>🔥 Hot Right Now</h2></div>
     <div class="card-row" id="hotRow"></div>
   </section>
-  <section class="row-section">
+  <section class="row-section" style="padding-bottom:20px;">
     <div class="row-head"><h2>All Games</h2></div>
     <div class="all-grid" id="allGrid"></div>
   </section>
 </main>
 
+<!-- BOTTOM NAV -->
 <nav class="bnav" id="bnavBar">
   <a href="index.html" class="bnav-btn active">
     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -129,9 +130,22 @@
     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
     <span>Profile</span>
   </a>
+  <a href="credits.html" class="bnav-btn" id="creditsNavBtn" style="display:none">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+    <span>Credits</span>
+  </a>
 </nav>
 
 <script src="games-data.js"></script>
 <script src="app.js"></script>
+<script>
+// Show space BG video only for signed in users
+function showSpaceBg(){
+  var v=document.getElementById('bgVideo');
+  if(v) v.style.opacity='0.18';
+}
+var _origBootSignedIn=bootSignedIn;
+bootSignedIn=function(user){_origBootSignedIn(user);showSpaceBg();};
+</script>
 </body>
 </html>
