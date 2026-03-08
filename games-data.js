@@ -115,8 +115,13 @@ const GAMES = [
     thumb: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/9c9e529b14731be871b07b89660bbc2a/smash-karts.png", color: "#263238"
   },
   {
-    id: "smashkarts", name: "Smash karts", desc: "Knock your opponent off the roof!", hot: false, isNew: true,
+    id: "vex7", name: "Vex 7", desc: "Knock your opponent off the roof!", hot: false, isNew: true,
     url: "https://ljgjm.github.io/7/",
     thumb: "https://www.coolmathgames.com/sites/default/files/Vex7_OG-logo.jpg", color: "#263238"
+  },
+  {
+    id: "Five nights at Freddy's 1", name: "Fnaf 1", desc: "Knock your opponent off the roof!", hot: false, isNew: true,
+    url: "https://irv77.github.io/hd_fnaf/1/",
+    thumb: "https://media2.giphy.com/media/v1.Y2lkPTZjMDliOTUycDVmcGl4ajZmb2kwczZpNjhwMWtobzZnaTJzemFtN20wbzlqMjkyOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/NUicI56PINuzS/200w.gif", color: "#263238"
   }
 ];
