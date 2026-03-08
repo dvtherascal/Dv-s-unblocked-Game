@@ -318,6 +318,23 @@
     if(_origBoot)_origBoot(user);
     var gb=document.getElementById('groupchatsNavBtn');if(gb)gb.style.display='flex';
   }
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="games-data.js"></script>
+<script src="firebase-config.js"></script>
+<script src="app.js"></script>
+
+<script>
+  // Game count
+  var gc = document.getElementById('gameCount');
+  if (gc && typeof GAMES !== 'undefined') gc.textContent = '(' + GAMES.length + ' games)';
+
+  // Show Groups nav button — just do it directly after boot, no override needed
+  document.addEventListener('DOMContentLoaded', function() {
+    var gb = document.getElementById('groupchatsNavBtn');
+    if (gb) gb.style.display = 'flex';
+  });
 </script>
 
 </body>
