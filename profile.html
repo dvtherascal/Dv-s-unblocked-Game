@@ -7,30 +7,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-.pw{padding:18px 14px 80px;max-width:480px;margin:0 auto;}
-.pc{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:22px 16px;text-align:center;margin-bottom:16px;}
-.pav{width:78px;height:78px;border-radius:50%;background:var(--accent);color:#000;font-size:1.9rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;border:3px solid var(--yellow);overflow:hidden;cursor:pointer;}
-.pav img{width:100%;height:100%;object-fit:cover;}
-.phint{font-size:.7rem;color:var(--muted);margin-bottom:8px;}
-.pname{font-size:1.3rem;font-weight:900;margin-bottom:2px;}
-.pemail{color:var(--muted);font-size:.74rem;margin-bottom:2px;}
-.psince{color:var(--muted);font-size:.74rem;}
-.stats-row{display:flex;gap:9px;margin-top:14px;}
-.stat-box{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:10px 5px;text-align:center;}
-.stat-num{font-size:1.3rem;font-weight:900;color:var(--yellow);}
-.stat-lbl{font-size:.66rem;color:var(--muted);margin-top:1px;font-weight:700;}
-.sec-t{font-size:.92rem;font-weight:900;margin:16px 0 9px;}
-.hi{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:10px 11px;display:flex;align-items:center;gap:11px;cursor:pointer;margin-bottom:8px;}
+.prof-wrap{padding:20px 16px 80px;max-width:500px;margin:0 auto;}
+.prof-card{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:22px 18px;text-align:center;margin-bottom:16px;}
+.prof-avatar{width:80px;height:80px;border-radius:50%;background:var(--accent);color:#000;font-size:2rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;cursor:pointer;overflow:hidden;border:3px solid var(--yellow);position:relative;}
+.prof-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.prof-avatar:hover::after{content:'📷 Change';position:absolute;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;color:#fff;border-radius:50%;}
+.prof-name{font-size:1.3rem;font-weight:900;}
+.prof-sub{color:var(--muted);font-size:.82rem;margin-top:3px;}
+.prof-stats{display:flex;gap:12px;justify-content:center;margin-top:14px;}
+.stat-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 18px;text-align:center;}
+.stat-n{font-size:1.4rem;font-weight:900;color:var(--accent);}
+.stat-l{font-size:.68rem;color:var(--muted);font-weight:700;}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:.85rem;}
+.info-row:last-child{border-bottom:none;}
+.info-label{color:var(--muted);font-weight:700;}
+.info-val{font-weight:900;}
+.sec-head{font-size:.95rem;font-weight:900;margin:18px 0 9px;}
+.hi{display:flex;align-items:center;gap:11px;background:var(--surface);border:1.5px solid var(--border);border-radius:11px;padding:9px 12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s;}
 .hi:hover{border-color:var(--accent);}
-.ht{width:44px;height:44px;border-radius:7px;object-fit:cover;background:var(--surface2);flex-shrink:0;}
-.hi h4{font-size:.9rem;font-weight:900;}
-.hi p{font-size:.7rem;color:var(--muted);margin-top:1px;}
+.ht{width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;}
+.hi h4{font-size:.88rem;font-weight:900;}
+.hi p{font-size:.72rem;color:var(--muted);}
 </style>
 </head>
 <body>
+
 <nav class="navbar">
   <div class="nav-left">
-    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif" style="width:34px;height:34px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
+    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif"
+         style="width:34px;height:34px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
   <div class="nav-right">
@@ -39,86 +44,130 @@
     <button class="nav-logout" onclick="doLogout()">↩</button>
   </div>
 </nav>
+
 <nav class="bnav">
-  <a href="index.html" class="bnav-btn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
-  <a href="friends.html" class="bnav-btn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span></a>
-  <a href="profile.html" class="bnav-btn active"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span></a>
-  <a href="credits.html" class="bnav-btn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span></a>
+  <a href="index.html" class="bnav-btn">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span>
+  </a>
+  <a href="friends.html" class="bnav-btn">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span>
+  </a>
+  <a href="profile.html" class="bnav-btn active">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span>
+  </a>
+  <a href="credits.html" class="bnav-btn">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span>
+  </a>
 </nav>
 
-<div class="pw" style="margin-top:var(--navbar-h);">
-  <div class="pc">
-    <div class="pav" id="profAvatar" onclick="document.getElementById('pfpInput').click()" title="Tap to change">G</div>
-    <div class="phint">📷 Tap to change profile picture</div>
-    <input type="file" id="pfpInput" accept="image/*" style="display:none" onchange="uploadPfp(event)">
-    <div class="pname" id="profName">—</div>
-    <div class="pemail" id="profEmail">—</div>
-    <div class="psince">Member since: <span id="profSince">—</span></div>
-    <div class="stats-row">
-      <div class="stat-box"><div class="stat-num" id="statPlayed">0</div><div class="stat-lbl">Games Played</div></div>
-      <div class="stat-box"><div class="stat-num" id="statFriends">0</div><div class="stat-lbl">Friends</div></div>
+<input type="file" id="pfpInput" accept="image/*" style="display:none">
+
+<div class="prof-wrap" style="margin-top:var(--navbar-h);">
+  <div class="prof-card">
+    <div class="prof-avatar" id="profAvatar" onclick="document.getElementById('pfpInput').click()">G</div>
+    <div class="prof-name" id="profName">—</div>
+    <div class="prof-sub" id="profEmail">—</div>
+    <div class="prof-stats">
+      <div class="stat-box"><div class="stat-n" id="statPlayed">0</div><div class="stat-l">Games Played</div></div>
+      <div class="stat-box"><div class="stat-n" id="statFriends">0</div><div class="stat-l">Friends</div></div>
     </div>
   </div>
-  <div class="sec-t">🕹️ Recently Played</div>
-  <div id="historyList"><p style="color:var(--muted);font-size:.83rem">No games played yet!</p></div>
+  <div class="prof-card" style="text-align:left;">
+    <div class="info-row"><span class="info-label">Username</span><span class="info-val" id="profUsername">—</span></div>
+    <div class="info-row"><span class="info-label">Member Since</span><span class="info-val" id="profSince">—</span></div>
+  </div>
+  <div class="sec-head">🎮 Recently Played</div>
+  <div id="historyList"><p style="color:var(--muted);font-size:.85rem;">No games played yet!</p></div>
 </div>
 
+<!-- FIREBASE + SCRIPTS at the bottom -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="games-data.js"></script>
+<script src="firebase-config.js"></script>
 <script>
-function getUser(){try{return JSON.parse(localStorage.getItem('dvs_user'))||null;}catch(e){return null;}}
-function getAllAccounts(){try{return JSON.parse(localStorage.getItem('dvs_accounts'))||{};}catch(e){return{};}}
-function saveUser(u){localStorage.setItem('dvs_user',JSON.stringify(u));}
-function saveAllAccounts(a){localStorage.setItem('dvs_accounts',JSON.stringify(a));}
-function doLogout(){localStorage.removeItem('dvs_user');location.href='index.html';}
-function timeAgo(ts){var d=(Date.now()-ts)/1000;if(d<60)return'Just now';if(d<3600)return Math.floor(d/60)+'m ago';if(d<86400)return Math.floor(d/3600)+'h ago';return Math.floor(d/86400)+'d ago';}
-function uploadPfp(e){
-  var file=e.target.files[0];
-  if(!file)return;
-  if(file.size>3*1024*1024){alert('Max 3MB!');return;}
-  var r=new FileReader();
-  r.onload=function(ev){
-    var data=ev.target.result;
-    var u=getUser();if(!u)return;
-    u.pfp=data;saveUser(u);
-    var all=getAllAccounts();all[u.username.toLowerCase()]=u;saveAllAccounts(all);
-    document.getElementById('profAvatar').innerHTML='<img src="'+data+'">';
-    document.getElementById('navAvatar').innerHTML='<img src="'+data+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
-  };
-  r.readAsDataURL(file);
+function doLogout(){
+  auth.signOut().then(function(){ location.href='index.html'; });
 }
-function openGame(name,url){
-  var w=window.open('about:blank','_blank');
-  if(!w){alert('Allow pop-ups!');return;}
-  w.document.write('<!DOCTYPE html><html><head><title>'+name+'</title><style>*{margin:0;padding:0}html,body{width:100%;height:100%;overflow:hidden;background:#000}iframe{position:fixed;inset:0;width:100%;height:100%;border:none}</style></head><body><iframe src="'+url+'" allow="autoplay;fullscreen;gamepad" allowfullscreen></iframe></body></html>');
-  w.document.close();
+
+function timeAgo(ts){
+  var d=(Date.now()-ts)/1000;
+  if(d<60)return'Just now';
+  if(d<3600)return Math.floor(d/60)+'m ago';
+  if(d<86400)return Math.floor(d/3600)+'h ago';
+  return Math.floor(d/86400)+'d ago';
 }
-(function(){
-  var user=getUser();
-  if(!user){location.href='index.html';return;}
-  var all=getAllAccounts();
-  user=all[user.username.toLowerCase()]||user;saveUser(user);
-  document.getElementById('navAvatar').innerHTML=user.pfp?'<img src="'+user.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">':user.username[0].toUpperCase();
-  document.getElementById('navUsername').textContent=user.username;
-  document.getElementById('profName').textContent=user.name||user.username;
-  // Only show email on same device
-  document.getElementById('profEmail').textContent=user.email||'—';
-  document.getElementById('profSince').textContent=user.since||'—';
-  document.getElementById('statPlayed').textContent=user.gamesPlayed||0;
-  document.getElementById('statFriends').textContent=(user.friends||[]).length;
-  if(user.pfp) document.getElementById('profAvatar').innerHTML='<img src="'+user.pfp+'">';
-  var list=document.getElementById('historyList');
-  if(user.history&&user.history.length>0){
-    list.innerHTML='';
-    user.history.forEach(function(h){
-      var g=GAMES.find(function(g){return g.id===h.id;});
-      if(!g)return;
-      var div=document.createElement('div');div.className='hi';
-      div.innerHTML='<img class="ht" src="'+h.thumb+'" onerror="this.style.display=\'none\'"><div><h4>'+h.name+'</h4><p>'+timeAgo(h.ts)+'</p></div><div style="margin-left:auto;color:var(--muted);font-size:.76rem">▶ Play</div>';
-      div.addEventListener('click',function(){openGame(g.name,g.url);});
-      list.appendChild(div);
+
+auth.onAuthStateChanged(function(firebaseUser){
+  if(!firebaseUser){ location.href='index.html'; return; }
+
+  db.collection('users').doc(firebaseUser.uid).get().then(function(doc){
+    if(!doc.exists){ location.href='index.html'; return; }
+    var user = Object.assign({ uid: firebaseUser.uid }, doc.data());
+
+    // Nav
+    document.getElementById('navAvatar').innerHTML = user.pfp
+      ? '<img src="'+user.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">'
+      : user.username[0].toUpperCase();
+    document.getElementById('navUsername').textContent = user.username;
+
+    // Profile card
+    document.getElementById('profName').textContent = user.name || user.username;
+    document.getElementById('profEmail').textContent = user.email || '—';
+    document.getElementById('profUsername').textContent = '@' + user.username;
+    document.getElementById('profSince').textContent = user.since || '—';
+    document.getElementById('statPlayed').textContent = user.gamesPlayed || 0;
+    document.getElementById('statFriends').textContent = (user.friends || []).length;
+
+    // Avatar
+    var av = document.getElementById('profAvatar');
+    if(user.pfp){
+      av.innerHTML = '<img src="'+user.pfp+'">';
+    } else {
+      av.textContent = user.username[0].toUpperCase();
+    }
+
+    // History
+    var list = document.getElementById('historyList');
+    if(user.history && user.history.length > 0){
+      list.innerHTML = '';
+      user.history.forEach(function(h){
+        var g = typeof GAMES !== 'undefined' ? GAMES.find(function(g){return g.id===h.id;}) : null;
+        if(!g) return;
+        var div = document.createElement('div');
+        div.className = 'hi';
+        div.innerHTML =
+          '<img class="ht" src="'+h.thumb+'" onerror="this.style.display=\'none\'">' +
+          '<div style="flex:1;min-width:0;"><h4>'+h.name+'</h4><p>'+timeAgo(h.ts)+'</p></div>' +
+          '<div style="color:var(--muted);font-size:.76rem;flex-shrink:0;">▶ Play</div>';
+        div.addEventListener('click', function(){
+          var w = window.open('about:blank','_blank');
+          if(!w){ alert('Allow pop-ups!'); return; }
+          w.document.write('<!DOCTYPE html><html><head><title>'+g.name+'</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;background:#000}iframe{position:fixed;inset:0;width:100%;height:100%;border:none}</style></head><body><iframe src="'+g.url+'" allow="autoplay;fullscreen;gamepad" allowfullscreen></iframe></body></html>');
+          w.document.close();
+        });
+        list.appendChild(div);
+      });
+    }
+
+    // PFP upload
+    document.getElementById('pfpInput').addEventListener('change', function(e){
+      var file = e.target.files[0];
+      if(!file) return;
+      if(file.size > 2*1024*1024){ alert('Max 2MB image size!'); return; }
+      var r = new FileReader();
+      r.onload = function(ev){
+        var data = ev.target.result;
+        db.collection('users').doc(user.uid).update({ pfp: data }).then(function(){
+          document.getElementById('profAvatar').innerHTML = '<img src="'+data+'">';
+          document.getElementById('navAvatar').innerHTML = '<img src="'+data+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
+        });
+      };
+      r.readAsDataURL(file);
     });
-  }
-})();
+  });
+});
 </script>
 </body>
 </html>
