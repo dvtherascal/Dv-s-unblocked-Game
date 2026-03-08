@@ -26,7 +26,7 @@ const GAMES = [
   },
   {
     id: "cookieclicker", name: "Cookie Clicker", desc: "Click cookies, build an empire.", hot: false, isNew: false,
-    url: "https://hub-pro.github.io/cookie/index.html",
+    url: "https://ozh.github.io/cookieclicker/",
     thumb: "https://play-lh.googleusercontent.com/Z1MOuuiD05ZN5LkVmMEvKF0mqAc-FknaQ2j8s4dZiO-LSPQX4EEA3RVJdlQEtxe96ok", color: "#3e1e00"
   },
   {
