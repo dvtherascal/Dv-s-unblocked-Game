@@ -130,8 +130,13 @@ const GAMES = [
     thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn7iK0apeBrpdpwEBL8Z4UuwwV18KJyj8O7AK0GoBAUxy14yTB-jKUtaE&s=10", color: "#263238"
   },
   {
-    id: "Templerun", name: "Temple run", desc: "Knock your opponent off the roof!", hot: false, isNew: true,
+    id: "Templerun", name: "Temple run", desc: "Runn", hot: false, isNew: true,
     url: "https://nb-ga.github.io/games-site/projects/temple-run-2/index.html",
     thumb: "https://i.ytimg.com/vi/Ten_rU0ct08/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA7TzuO93QfHtd3OZWsLhsP4F24pw", color: "#263238"
+  },
+  {
+    id: "Driftboss", name: "Drift boss", desc: "Drift like a boss", hot: false, isNew: true,
+    url: "https://nb-ga.github.io/games-site/projects/drift-boss/index.html",
+    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8tcCD8A5Tj8jITRkENdYgP7NECj9firPbDTEdE8ZA9Jmav2HXDmx3Br4&s=10", color: "#263238"
   }
 ];
