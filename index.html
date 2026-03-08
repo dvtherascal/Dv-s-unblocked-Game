@@ -9,14 +9,11 @@
 </head>
 <body>
 
-<!-- SPACE BG - fixed with actual working video embed -->
+<!-- SPACE BG -->
 <div id="bgWrap" style="position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 2s;">
-  <iframe
-    src="https://www.youtube.com/embed/Bj3qepNUFyE?autoplay=1&mute=1&loop=1&playlist=Bj3qepNUFyE&controls=0&showinfo=0&rel=0&modestbranding=1"
+  <iframe src="https://www.youtube.com/embed/Bj3qepNUFyE?autoplay=1&mute=1&loop=1&playlist=Bj3qepNUFyE&controls=0&showinfo=0&rel=0&modestbranding=1"
     style="position:absolute;inset:0;width:100%;height:100%;border:none;transform:scale(1.2);"
-    allow="autoplay; fullscreen"
-    allowfullscreen>
-  </iframe>
+    allow="autoplay; fullscreen" allowfullscreen></iframe>
 </div>
 
 <!-- MUSIC -->
@@ -71,10 +68,10 @@
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
-  <div class="nav-left">
+  <div class="nav-left" id="navLogo">
     <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif"
          id="logoImg"
-         style="width:36px;height:36px;border-radius:50%;object-fit:cover;cursor:default;flex-shrink:0;"
+         style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;"
          onerror="this.style.display='none'">
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
@@ -82,10 +79,15 @@
     <input class="nav-search" type="text" id="searchInput" placeholder="🔍 Search games..." oninput="filterGames()">
   </div>
   <div class="nav-right">
-    <!-- Admin button — hidden by default, shown only for admins -->
+    <!-- Admin button -->
     <button id="adminNavBtn" onclick="showAdminPanel()" style="display:none;background:none;border:none;padding:0;cursor:pointer;margin-right:4px;" title="Admin Panel">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbxG68RG-Zgp8zo8TpQrPJgpBFbfGMsxqbRcPlkwcMbN9rZpgdpl1Zgkz7&s=10"
            style="width:28px;height:28px;border-radius:6px;object-fit:cover;border:2px solid #FFD700;">
+    </button>
+    <!-- Notification bell -->
+    <button id="notifBtn" style="display:none;background:none;border:none;cursor:pointer;position:relative;padding:4px;" title="Notifications">
+      <svg width="22" height="22" fill="#e8e8f0" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+      <span id="notifBadge" style="display:none;position:absolute;top:0;right:0;background:#ff4757;color:#fff;font-size:.55rem;font-weight:900;width:16px;height:16px;border-radius:50%;align-items:center;justify-content:center;font-family:Nunito,sans-serif;"></span>
     </button>
     <div class="avatar-bubble" id="navAvatar">G</div>
     <span class="nav-username" id="navUsername">Guest</span>
@@ -149,7 +151,12 @@
   </section>
 </main>
 
+<!-- FIREBASE + SCRIPTS — always at the very bottom -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="games-data.js"></script>
+<script src="firebase-config.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
