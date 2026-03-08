@@ -7,31 +7,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-.profile-wrap{margin-top:58px;padding:20px 16px 80px;max-width:500px;margin-left:auto;margin-right:auto;}
-.profile-card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:24px 18px;text-align:center;margin-bottom:18px;}
-.profile-avatar-big{width:80px;height:80px;border-radius:50%;background:var(--accent);color:#000;font-size:2rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;border:3px solid var(--yellow);overflow:hidden;cursor:pointer;position:relative;}
-.profile-avatar-big img{width:100%;height:100%;object-fit:cover;}
-.pfp-hint{font-size:.72rem;color:var(--muted);margin-bottom:10px;}
-.profile-name{font-size:1.35rem;font-weight:900;margin-bottom:2px;}
-.profile-email{color:var(--muted);font-size:.76rem;margin-bottom:3px;}
-.profile-since{color:var(--muted);font-size:.76rem;}
-.stats-row{display:flex;gap:10px;margin-top:16px;}
-.stat-box{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 6px;text-align:center;}
-.stat-num{font-size:1.35rem;font-weight:900;color:var(--yellow);}
-.stat-lbl{font-size:.68rem;color:var(--muted);margin-top:2px;font-weight:700;}
-.sec-title{font-size:.95rem;font-weight:900;margin:18px 0 10px;}
-.history-list{display:flex;flex-direction:column;gap:9px;}
-.history-item{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:11px 12px;display:flex;align-items:center;gap:12px;cursor:pointer;}
-.history-item:hover{border-color:var(--accent);}
-.history-thumb{width:46px;height:46px;border-radius:8px;object-fit:cover;background:var(--surface2);flex-shrink:0;}
-.history-info h4{font-size:.92rem;font-weight:900;}
-.history-info p{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.pw{padding:18px 14px 80px;max-width:480px;margin:0 auto;}
+.pc{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:22px 16px;text-align:center;margin-bottom:16px;}
+.pav{width:78px;height:78px;border-radius:50%;background:var(--accent);color:#000;font-size:1.9rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;border:3px solid var(--yellow);overflow:hidden;cursor:pointer;}
+.pav img{width:100%;height:100%;object-fit:cover;}
+.phint{font-size:.7rem;color:var(--muted);margin-bottom:8px;}
+.pname{font-size:1.3rem;font-weight:900;margin-bottom:2px;}
+.pemail{color:var(--muted);font-size:.74rem;margin-bottom:2px;}
+.psince{color:var(--muted);font-size:.74rem;}
+.stats-row{display:flex;gap:9px;margin-top:14px;}
+.stat-box{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:10px 5px;text-align:center;}
+.stat-num{font-size:1.3rem;font-weight:900;color:var(--yellow);}
+.stat-lbl{font-size:.66rem;color:var(--muted);margin-top:1px;font-weight:700;}
+.sec-t{font-size:.92rem;font-weight:900;margin:16px 0 9px;}
+.hi{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:10px 11px;display:flex;align-items:center;gap:11px;cursor:pointer;margin-bottom:8px;}
+.hi:hover{border-color:var(--accent);}
+.ht{width:44px;height:44px;border-radius:7px;object-fit:cover;background:var(--surface2);flex-shrink:0;}
+.hi h4{font-size:.9rem;font-weight:900;}
+.hi p{font-size:.7rem;color:var(--muted);margin-top:1px;}
 </style>
 </head>
 <body>
 <nav class="navbar">
   <div class="nav-left">
-    <svg width="34" height="34" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#FFD700"/><rect x="10" y="24" width="44" height="8" rx="4" fill="#111"/><circle cx="26" cy="28" r="4" fill="#fff"/><circle cx="27.5" cy="27" r="2" fill="#111"/></svg>
+    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif" style="width:34px;height:34px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
   <div class="nav-right">
@@ -40,29 +39,29 @@
     <button class="nav-logout" onclick="doLogout()">↩</button>
   </div>
 </nav>
+<nav class="bnav">
+  <a href="index.html" class="bnav-btn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
+  <a href="friends.html" class="bnav-btn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span></a>
+  <a href="profile.html" class="bnav-btn active"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span></a>
+  <a href="credits.html" class="bnav-btn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span></a>
+</nav>
 
-<div class="profile-wrap">
-  <div class="profile-card">
-    <div class="profile-avatar-big" id="profAvatar" onclick="triggerPfp()" title="Click to change profile picture">G</div>
-    <div class="pfp-hint">📷 Tap picture to change</div>
+<div class="pw" style="margin-top:var(--navbar-h);">
+  <div class="pc">
+    <div class="pav" id="profAvatar" onclick="document.getElementById('pfpInput').click()" title="Tap to change">G</div>
+    <div class="phint">📷 Tap to change profile picture</div>
     <input type="file" id="pfpInput" accept="image/*" style="display:none" onchange="uploadPfp(event)">
-    <div class="profile-name" id="profName">—</div>
-    <div class="profile-email" id="profEmail">—</div>
-    <div class="profile-since">Member since: <span id="profSince">—</span></div>
+    <div class="pname" id="profName">—</div>
+    <div class="pemail" id="profEmail">—</div>
+    <div class="psince">Member since: <span id="profSince">—</span></div>
     <div class="stats-row">
       <div class="stat-box"><div class="stat-num" id="statPlayed">0</div><div class="stat-lbl">Games Played</div></div>
       <div class="stat-box"><div class="stat-num" id="statFriends">0</div><div class="stat-lbl">Friends</div></div>
     </div>
   </div>
-  <div class="sec-title">🕹️ Recently Played</div>
-  <div class="history-list" id="historyList"><p style="color:var(--muted);font-size:.85rem">No games played yet!</p></div>
+  <div class="sec-t">🕹️ Recently Played</div>
+  <div id="historyList"><p style="color:var(--muted);font-size:.83rem">No games played yet!</p></div>
 </div>
-
-<nav class="bnav">
-  <a href="index.html" class="bnav-btn"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
-  <a href="friends.html" class="bnav-btn"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span></a>
-  <a href="profile.html" class="bnav-btn active"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span></a>
-</nav>
 
 <script src="games-data.js"></script>
 <script>
@@ -72,65 +71,49 @@ function saveUser(u){localStorage.setItem('dvs_user',JSON.stringify(u));}
 function saveAllAccounts(a){localStorage.setItem('dvs_accounts',JSON.stringify(a));}
 function doLogout(){localStorage.removeItem('dvs_user');location.href='index.html';}
 function timeAgo(ts){var d=(Date.now()-ts)/1000;if(d<60)return'Just now';if(d<3600)return Math.floor(d/60)+'m ago';if(d<86400)return Math.floor(d/3600)+'h ago';return Math.floor(d/86400)+'d ago';}
-
-function triggerPfp(){ document.getElementById('pfpInput').click(); }
-
 function uploadPfp(e){
-  var file = e.target.files[0];
-  if(!file) return;
-  if(file.size > 2*1024*1024){ alert('Image too large! Max 2MB.'); return; }
-  var reader = new FileReader();
-  reader.onload = function(ev){
-    var data = ev.target.result;
-    var u = getUser();
-    if(!u) return;
-    u.pfp = data;
-    saveUser(u);
-    var all = getAllAccounts();
-    all[u.username.toLowerCase()] = u;
-    saveAllAccounts(all);
-    renderPfp(data);
-    document.getElementById('navAvatar').innerHTML = '<img src="'+data+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
+  var file=e.target.files[0];
+  if(!file)return;
+  if(file.size>3*1024*1024){alert('Max 3MB!');return;}
+  var r=new FileReader();
+  r.onload=function(ev){
+    var data=ev.target.result;
+    var u=getUser();if(!u)return;
+    u.pfp=data;saveUser(u);
+    var all=getAllAccounts();all[u.username.toLowerCase()]=u;saveAllAccounts(all);
+    document.getElementById('profAvatar').innerHTML='<img src="'+data+'">';
+    document.getElementById('navAvatar').innerHTML='<img src="'+data+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
   };
-  reader.readAsDataURL(file);
+  r.readAsDataURL(file);
 }
-
-function renderPfp(src){
-  var av = document.getElementById('profAvatar');
-  if(src){ av.innerHTML='<img src="'+src+'" style="width:100%;height:100%;object-fit:cover;">'; }
-}
-
 function openGame(name,url){
   var w=window.open('about:blank','_blank');
   if(!w){alert('Allow pop-ups!');return;}
   w.document.write('<!DOCTYPE html><html><head><title>'+name+'</title><style>*{margin:0;padding:0}html,body{width:100%;height:100%;overflow:hidden;background:#000}iframe{position:fixed;inset:0;width:100%;height:100%;border:none}</style></head><body><iframe src="'+url+'" allow="autoplay;fullscreen;gamepad" allowfullscreen></iframe></body></html>');
   w.document.close();
 }
-
 (function(){
-  var user = getUser();
+  var user=getUser();
   if(!user){location.href='index.html';return;}
-  var all = getAllAccounts();
-  user = all[user.username.toLowerCase()]||user;
-  saveUser(user);
-  document.getElementById('navAvatar').innerHTML = user.pfp ? '<img src="'+user.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">' : user.username[0].toUpperCase();
-  document.getElementById('navUsername').textContent = user.username;
-  document.getElementById('profName').textContent = user.name||user.username;
-  document.getElementById('profEmail').textContent = user.email||'—';
-  document.getElementById('profSince').textContent = user.since||'—';
-  document.getElementById('statPlayed').textContent = user.gamesPlayed||0;
-  document.getElementById('statFriends').textContent = (user.friends||[]).length;
-  if(user.pfp) renderPfp(user.pfp);
-  var list = document.getElementById('historyList');
-  if(user.history && user.history.length>0){
+  var all=getAllAccounts();
+  user=all[user.username.toLowerCase()]||user;saveUser(user);
+  document.getElementById('navAvatar').innerHTML=user.pfp?'<img src="'+user.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">':user.username[0].toUpperCase();
+  document.getElementById('navUsername').textContent=user.username;
+  document.getElementById('profName').textContent=user.name||user.username;
+  // Only show email on same device
+  document.getElementById('profEmail').textContent=user.email||'—';
+  document.getElementById('profSince').textContent=user.since||'—';
+  document.getElementById('statPlayed').textContent=user.gamesPlayed||0;
+  document.getElementById('statFriends').textContent=(user.friends||[]).length;
+  if(user.pfp) document.getElementById('profAvatar').innerHTML='<img src="'+user.pfp+'">';
+  var list=document.getElementById('historyList');
+  if(user.history&&user.history.length>0){
     list.innerHTML='';
     user.history.forEach(function(h){
       var g=GAMES.find(function(g){return g.id===h.id;});
       if(!g)return;
-      var div=document.createElement('div');
-      div.className='history-item';
-      var tSrc = h.thumb==='ULTRAKILL_ICON'?'ultrakill.png':h.thumb;
-      div.innerHTML='<img class="history-thumb" src="'+tSrc+'" onerror="this.style.display=\'none\'"><div class="history-info"><h4>'+h.name+'</h4><p>'+timeAgo(h.ts)+'</p></div><div style="margin-left:auto;color:var(--muted);font-size:.78rem">▶ Play</div>';
+      var div=document.createElement('div');div.className='hi';
+      div.innerHTML='<img class="ht" src="'+h.thumb+'" onerror="this.style.display=\'none\'"><div><h4>'+h.name+'</h4><p>'+timeAgo(h.ts)+'</p></div><div style="margin-left:auto;color:var(--muted);font-size:.76rem">▶ Play</div>';
       div.addEventListener('click',function(){openGame(g.name,g.url);});
       list.appendChild(div);
     });
