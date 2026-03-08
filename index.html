@@ -11,12 +11,9 @@
 
 <!-- SPACE BG -->
 <div id="bgWrap" style="position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 2s;">
-  <iframe
-    src="https://www.youtube.com/embed/Bj3qepNUFyE?autoplay=1&mute=1&loop=1&playlist=Bj3qepNUFyE&controls=0&showinfo=0&rel=0&modestbranding=1"
+  <iframe src="https://www.youtube.com/embed/Bj3qepNUFyE?autoplay=1&mute=1&loop=1&playlist=Bj3qepNUFyE&controls=0&showinfo=0&rel=0&modestbranding=1"
     style="position:absolute;inset:0;width:100%;height:100%;border:none;transform:scale(1.2);"
-    allow="autoplay; fullscreen"
-    allowfullscreen>
-  </iframe>
+    allow="autoplay; fullscreen" allowfullscreen></iframe>
 </div>
 
 <!-- MUSIC -->
@@ -24,9 +21,7 @@
   <source src="music.mp3" type="audio/mp3">
 </audio>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- LOGIN MODAL                             -->
-<!-- ═══════════════════════════════════════ -->
+<!-- ═══════════════ LOGIN MODAL ═══════════════ -->
 <div id="loginModal" class="modal-overlay hidden">
   <div class="modal-box">
     <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif"
@@ -44,9 +39,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- GAME POPUP                              -->
-<!-- ═══════════════════════════════════════ -->
+<!-- ═══════════════ GAME POPUP ═══════════════ -->
 <div id="gamePopup" class="popup-overlay hidden">
   <div class="popup-box">
     <img id="popupThumb" src="" alt="" class="popup-thumb">
@@ -62,9 +55,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- IN-PAGE GAME VIEWER                     -->
-<!-- ═══════════════════════════════════════ -->
+<!-- ═══════════════ IN-PAGE GAME ═══════════════ -->
 <div id="inPageGame" class="inpage-game hidden">
   <div class="inpage-bar">
     <button onclick="closeInPage()" class="inpage-back">← Back</button>
@@ -75,9 +66,7 @@
   <iframe id="inPageFrame" src="" allowfullscreen allow="autoplay; fullscreen; gamepad" frameborder="0"></iframe>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- NAVBAR                                  -->
-<!-- ═══════════════════════════════════════ -->
+<!-- ═══════════════ NAVBAR ═══════════════ -->
 <nav class="navbar" id="navbar">
   <div class="nav-left">
     <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif"
@@ -92,12 +81,23 @@
   </div>
 
   <div class="nav-right">
-    <!-- Staff panel button (owner / admin / mod) — hidden until role detected -->
+    <!-- Staff panel button -->
     <button id="roleNavBtn"
             style="display:none;background:none;border:none;padding:0;cursor:pointer;margin-right:4px;align-items:center;"
             title="Staff Panel">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbxG68RG-Zgp8zo8TpQrPJgpBFbfGMsxqbRcPlkwcMbN9rZpgdpl1Zgkz7&s=10"
-           style="width:28px;height:28px;border-radius:6px;object-fit:cover;border:2px solid #FFD700;">
+      <img src="" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid #FFD700;">
+    </button>
+
+    <!-- Updates / changelog button -->
+    <button id="updatesBtn"
+            onclick="showUpdatesPanel()"
+            style="display:none;background:none;border:none;cursor:pointer;position:relative;padding:4px;align-items:center;"
+            title="Update Log & Announcements">
+      <svg width="22" height="22" fill="#e8e8f0" viewBox="0 0 24 24">
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+      </svg>
+      <span id="updatesDot"
+            style="display:none;position:absolute;top:2px;right:2px;background:#e040fb;width:8px;height:8px;border-radius:50%;"></span>
     </button>
 
     <!-- Notification bell -->
@@ -118,42 +118,31 @@
   </div>
 </nav>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- BOTTOM NAV (mobile) / TOP NAV (desktop) -->
-<!-- ═══════════════════════════════════════ -->
+<!-- ═══════════════ BOTTOM NAV ═══════════════ -->
 <nav class="bnav" id="bnavBar">
   <a href="index.html" class="bnav-btn active" id="homeNavBtn">
-    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-    </svg>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     <span>Home</span>
   </a>
-
   <a href="friends.html" class="bnav-btn" id="friendsNavBtn" style="display:none">
-    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-    </svg>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
     <span>Friends</span>
   </a>
-
+  <a href="reports.html" class="bnav-btn" id="reportsNavBtn" style="display:none">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg>
+    <span>Reports</span>
+  </a>
   <a href="profile.html" class="bnav-btn" id="profileNavBtn" style="display:none">
-    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
-    </svg>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
     <span>Profile</span>
   </a>
-
   <a href="credits.html" class="bnav-btn" id="creditsNavBtn" style="display:none">
-    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
-    </svg>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
     <span>Credits</span>
   </a>
 </nav>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- GUEST VIEW                              -->
-<!-- ═══════════════════════════════════════ -->
+<!-- ═══════════════ GUEST VIEW ═══════════════ -->
 <main class="page-main" id="guestView" style="display:none;position:relative;z-index:1;">
   <div class="c6x-banner">
     ⏰ Please play only during breaks or after school — learning comes first! 📚
@@ -161,7 +150,8 @@
   <div class="c6x-hero">
     <h1 class="c6x-title">Unblocked Games — Dv's</h1>
     <p class="c6x-sub">Fast, free, unblocked games for school. Works on Chromebooks, phones and PCs.</p>
-    <button class="modal-btn" onclick="document.getElementById('guestView').style.display='none';document.getElementById('loginModal').classList.remove('hidden');"
+    <button class="modal-btn"
+            onclick="document.getElementById('guestView').style.display='none';document.getElementById('loginModal').classList.remove('hidden');"
             style="max-width:220px;margin:14px auto 0;display:block;font-size:.88rem;padding:10px;">
       ▶ Sign In for More
     </button>
@@ -169,12 +159,10 @@
   <div class="c6x-grid" id="guestGrid"></div>
 </main>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- SIGNED-IN USER VIEW                     -->
-<!-- ═══════════════════════════════════════ -->
+<!-- ═══════════════ USER VIEW ═══════════════ -->
 <main class="page-main" id="userView" style="display:none;position:relative;z-index:1;">
 
-  <!-- Hero banner -->
+  <!-- Hero -->
   <section class="hero">
     <h1 class="hero-h1">Welcome back, <span id="heroName">Player</span>! 👾</h1>
     <p class="hero-p">Real unblocked games that work on Chromebooks, phones and PCs.</p>
@@ -187,23 +175,31 @@
     </div>
   </section>
 
+  <!-- Latest announcement banner (shows most recent staff message) -->
+  <div id="latestAnnouncementBanner" style="display:none;margin:0 12px 4px;background:linear-gradient(90deg,#1a1a24,#13132a);border:1.5px solid #FFD700;border-radius:12px;padding:11px 14px;cursor:pointer;" onclick="showUpdatesPanel()">
+    <div style="font-size:.7rem;color:#FFD700;font-weight:900;margin-bottom:5px;">📢 LATEST ANNOUNCEMENT — tap to see all</div>
+    <div style="display:flex;align-items:center;gap:9px;">
+      <div id="latestAnnouncerAvatar" style="width:30px;height:30px;border-radius:50%;border:2px solid #FFD700;overflow:hidden;flex-shrink:0;background:#FFD700;display:flex;align-items:center;justify-content:center;font-weight:900;color:#000;font-size:.8rem;"></div>
+      <div>
+        <div id="latestAnnouncerName" style="font-size:.78rem;font-weight:900;color:#FFD700;"></div>
+        <div id="latestAnnouncementMsg" style="font-size:.82rem;color:#e8e8f0;margin-top:2px;"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Continue playing -->
   <section class="row-section" id="continueSection" style="display:none">
-    <div class="row-head">
-      <h2>▶ Continue Playing</h2>
-    </div>
+    <div class="row-head"><h2>▶ Continue Playing</h2></div>
     <div class="card-row" id="continueRow"></div>
   </section>
 
   <!-- Hot right now -->
   <section class="row-section">
-    <div class="row-head">
-      <h2>🔥 Hot Right Now</h2>
-    </div>
+    <div class="row-head"><h2>🔥 Hot Right Now</h2></div>
     <div class="card-row" id="hotRow"></div>
   </section>
 
-  <!-- All games grid -->
+  <!-- All games -->
   <section class="row-section" style="padding-bottom:32px;">
     <div class="row-head">
       <h2>🎮 All Games</h2>
@@ -217,10 +213,7 @@
 
 </main>
 
-<!-- ═══════════════════════════════════════ -->
-<!-- FIREBASE + APP SCRIPTS                  -->
-<!-- Always load in this exact order         -->
-<!-- ═══════════════════════════════════════ -->
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -228,10 +221,33 @@
 <script src="firebase-config.js"></script>
 <script src="app.js"></script>
 
-<!-- Game count label -->
 <script>
-  var gc = document.getElementById('gameCount');
-  if(gc && typeof GAMES !== 'undefined') gc.textContent = '('+GAMES.length+' games)';
+  // Game count label
+  var gc=document.getElementById('gameCount');
+  if(gc&&typeof GAMES!=='undefined')gc.textContent='('+GAMES.length+' games)';
+
+  // Latest announcement banner — live listener
+  if(typeof db!=='undefined'){
+    db.collection('announcements').orderBy('ts','desc').limit(1)
+      .onSnapshot(function(snap){
+        var banner=document.getElementById('latestAnnouncementBanner');
+        if(!banner||snap.empty)return;
+        var a=snap.docs[0].data();
+        var roleColors={owner:'#FFD700',developer:'#e040fb',admin:'#00d4ff',mod:'#8e24aa',helper:'#43a047'};
+        var color=roleColors[a.senderRole]||'#FFD700';
+        banner.style.borderColor=color;
+        banner.querySelector('div').style.color=color;
+        var av=document.getElementById('latestAnnouncerAvatar');
+        av.style.borderColor=color;av.style.background=color;
+        av.innerHTML=a.senderPfp?'<img src="'+a.senderPfp+'" style="width:100%;height:100%;object-fit:cover;">':(a.senderUsername||'S')[0].toUpperCase();
+        document.getElementById('latestAnnouncerName').textContent='@'+a.senderUsername;
+        document.getElementById('latestAnnouncerName').style.color=color;
+        document.getElementById('latestAnnouncementMsg').textContent=a.message;
+        banner.style.display='block';
+        // Show purple dot on updates button
+        var dot=document.getElementById('updatesDot');if(dot)dot.style.display='block';
+      });
+  }
 </script>
 
 </body>
