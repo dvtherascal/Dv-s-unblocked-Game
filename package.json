@@ -1,14 +1,22 @@
 {
   "name": "dvs-unblocked-games",
-  "version": "1.0.0",
-  "description": "Unblocked school games by Dvtherascal",
-  "main": "index.html",
-  "author": "Dvtherascal",
-  "license": "ISC",
+  "version": "2.0.0",
+  "description": "Dv's Unblocked Games — school unblocked games site with login, friends, admin panel",
+  "author": "DvRascal",
+  "license": "MIT",
   "scripts": {
-    "start": "http-server . -p 8080 -o"
+    "start": "serve . -l 3000 --no-clipboard",
+    "dev": "serve . -l 3000",
+    "preview": "serve . -l 8080 --no-clipboard",
+    "build": "echo Static site ready"
   },
-  "devDependencies": {
-    "http-server": "^14.1.1"
-  }
+  "dependencies": {
+    "serve": "^14.2.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "unblocked", "games", "school", "chromebook", "browser-games"
+  ]
 }
