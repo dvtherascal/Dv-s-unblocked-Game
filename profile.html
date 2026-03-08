@@ -7,167 +7,299 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-.prof-wrap{padding:20px 16px 80px;max-width:500px;margin:0 auto;}
-.prof-card{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:22px 18px;text-align:center;margin-bottom:16px;}
-.prof-avatar{width:80px;height:80px;border-radius:50%;background:var(--accent);color:#000;font-size:2rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;cursor:pointer;overflow:hidden;border:3px solid var(--yellow);position:relative;}
-.prof-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
-.prof-avatar:hover::after{content:'📷 Change';position:absolute;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;color:#fff;border-radius:50%;}
-.prof-name{font-size:1.3rem;font-weight:900;}
-.prof-sub{color:var(--muted);font-size:.82rem;margin-top:3px;}
-.prof-stats{display:flex;gap:12px;justify-content:center;margin-top:14px;}
-.stat-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 18px;text-align:center;}
-.stat-n{font-size:1.4rem;font-weight:900;color:var(--accent);}
-.stat-l{font-size:.68rem;color:var(--muted);font-weight:700;}
-.info-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:.85rem;}
-.info-row:last-child{border-bottom:none;}
-.info-label{color:var(--muted);font-weight:700;}
-.info-val{font-weight:900;}
-.sec-head{font-size:.95rem;font-weight:900;margin:18px 0 9px;}
-.hi{display:flex;align-items:center;gap:11px;background:var(--surface);border:1.5px solid var(--border);border-radius:11px;padding:9px 12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s;}
-.hi:hover{border-color:var(--accent);}
-.ht{width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;}
-.hi h4{font-size:.88rem;font-weight:900;}
-.hi p{font-size:.72rem;color:var(--muted);}
+:root{--bg:#0f0f13;--surface:#1a1a24;--surface2:#13131c;--border:#2e2e3e;--accent:#00d4ff;--text:#e8e8f0;--muted:#7878a0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;padding-top:56px;padding-bottom:70px;}
+#bgWrap{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 2s;}
+#bgWrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;transform:scale(1.2);}
+.pf-wrap{position:relative;z-index:1;max-width:600px;margin:0 auto;padding:14px 12px 80px;}
+.pf-card{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:20px 16px;margin-bottom:14px;text-align:center;}
+.pf-av-wrap{position:relative;width:88px;height:88px;margin:0 auto 12px;}
+.pf-av{width:88px;height:88px;border-radius:50%;overflow:hidden;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:2rem;color:#000;border:3px solid var(--accent);}
+.pf-av img{width:100%;height:100%;object-fit:cover;}
+.pf-av-edit{position:absolute;bottom:2px;right:2px;width:26px;height:26px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--bg);}
+.pf-username{font-size:1.2rem;font-weight:900;margin-bottom:3px;}
+.pf-name{font-size:.84rem;color:var(--muted);margin-bottom:8px;}
+.pf-stats{display:flex;justify-content:center;gap:20px;margin:12px 0;}
+.pf-stat{text-align:center;}
+.pf-stat-val{font-size:1.4rem;font-weight:900;color:var(--accent);}
+.pf-stat-lbl{font-size:.68rem;color:var(--muted);font-weight:700;}
+.section-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px;}
+.section-title{font-weight:900;font-size:.9rem;margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.pf-input{width:100%;padding:9px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:.86rem;font-family:'Nunito',sans-serif;outline:none;margin-bottom:8px;}
+.pf-input:focus{border-color:var(--accent);}
+.pf-save-btn{width:100%;padding:10px;background:var(--accent);color:#000;border:none;border-radius:10px;font-weight:900;font-size:.88rem;font-family:'Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+.pf-save-btn:hover{opacity:.9;}
+.history-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;}
+.hist-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .15s;}
+.hist-item:hover{border-color:var(--accent);}
+.hist-thumb{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
+.hist-name{font-size:.62rem;font-weight:900;padding:4px 5px;text-align:center;color:var(--text);}
+.role-display{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-weight:900;font-size:.82rem;margin:6px auto;border:1.5px solid;}
+.danger-btn{width:100%;padding:10px;background:rgba(255,71,87,.12);color:#ff4757;border:1.5px solid rgba(255,71,87,.3);border-radius:10px;font-weight:900;font-size:.88rem;font-family:'Nunito',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+.danger-btn:hover{background:rgba(255,71,87,.22);}
 </style>
 </head>
 <body>
 
-<nav class="navbar">
+<div id="bgWrap">
+  <iframe src="https://www.youtube.com/embed/Bj3qepNUFyE?autoplay=1&mute=1&loop=1&playlist=Bj3qepNUFyE&controls=0&showinfo=0&rel=0&modestbranding=1"
+    allow="autoplay; fullscreen" allowfullscreen></iframe>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" style="position:fixed;top:0;left:0;right:0;z-index:100;">
   <div class="nav-left">
-    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif"
-         style="width:34px;height:34px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="#FFD700">
+      <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5S14.67 12 15.5 12s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+    </svg>
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
   <div class="nav-right">
-    <div class="avatar-bubble" id="navAvatar">G</div>
-    <span class="nav-username" id="navUsername">—</span>
-    <button class="nav-logout" onclick="doLogout()">↩</button>
+    <div class="avatar-bubble" id="navAvatar" style="width:32px;height:32px;border-radius:50%;background:var(--accent);color:#000;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:.82rem;overflow:hidden;">G</div>
+    <span style="font-size:.82rem;font-weight:700;color:var(--muted);" id="navUsername">—</span>
+    <button onclick="doLogout()" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;" title="Sign Out">
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+    </button>
   </div>
 </nav>
 
+<!-- BOTTOM NAV -->
 <nav class="bnav">
   <a href="index.html" class="bnav-btn">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span>
   </a>
   <a href="friends.html" class="bnav-btn">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span>
+  </a>
+  <a href="groupchats.html" class="bnav-btn">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg><span>Groups</span>
+  </a>
+  <a href="reports.html" class="bnav-btn">
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg><span>Reports</span>
   </a>
   <a href="profile.html" class="bnav-btn active">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span>
   </a>
   <a href="credits.html" class="bnav-btn">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span>
+    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span>
   </a>
 </nav>
 
-<input type="file" id="pfpInput" accept="image/*" style="display:none">
+<div class="pf-wrap">
 
-<div class="prof-wrap" style="margin-top:var(--navbar-h);">
-  <div class="prof-card">
-    <div class="prof-avatar" id="profAvatar" onclick="document.getElementById('pfpInput').click()">G</div>
-    <div class="prof-name" id="profName">—</div>
-    <div class="prof-sub" id="profEmail">—</div>
-    <div class="prof-stats">
-      <div class="stat-box"><div class="stat-n" id="statPlayed">0</div><div class="stat-l">Games Played</div></div>
-      <div class="stat-box"><div class="stat-n" id="statFriends">0</div><div class="stat-l">Friends</div></div>
+  <!-- Profile card -->
+  <div class="pf-card" id="pfCard">
+    <div style="color:var(--muted);font-size:.88rem;padding:20px;">Loading profile...</div>
+  </div>
+
+  <!-- Edit profile -->
+  <div class="section-card">
+    <div class="section-title" style="color:var(--accent);">
+      <svg width="16" height="16" fill="var(--accent)" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+      Edit Profile
+    </div>
+    <input type="text" class="pf-input" id="editName" placeholder="Display name...">
+    <div style="font-size:.74rem;color:var(--muted);margin-bottom:8px;margin-top:-4px;">Username cannot be changed after sign-up.</div>
+    <button class="pf-save-btn" onclick="saveProfile()">
+      <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+      Save Changes
+    </button>
+  </div>
+
+  <!-- Change profile picture -->
+  <div class="section-card">
+    <div class="section-title" style="color:#e040fb;">
+      <svg width="16" height="16" fill="#e040fb" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+      Profile Picture
+    </div>
+    <div style="text-align:center;margin-bottom:10px;">
+      <div id="pfPreview" style="width:70px;height:70px;border-radius:50%;overflow:hidden;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.4rem;color:#000;margin:0 auto 10px;border:3px solid var(--accent);"></div>
+      <label style="display:inline-flex;align-items:center;gap:6px;background:#e040fb;color:#fff;padding:8px 16px;border-radius:9px;cursor:pointer;font-weight:900;font-size:.84rem;">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+        Choose Photo
+        <input type="file" accept="image/*" id="pfUpload" style="display:none;" onchange="previewPfp(this)">
+      </label>
+    </div>
+    <button class="pf-save-btn" style="background:#e040fb;" onclick="savePfp()">
+      <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+      Save Picture
+    </button>
+    <button class="danger-btn" style="margin-top:8px;" onclick="removePfp()">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+      Remove Picture
+    </button>
+  </div>
+
+  <!-- Play history -->
+  <div class="section-card" id="historyCard">
+    <div class="section-title" style="color:#FFD700;">
+      <svg width="16" height="16" fill="#FFD700" viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+      Play History
+    </div>
+    <div class="history-grid" id="historyGrid">
+      <div style="color:var(--muted);font-size:.8rem;grid-column:1/-1;">No history yet.</div>
     </div>
   </div>
-  <div class="prof-card" style="text-align:left;">
-    <div class="info-row"><span class="info-label">Username</span><span class="info-val" id="profUsername">—</span></div>
-    <div class="info-row"><span class="info-label">Member Since</span><span class="info-val" id="profSince">—</span></div>
+
+  <!-- Danger zone -->
+  <div class="section-card" style="border-color:rgba(255,71,87,.3);">
+    <div class="section-title" style="color:#ff4757;">
+      <svg width="16" height="16" fill="#ff4757" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+      Account
+    </div>
+    <button class="danger-btn" onclick="doLogout()">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+      Sign Out
+    </button>
   </div>
-  <div class="sec-head">🎮 Recently Played</div>
-  <div id="historyList"><p style="color:var(--muted);font-size:.85rem;">No games played yet!</p></div>
+
 </div>
 
-<!-- FIREBASE + SCRIPTS at the bottom -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="games-data.js"></script>
 <script src="firebase-config.js"></script>
 <script>
-function doLogout(){
-  auth.signOut().then(function(){ location.href='index.html'; });
-}
+var me = null;
+var newPfpData = null;
+var ROLE_RANK={owner:5,developer:4,admin:3,mod:2,helper:1,user:0};
 
-function timeAgo(ts){
-  var d=(Date.now()-ts)/1000;
-  if(d<60)return'Just now';
-  if(d<3600)return Math.floor(d/60)+'m ago';
-  if(d<86400)return Math.floor(d/3600)+'h ago';
-  return Math.floor(d/86400)+'d ago';
+function doLogout(){
+  try{localStorage.removeItem('dvs_uid');localStorage.removeItem('dvs_ts');}catch(e){}
+  auth.signOut().then(function(){location.href='index.html';});
 }
 
 auth.onAuthStateChanged(function(firebaseUser){
-  if(!firebaseUser){ location.href='index.html'; return; }
-
-  db.collection('users').doc(firebaseUser.uid).get().then(function(doc){
-    if(!doc.exists){ location.href='index.html'; return; }
-    var user = Object.assign({ uid: firebaseUser.uid }, doc.data());
-
-    // Nav
-    document.getElementById('navAvatar').innerHTML = user.pfp
-      ? '<img src="'+user.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">'
-      : user.username[0].toUpperCase();
-    document.getElementById('navUsername').textContent = user.username;
-
-    // Profile card
-    document.getElementById('profName').textContent = user.name || user.username;
-    document.getElementById('profEmail').textContent = user.email || '—';
-    document.getElementById('profUsername').textContent = '@' + user.username;
-    document.getElementById('profSince').textContent = user.since || '—';
-    document.getElementById('statPlayed').textContent = user.gamesPlayed || 0;
-    document.getElementById('statFriends').textContent = (user.friends || []).length;
-
-    // Avatar
-    var av = document.getElementById('profAvatar');
-    if(user.pfp){
-      av.innerHTML = '<img src="'+user.pfp+'">';
-    } else {
-      av.textContent = user.username[0].toUpperCase();
-    }
-
-    // History
-    var list = document.getElementById('historyList');
-    if(user.history && user.history.length > 0){
-      list.innerHTML = '';
-      user.history.forEach(function(h){
-        var g = typeof GAMES !== 'undefined' ? GAMES.find(function(g){return g.id===h.id;}) : null;
-        if(!g) return;
-        var div = document.createElement('div');
-        div.className = 'hi';
-        div.innerHTML =
-          '<img class="ht" src="'+h.thumb+'" onerror="this.style.display=\'none\'">' +
-          '<div style="flex:1;min-width:0;"><h4>'+h.name+'</h4><p>'+timeAgo(h.ts)+'</p></div>' +
-          '<div style="color:var(--muted);font-size:.76rem;flex-shrink:0;">▶ Play</div>';
-        div.addEventListener('click', function(){
-          var w = window.open('about:blank','_blank');
-          if(!w){ alert('Allow pop-ups!'); return; }
-          w.document.write('<!DOCTYPE html><html><head><title>'+g.name+'</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;background:#000}iframe{position:fixed;inset:0;width:100%;height:100%;border:none}</style></head><body><iframe src="'+g.url+'" allow="autoplay;fullscreen;gamepad" allowfullscreen></iframe></body></html>');
-          w.document.close();
-        });
-        list.appendChild(div);
-      });
-    }
-
-    // PFP upload
-    document.getElementById('pfpInput').addEventListener('change', function(e){
-      var file = e.target.files[0];
-      if(!file) return;
-      if(file.size > 2*1024*1024){ alert('Max 2MB image size!'); return; }
-      var r = new FileReader();
-      r.onload = function(ev){
-        var data = ev.target.result;
-        db.collection('users').doc(user.uid).update({ pfp: data }).then(function(){
-          document.getElementById('profAvatar').innerHTML = '<img src="'+data+'">';
-          document.getElementById('navAvatar').innerHTML = '<img src="'+data+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
-        });
-      };
-      r.readAsDataURL(file);
-    });
+  if(!firebaseUser){location.href='index.html';return;}
+  db.collection('users').doc(firebaseUser.uid).onSnapshot(function(doc){
+    if(!doc.exists){location.href='index.html';return;}
+    me=Object.assign({uid:firebaseUser.uid},doc.data());
+    renderProfile(me);
+    var bg=document.getElementById('bgWrap');if(bg)bg.style.opacity='0.18';
   });
 });
+
+function getUserRole(u){
+  if(!u)return'user';
+  if(u.role==='owner'||u.isOwner)return'owner';
+  if(u.role==='developer'||u.isDeveloper)return'developer';
+  if(u.role==='admin'||u.isAdmin)return'admin';
+  if(u.role==='mod'||u.isMod)return'mod';
+  if(u.role==='helper'||u.isHelper)return'helper';
+  return'user';
+}
+
+function renderProfile(user){
+  var role=getUserRole(user);
+  var roleColors={owner:'#FFD700',developer:'#e040fb',admin:'#00d4ff',mod:'#8e24aa',helper:'#43a047'};
+  var roleLabels={owner:'Owner',developer:'Developer',admin:'Admin',mod:'Mod',helper:'Helper'};
+  var roleIcons={
+    owner:'<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm2 3h10v2H7v-2z"/></svg>',
+    developer:'<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>',
+    admin:'<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>',
+    mod:'<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M15 13H9v2h6v-2zm2-8h-1V3h-2v2H10V3H8v2H7c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H7V10h10v11z"/></svg>',
+    helper:'<svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>'
+  };
+
+  var roleBadge=role!=='user'
+    ?'<div class="role-display" style="color:'+roleColors[role]+';border-color:'+roleColors[role]+';background:'+roleColors[role]+'18;">'+
+        roleIcons[role]+roleLabels[role]+
+      '</div>'
+    :'';
+
+  var card=document.getElementById('pfCard');
+  card.innerHTML=
+    '<div class="pf-av-wrap">'+
+      '<div class="pf-av" id="mainPfAv" style="border-color:'+(roleColors[role]||'var(--accent)')+';">'+
+        (user.pfp?'<img src="'+user.pfp+'">':user.username[0].toUpperCase())+
+      '</div>'+
+    '</div>'+
+    '<div class="pf-username">@'+escHtml(user.username||'?')+'</div>'+
+    '<div class="pf-name">'+(user.name||'')+'</div>'+
+    roleBadge+
+    '<div style="font-size:.72rem;color:var(--muted);margin-top:4px;">Member since '+escHtml(user.since||'?')+'</div>'+
+    '<div class="pf-stats">'+
+      '<div class="pf-stat"><div class="pf-stat-val">'+(user.gamesPlayed||0)+'</div><div class="pf-stat-lbl">Games Played</div></div>'+
+      '<div class="pf-stat"><div class="pf-stat-val">'+(user.friends||[]).length+'</div><div class="pf-stat-lbl">Friends</div></div>'+
+      '<div class="pf-stat"><div class="pf-stat-val">'+(user.history||[]).length+'</div><div class="pf-stat-lbl">Unique Games</div></div>'+
+    '</div>';
+
+  // Update nav
+  var av=document.getElementById('navAvatar');
+  av.innerHTML=user.pfp?'<img src="'+user.pfp+'" style="width:100%;height:100%;object-fit:cover;">':user.username[0].toUpperCase();
+  document.getElementById('navUsername').textContent=user.username;
+
+  // Pre-fill edit inputs
+  var en=document.getElementById('editName');if(en)en.value=user.name||'';
+
+  // pfp preview
+  var pv=document.getElementById('pfPreview');
+  if(pv)pv.innerHTML=user.pfp?'<img src="'+user.pfp+'" style="width:100%;height:100%;object-fit:cover;">':user.username[0].toUpperCase();
+
+  // History grid
+  var hg=document.getElementById('historyGrid');
+  if(hg){
+    var hist=user.history||[];
+    if(!hist.length){hg.innerHTML='<div style="color:var(--muted);font-size:.8rem;grid-column:1/-1;">No history yet.</div>';return;}
+    hg.innerHTML='';
+    hist.forEach(function(h){
+      var item=document.createElement('div');
+      item.className='hist-item';
+      item.innerHTML=
+        '<img class="hist-thumb" src="'+escHtml(h.thumb||'')+'" style="background:'+h.color+'" onerror="this.style.background=\''+h.color+'\';this.style.display=\'none\'">'+
+        '<div class="hist-name">'+escHtml(h.name||'')+'</div>';
+      item.title=h.name;
+      hg.appendChild(item);
+    });
+  }
+}
+
+function saveProfile(){
+  var name=(document.getElementById('editName').value||'').trim();
+  if(!name){showToast('Name cannot be empty!');return;}
+  db.collection('users').doc(me.uid).update({name:name}).then(function(){
+    showToast('Profile saved!');
+  });
+}
+
+function previewPfp(input){
+  var file=input.files[0];if(!file)return;
+  if(file.size>2*1024*1024){showToast('Image must be under 2MB!');return;}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    newPfpData=e.target.result;
+    var pv=document.getElementById('pfPreview');
+    if(pv)pv.innerHTML='<img src="'+newPfpData+'" style="width:100%;height:100%;object-fit:cover;">';
+  };
+  reader.readAsDataURL(file);
+}
+
+function savePfp(){
+  if(!newPfpData){showToast('Choose an image first!');return;}
+  db.collection('users').doc(me.uid).update({pfp:newPfpData}).then(function(){
+    showToast('Profile picture saved!');
+    newPfpData=null;
+  });
+}
+
+function removePfp(){
+  if(!confirm('Remove your profile picture?'))return;
+  db.collection('users').doc(me.uid).update({pfp:null}).then(function(){
+    newPfpData=null;
+    showToast('Profile picture removed.');
+  });
+}
+
+function showToast(msg){
+  var t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a1a24;border:2px solid var(--accent);color:var(--text);padding:11px 20px;border-radius:12px;font-family:Nunito,sans-serif;font-weight:700;font-size:.86rem;z-index:9999;max-width:300px;width:90%;text-align:center;transition:opacity .5s;';
+  t.textContent=msg;document.body.appendChild(t);
+  setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove();},500);},3000);
+}
+function escHtml(str){
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 </script>
 </body>
 </html>
