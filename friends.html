@@ -7,23 +7,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-.friends-wrap{padding:20px 14px 80px;max-width:560px;margin:0 auto;}
-.search-bar{display:flex;gap:9px;margin-bottom:18px;}
-.fs-input{flex:1;padding:10px 13px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:.9rem;font-family:'Nunito',sans-serif;outline:none;}
-.fs-input:focus{border-color:var(--accent);}
+.fw{padding:16px 14px 80px;max-width:560px;margin:0 auto;}
+.fs-bar{display:flex;gap:8px;margin-bottom:16px;}
+.fs-in{flex:1;padding:10px 13px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:.9rem;font-family:'Nunito',sans-serif;outline:none;}
+.fs-in:focus{border-color:var(--accent);}
 .fs-go{background:var(--accent);color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;}
-.sec-title{font-size:.95rem;font-weight:900;margin:14px 0 9px;color:var(--text);}
-.friend-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:11px;margin-bottom:9px;flex-wrap:wrap;}
-.friend-avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#000;font-weight:900;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
-.friend-info{flex:1;min-width:0;}
-.friend-info h4{font-size:.9rem;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.friend-info p{font-size:.72rem;color:var(--muted);margin-top:1px;}
-.fbtn{border:none;padding:6px 11px;border-radius:8px;font-weight:900;cursor:pointer;font-size:.76rem;font-family:'Nunito',sans-serif;white-space:nowrap;}
-.fbtn-add{background:var(--green);color:#000;}
-.fbtn-sent{background:var(--surface2);color:var(--muted);border:1px solid var(--border);}
-.fbtn-accept{background:#1e90ff;color:#fff;}
-.fbtn-remove{background:var(--accent2);color:#fff;}
+.sec-t{font-size:.95rem;font-weight:900;margin:14px 0 9px;}
+.fc{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:11px;margin-bottom:9px;flex-wrap:wrap;}
+.fav{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#000;font-weight:900;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.fav img{width:100%;height:100%;object-fit:cover;}
+.fi{flex:1;min-width:0;}
+.fi h4{font-size:.9rem;font-weight:900;}
+.fi p{font-size:.72rem;color:var(--muted);}
+.fbtn{border:none;padding:6px 11px;border-radius:8px;font-weight:900;cursor:pointer;font-size:.76rem;font-family:'Nunito',sans-serif;}
+.fb-add{background:var(--green);color:#000;}
+.fb-sent{background:var(--surface2);color:var(--muted);border:1px solid var(--border);}
+.fb-accept{background:#1e90ff;color:#fff;}
+.fb-remove{background:var(--accent2);color:#fff;}
+.fb-chat{background:#8e24aa;color:#fff;}
 .msg{color:var(--muted);font-size:.85rem;padding:8px 0;}
+
+/* CHAT PANEL */
+.chat-panel{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.95);display:flex;flex-direction:column;font-family:'Nunito',sans-serif;}
+.chat-panel.hidden{display:none;}
+.chat-header{background:#1a1a24;border-bottom:1px solid #2e2e3e;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;}
+.chat-msg{max-width:75%;padding:10px 14px;border-radius:14px;font-size:.88rem;line-height:1.4;word-break:break-word;}
+.chat-msg.mine{background:#00d4ff;color:#000;align-self:flex-end;border-bottom-right-radius:4px;}
+.chat-msg.theirs{background:#1a1a24;color:#e8e8f0;align-self:flex-start;border-bottom-left-radius:4px;border:1px solid #2e2e3e;}
+.chat-msg .chat-name{font-size:.68rem;font-weight:900;margin-bottom:3px;opacity:.7;}
+.chat-msg .chat-time{font-size:.62rem;opacity:.6;margin-top:4px;text-align:right;}
+.chat-input-bar{background:#1a1a24;border-top:1px solid #2e2e3e;padding:12px 16px;display:flex;gap:10px;flex-shrink:0;}
+.chat-input{flex:1;padding:10px 14px;background:#0f0f13;border:1.5px solid #2e2e3e;border-radius:999px;color:#e8e8f0;font-size:.9rem;font-family:'Nunito',sans-serif;outline:none;}
+.chat-input:focus{border-color:#00d4ff;}
+.chat-send{background:#00d4ff;color:#000;border:none;padding:10px 18px;border-radius:999px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;}
 </style>
 </head>
 <body>
@@ -39,184 +56,324 @@
   </div>
 </nav>
 <nav class="bnav">
-  <a href="index.html" class="bnav-btn">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span>
-  </a>
-  <a href="friends.html" class="bnav-btn active">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span>
-  </a>
-  <a href="profile.html" class="bnav-btn">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span>
-  </a>
-  <a href="credits.html" class="bnav-btn">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span>
-  </a>
+  <a href="index.html" class="bnav-btn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
+  <a href="friends.html" class="bnav-btn active"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span></a>
+  <a href="profile.html" class="bnav-btn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span></a>
+  <a href="credits.html" class="bnav-btn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span></a>
 </nav>
 
-<div class="friends-wrap" style="margin-top:var(--navbar-h);">
-  <div class="search-bar">
-    <input type="text" id="fsInput" class="fs-input" placeholder="🔍 Search all players...">
-    <button class="fs-go" onclick="searchUser()">Search</button>
+<!-- CHAT PANEL -->
+<div class="chat-panel hidden" id="chatPanel">
+  <div class="chat-header">
+    <button onclick="closeChat()" style="background:none;border:none;color:#e8e8f0;font-size:1.2rem;cursor:pointer;">←</button>
+    <div class="fav" id="chatAvatar" style="width:36px;height:36px;font-size:.9rem;">?</div>
+    <div>
+      <div style="font-weight:900;font-size:.95rem;" id="chatName">Chat</div>
+      <div style="font-size:.7rem;color:#7878a0;">Real-time chat</div>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input-bar">
+    <input class="chat-input" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMessage()">
+    <button class="chat-send" onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<div class="fw" style="margin-top:var(--navbar-h);">
+  <div class="fs-bar">
+    <input type="text" id="fsInput" class="fs-in" placeholder="🔍 Search all players...">
+    <button class="fs-go" onclick="searchUsers()">Search</button>
   </div>
   <div id="searchResult"></div>
-  <div class="sec-title" id="reqTitle" style="display:none">📬 Friend Requests <span style="background:#ff4757;color:#fff;font-size:.6rem;padding:2px 6px;border-radius:999px;margin-left:4px;" id="reqCount"></span></div>
+  <div class="sec-t" id="reqTitle" style="display:none">📬 Friend Requests <span id="reqCount" style="background:#ff4757;color:#fff;font-size:.6rem;padding:2px 7px;border-radius:999px;margin-left:4px;"></span></div>
   <div id="requestsList"></div>
-  <div class="sec-title">👥 All Players</div>
-  <div id="allPlayersList"></div>
-  <div class="sec-title">🤝 My Friends</div>
-  <div id="friendsList"><p class="msg">No friends yet!</p></div>
+  <div class="sec-t">👥 All Players</div>
+  <div id="allPlayersList"><p class="msg">Loading players...</p></div>
+  <div class="sec-t">🤝 My Friends</div>
+  <div id="friendsList"><p class="msg">Loading...</p></div>
 </div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
 <script>
-function getUser(){try{return JSON.parse(localStorage.getItem('dvs_user'))||null;}catch(e){return null;}}
-function getAllAccounts(){try{return JSON.parse(localStorage.getItem('dvs_accounts'))||{};}catch(e){return{};}}
-function saveAllAccounts(a){localStorage.setItem('dvs_accounts',JSON.stringify(a));}
-function saveUser(u){localStorage.setItem('dvs_user',JSON.stringify(u));}
-function doLogout(){localStorage.removeItem('dvs_user');location.href='index.html';}
+var me = null;
+var chatWithUid = null;
+var chatWithUser = null;
+var unsubChat = null;
 
-var me=null;
-
-function render(){
-  me=getUser();
-  if(!me){location.href='index.html';return;}
-  var all=getAllAccounts();
-  me=all[me.username.toLowerCase()]||me;
-  saveUser(me);
-  document.getElementById('navAvatar').innerHTML=me.pfp?'<img src="'+me.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">':me.username[0].toUpperCase();
-  document.getElementById('navUsername').textContent=me.username;
-
-  // Requests
-  var reqs=me.friendRequests||[];
-  var reqDiv=document.getElementById('requestsList');
-  var reqTitle=document.getElementById('reqTitle');
-  var reqCount=document.getElementById('reqCount');
-  reqDiv.innerHTML='';
-  if(reqs.length>0){
-    reqTitle.style.display='block';
-    reqCount.textContent=reqs.length;
-    reqs.forEach(function(un){
-      var them=all[un.toLowerCase()];
-      if(!them)return;
-      reqDiv.appendChild(makeFriendCard(them,all,'request'));
-    });
-  } else { reqTitle.style.display='none'; }
-
-  // All players
-  var allDiv=document.getElementById('allPlayersList');
-  allDiv.innerHTML='';
-  var myFriends=(me.friends||[]).map(function(f){return f.toLowerCase();});
-  var myReqs=(me.friendRequests||[]).map(function(f){return f.toLowerCase();});
-  Object.values(all).forEach(function(u){
-    if(u.username.toLowerCase()===me.username.toLowerCase()) return;
-    allDiv.appendChild(makeFriendCard(u,all,'all'));
+auth.onAuthStateChanged(function(firebaseUser){
+  if(!firebaseUser){location.href='index.html';return;}
+  db.collection('users').doc(firebaseUser.uid).get().then(function(doc){
+    if(!doc.exists){location.href='index.html';return;}
+    me = Object.assign({uid:firebaseUser.uid}, doc.data());
+    document.getElementById('navAvatar').innerHTML = me.pfp
+      ?'<img src="'+me.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">'
+      :me.username[0].toUpperCase();
+    document.getElementById('navUsername').textContent = me.username;
+    loadAll();
   });
-  if(allDiv.innerHTML==='') allDiv.innerHTML='<p class="msg">No other players have signed up yet!</p>';
+});
 
-  // Friends
-  var friends=me.friends||[];
-  var fDiv=document.getElementById('friendsList');
-  fDiv.innerHTML='';
-  if(friends.length===0){
-    fDiv.innerHTML='<p class="msg">No friends yet. Add someone above!</p>';
-  } else {
-    friends.forEach(function(un){
-      var them=all[un.toLowerCase()];
-      if(!them)return;
-      fDiv.appendChild(makeFriendCard(them,all,'friend'));
-    });
-  }
+function doLogout(){auth.signOut().then(function(){location.href='index.html';});}
+
+function getChatId(uid1, uid2){
+  return [uid1,uid2].sort().join('_');
 }
 
-function makeFriendCard(u,all,type){
-  var myFriends=(me.friends||[]).map(function(f){return f.toLowerCase();});
-  var sentTo=all[u.username.toLowerCase()];
-  var sentReq=sentTo&&(sentTo.friendRequests||[]).map(function(f){return f.toLowerCase();}).includes(me.username.toLowerCase());
-  var isFriend=myFriends.includes(u.username.toLowerCase());
-  var isReq=(me.friendRequests||[]).map(function(f){return f.toLowerCase();}).includes(u.username.toLowerCase());
-  var card=document.createElement('div');
-  card.className='friend-card';
-  var avHtml=u.pfp?'<img src="'+u.pfp+'" style="width:100%;height:100%;object-fit:cover;">':u.username[0].toUpperCase();
-  var gamesInfo=u.gamesPlayed?u.gamesPlayed+' games':'New player';
-  var btnHtml='';
-  if(type==='request'){
-    btnHtml='<button class="fbtn fbtn-accept" onclick="acceptFriend(\''+u.username+'\')">Accept</button>';
-  } else if(type==='friend'){
-    btnHtml='<button class="fbtn fbtn-remove" onclick="removeFriend(\''+u.username+'\')">Remove</button>';
-  } else {
-    if(isFriend) btnHtml='<button class="fbtn fbtn-sent">Friends ✓</button>';
-    else if(isReq) btnHtml='<button class="fbtn fbtn-accept" onclick="acceptFriend(\''+u.username+'\')">Accept</button>';
-    else if(sentReq) btnHtml='<button class="fbtn fbtn-sent">Sent ✓</button>';
-    else btnHtml='<button class="fbtn fbtn-add" onclick="sendRequest(\''+u.username+'\')">+ Add</button>';
-  }
-  card.innerHTML='<div class="friend-avatar">'+avHtml+'</div><div class="friend-info"><h4>@'+u.username+'</h4><p>'+u.name+' • '+gamesInfo+'</p></div>'+btnHtml;
+function openChat(friendUid, friendData){
+  chatWithUid = friendUid;
+  chatWithUser = friendData;
+  document.getElementById('chatName').textContent = '@'+friendData.username;
+  var av = document.getElementById('chatAvatar');
+  av.innerHTML = friendData.pfp
+    ?'<img src="'+friendData.pfp+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
+    :(friendData.username||'?')[0].toUpperCase();
+  document.getElementById('chatPanel').classList.remove('hidden');
+  document.getElementById('chatMessages').innerHTML='<p style="color:#7878a0;text-align:center;font-size:.82rem;padding:20px;">Loading messages...</p>';
+
+  if(unsubChat) unsubChat();
+  var chatId = getChatId(me.uid, friendUid);
+  unsubChat = db.collection('chats').doc(chatId).collection('messages')
+    .orderBy('ts','asc').limit(100)
+    .onSnapshot(function(snap){
+      var msgs = document.getElementById('chatMessages');
+      msgs.innerHTML='';
+      snap.forEach(function(doc){
+        var d = doc.data();
+        var isMine = d.senderUid === me.uid;
+        var div = document.createElement('div');
+        div.className = 'chat-msg '+(isMine?'mine':'theirs');
+        var time = d.ts ? new Date(d.ts.toMillis()).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : '';
+        div.innerHTML = (!isMine?'<div class="chat-name">@'+d.senderUsername+'</div>':'')+
+          '<div>'+escHtml(d.text)+'</div>'+
+          '<div class="chat-time">'+time+'</div>';
+        msgs.appendChild(div);
+      });
+      msgs.scrollTop = msgs.scrollHeight;
+    });
+
+  // Mark notifications as read
+  db.collection('users').doc(me.uid).collection('notifications')
+    .where('fromUid','==',friendUid).where('read','==',false).get()
+    .then(function(snap){
+      snap.forEach(function(doc){doc.ref.update({read:true});});
+    });
+}
+
+function closeChat(){
+  document.getElementById('chatPanel').classList.add('hidden');
+  if(unsubChat){unsubChat();unsubChat=null;}
+  chatWithUid=null;chatWithUser=null;
+}
+
+function sendMessage(){
+  var input = document.getElementById('chatInput');
+  var text = (input.value||'').trim();
+  if(!text||!chatWithUid)return;
+  input.value='';
+  var chatId = getChatId(me.uid, chatWithUid);
+  db.collection('chats').doc(chatId).collection('messages').add({
+    senderUid: me.uid,
+    senderUsername: me.username,
+    text: text,
+    ts: firebase.firestore.FieldValue.serverTimestamp()
+  });
+  // Send notification to recipient
+  db.collection('users').doc(chatWithUid).collection('notifications').add({
+    message: '💬 @'+me.username+': '+text.substring(0,50)+(text.length>50?'...':''),
+    type: 'message',
+    fromUid: me.uid,
+    read: false,
+    ts: firebase.firestore.FieldValue.serverTimestamp()
+  });
+}
+
+function escHtml(str){
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function loadAll(){
+  loadAllPlayers();
+  loadFriends();
+  loadRequests();
+}
+
+function loadAllPlayers(){
+  db.collection('users').orderBy('createdAt','desc').limit(50).get().then(function(snap){
+    var div = document.getElementById('allPlayersList');
+    div.innerHTML='';
+    snap.forEach(function(doc){
+      var u = Object.assign({uid:doc.id},doc.data());
+      if(u.uid===me.uid)return;
+      div.appendChild(makePlayerCard(u));
+    });
+    if(div.innerHTML==='') div.innerHTML='<p class="msg">No other players yet!</p>';
+  });
+}
+
+function loadFriends(){
+  var friends = me.friends||[];
+  var div = document.getElementById('friendsList');
+  if(friends.length===0){div.innerHTML='<p class="msg">No friends yet!</p>';return;}
+  div.innerHTML='';
+  friends.forEach(function(uid){
+    db.collection('users').doc(uid).get().then(function(doc){
+      if(!doc.exists)return;
+      var u=Object.assign({uid:doc.id},doc.data());
+      div.appendChild(makeFriendCard(u));
+    });
+  });
+}
+
+function loadRequests(){
+  var reqs = me.friendRequests||[];
+  var div = document.getElementById('requestsList');
+  var title = document.getElementById('reqTitle');
+  var count = document.getElementById('reqCount');
+  div.innerHTML='';
+  if(reqs.length===0){title.style.display='none';return;}
+  title.style.display='block';
+  count.textContent=reqs.length;
+  reqs.forEach(function(uid){
+    db.collection('users').doc(uid).get().then(function(doc){
+      if(!doc.exists)return;
+      var u=Object.assign({uid:doc.id},doc.data());
+      var card=makeBaseCard(u);
+      var btn=document.createElement('button');
+      btn.className='fbtn fb-accept';btn.textContent='Accept';
+      btn.onclick=function(){acceptFriend(u.uid);};
+      card.appendChild(btn);
+      div.appendChild(card);
+    });
+  });
+}
+
+function makeBaseCard(u){
+  var card=document.createElement('div');card.className='fc';
+  var av=document.createElement('div');av.className='fav';
+  av.innerHTML=u.pfp?'<img src="'+u.pfp+'">':( u.username||'?')[0].toUpperCase();
+  var info=document.createElement('div');info.className='fi';
+  info.innerHTML='<h4>@'+u.username+'</h4><p>'+u.name+' • '+(u.gamesPlayed||0)+' games played</p>';
+  card.appendChild(av);card.appendChild(info);
   return card;
 }
 
-function searchUser(){
+function makePlayerCard(u){
+  var card=makeBaseCard(u);
+  var myFriends=me.friends||[];
+  var myReqs=me.friendRequests||[];
+  var isFriend=myFriends.includes(u.uid);
+  var isReq=myReqs.includes(u.uid);
+
+  // Check if I already sent them a request
+  var sentReq=(u.friendRequests||[]).includes(me.uid);
+
+  if(isFriend){
+    var chatBtn=document.createElement('button');
+    chatBtn.className='fbtn fb-chat';chatBtn.textContent='💬 Chat';
+    chatBtn.onclick=function(){openChat(u.uid,u);};
+    card.appendChild(chatBtn);
+    var remBtn=document.createElement('button');
+    remBtn.className='fbtn fb-remove';remBtn.textContent='Remove';
+    remBtn.onclick=function(){removeFriend(u.uid);};
+    card.appendChild(remBtn);
+  } else if(isReq){
+    var accBtn=document.createElement('button');
+    accBtn.className='fbtn fb-accept';accBtn.textContent='Accept';
+    accBtn.onclick=function(){acceptFriend(u.uid);};
+    card.appendChild(accBtn);
+  } else if(sentReq){
+    var sentBtn=document.createElement('button');
+    sentBtn.className='fbtn fb-sent';sentBtn.textContent='Sent ✓';
+    card.appendChild(sentBtn);
+  } else {
+    var addBtn=document.createElement('button');
+    addBtn.className='fbtn fb-add';addBtn.textContent='+ Add';
+    addBtn.onclick=function(){sendRequest(u.uid,u.username);};
+    card.appendChild(addBtn);
+  }
+  return card;
+}
+
+function makeFriendCard(u){
+  var card=makeBaseCard(u);
+  var chatBtn=document.createElement('button');
+  chatBtn.className='fbtn fb-chat';chatBtn.textContent='💬 Chat';
+  chatBtn.onclick=function(){openChat(u.uid,u);};
+  card.appendChild(chatBtn);
+  var remBtn=document.createElement('button');
+  remBtn.className='fbtn fb-remove';remBtn.textContent='Remove';
+  remBtn.onclick=function(){removeFriend(u.uid);};
+  card.appendChild(remBtn);
+  return card;
+}
+
+function searchUsers(){
   var q=(document.getElementById('fsInput').value||'').trim().toLowerCase();
   var res=document.getElementById('searchResult');
   res.innerHTML='';
   if(!q)return;
-  var all=getAllAccounts();
-  var results=Object.values(all).filter(function(u){
-    return u.username.toLowerCase().includes(q)||u.name.toLowerCase().includes(q);
+  db.collection('users').orderBy('usernameLower').startAt(q).endAt(q+'\uf8ff').limit(10).get().then(function(snap){
+    if(snap.empty){res.innerHTML='<p class="msg">No users found.</p>';return;}
+    snap.forEach(function(doc){
+      var u=Object.assign({uid:doc.id},doc.data());
+      if(u.uid===me.uid)return;
+      res.appendChild(makePlayerCard(u));
+    });
   });
-  if(results.length===0){res.innerHTML='<p class="msg">No users found.</p>';return;}
-  results.forEach(function(u){
-    if(u.username.toLowerCase()===me.username.toLowerCase())return;
-    res.appendChild(makeFriendCard(u,all,'all'));
+}
+
+function sendRequest(toUid,toUsername){
+  db.collection('users').doc(toUid).update({
+    friendRequests: firebase.firestore.FieldValue.arrayUnion(me.uid)
+  }).then(function(){
+    db.collection('users').doc(toUid).collection('notifications').add({
+      message:'👋 @'+me.username+' sent you a friend request!',
+      type:'info', read:false,
+      ts:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    loadAllPlayers();
   });
 }
 
-function sendRequest(toUsername){
-  var all=getAllAccounts();
-  var them=all[toUsername.toLowerCase()];
-  if(!them)return;
-  them.friendRequests=them.friendRequests||[];
-  if(!them.friendRequests.map(function(f){return f.toLowerCase();}).includes(me.username.toLowerCase()))
-    them.friendRequests.push(me.username);
-  all[toUsername.toLowerCase()]=them;
-  saveAllAccounts(all);
-  render();
-  document.getElementById('searchResult').innerHTML='';
+function acceptFriend(fromUid){
+  var batch=db.batch();
+  batch.update(db.collection('users').doc(me.uid),{
+    friends:firebase.firestore.FieldValue.arrayUnion(fromUid),
+    friendRequests:firebase.firestore.FieldValue.arrayRemove(fromUid)
+  });
+  batch.update(db.collection('users').doc(fromUid),{
+    friends:firebase.firestore.FieldValue.arrayUnion(me.uid)
+  });
+  batch.commit().then(function(){
+    db.collection('users').doc(fromUid).collection('notifications').add({
+      message:'🤝 @'+me.username+' accepted your friend request!',
+      type:'info',read:false,
+      ts:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    me.friends=(me.friends||[]).concat([fromUid]);
+    me.friendRequests=(me.friendRequests||[]).filter(function(u){return u!==fromUid;});
+    loadAll();
+  });
 }
 
-function acceptFriend(fromUsername){
-  var all=getAllAccounts();
-  me=all[me.username.toLowerCase()]||me;
-  me.friends=me.friends||[];
-  me.friendRequests=(me.friendRequests||[]).filter(function(f){return f.toLowerCase()!==fromUsername.toLowerCase();});
-  if(!me.friends.map(function(f){return f.toLowerCase();}).includes(fromUsername.toLowerCase()))
-    me.friends.push(fromUsername);
-  var them=all[fromUsername.toLowerCase()];
-  if(them){
-    them.friends=them.friends||[];
-    if(!them.friends.map(function(f){return f.toLowerCase();}).includes(me.username.toLowerCase()))
-      them.friends.push(me.username);
-    all[fromUsername.toLowerCase()]=them;
-  }
-  all[me.username.toLowerCase()]=me;
-  saveAllAccounts(all);
-  saveUser(me);
-  render();
+function removeFriend(friendUid){
+  var batch=db.batch();
+  batch.update(db.collection('users').doc(me.uid),{
+    friends:firebase.firestore.FieldValue.arrayRemove(friendUid)
+  });
+  batch.update(db.collection('users').doc(friendUid),{
+    friends:firebase.firestore.FieldValue.arrayRemove(me.uid)
+  });
+  batch.commit().then(function(){
+    me.friends=(me.friends||[]).filter(function(u){return u!==friendUid;});
+    loadAll();
+  });
 }
 
-function removeFriend(username){
-  var all=getAllAccounts();
-  me=all[me.username.toLowerCase()]||me;
-  me.friends=(me.friends||[]).filter(function(f){return f.toLowerCase()!==username.toLowerCase();});
-  var them=all[username.toLowerCase()];
-  if(them){
-    them.friends=(them.friends||[]).filter(function(f){return f.toLowerCase()!==me.username.toLowerCase();});
-    all[username.toLowerCase()]=them;
-  }
-  all[me.username.toLowerCase()]=me;
-  saveAllAccounts(all);
-  saveUser(me);
-  render();
-}
-
-document.getElementById('fsInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchUser();});
-render();
+document.getElementById('fsInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchUsers();});
 </script>
 </body>
 </html>
