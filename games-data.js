@@ -11,18 +11,18 @@ const GAMES = [
   },
   {
     id: "slope", name: "Slope", desc: "Roll a neon ball, don't fall off!", hot: true, isNew: false,
-    url: "https://slope-ball.github.io/",
+    url: "https://sz-games.github.io/Slope.html",
     thumb: "https://play-lh.googleusercontent.com/FFrKIqKVpB9HMpaaF0HUc5Sza5W2sM8GFZGfkddU39xPcKCa4BYXQghoWVGlQGpaAA=w526-h296-rw", color: "#0a0020"
   },
   {
     id: "drifthunters", name: "Drift Hunters", desc: "Drift epic cars on wild tracks.", hot: false, isNew: false,
-    url: "https://drifthunters.io/",
+    url: "https://drifthunters.github.io/",
     thumb: "https://imgs.crazygames.com/games/drift-hunters/cover-1656950639575.png?metadata=none&quality=100&width=1200&height=630&fit=crop", color: "#1a0500"
   },
   {
-    id: "motox3m", name: "Moto X3M", desc: "Crazy motorcycle stunt tracks.", hot: false, isNew: false,
-    url: "https://motox3m.github.io/",
-    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDIPyyTpUGYaOTHiRolgG9HRcgYJxrdfHMC9IilRXoNHz4ql7oEXlru4s&s=10", color: "#1b0000"
+    id: "motox3mWinter", name: "Moto X3M Winter", desc: "Crazy motorcycle stunt tracks.", hot: false, isNew: false,
+    url: "https://oto-3-nter.vercel.app/",
+    thumb: "https://www.coolmathgames.com/sites/default/files/MotoX3M-Winter_OG-logo.jpg", color: "#1b0000"
   },
   {
     id: "cookieclicker", name: "Cookie Clicker", desc: "Click cookies, build an empire.", hot: false, isNew: false,
