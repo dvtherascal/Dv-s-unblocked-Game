@@ -1,34 +1,27 @@
 var currentGame = null;
 var ADMIN_CODE = "DvRascals";
-var BLOCKED_KEY = "dvs_blocked_games";
-var BANNED_KEY = "dvs_banned";
-var KICKED_KEY = "dvs_kicked";
-var SESSION_KEY = "dvs_session_active";
+var currentUser = null;
+var unsubNotifs = null;
+var _blockedGames = [];
 
-// ── Storage ──
-function getUser(){try{return JSON.parse(localStorage.getItem('dvs_user'))||null;}catch(e){return null;}}
-function saveUser(u){localStorage.setItem('dvs_user',JSON.stringify(u));}
-function getAllAccounts(){try{return JSON.parse(localStorage.getItem('dvs_accounts'))||{};}catch(e){return{};}}
-function saveAllAccounts(a){localStorage.setItem('dvs_accounts',JSON.stringify(a));}
-function getBlockedGames(){try{return JSON.parse(localStorage.getItem(BLOCKED_KEY))||[];}catch(e){return[];}}
-function saveBlockedGames(b){localStorage.setItem(BLOCKED_KEY,JSON.stringify(b));}
-function getBanned(){try{return JSON.parse(localStorage.getItem(BANNED_KEY))||[];}catch(e){return[];}}
-function saveBanned(b){localStorage.setItem(BANNED_KEY,JSON.stringify(b));}
-function getKicked(){try{return JSON.parse(localStorage.getItem(KICKED_KEY))||[];}catch(e){return[];}}
-function saveKicked(k){localStorage.setItem(KICKED_KEY,JSON.stringify(k));}
-function isAdmin(u){return u&&u.isAdmin===true;}
+// ── GLOBAL BLOCKED GAMES via Firebase ──
+function getBlockedGames(){ return _blockedGames; }
 
-// ── SESSION PERSISTENCE FIX ──
-// Use sessionStorage to track if user was already booted this tab session
-// This prevents the modal flashing when switching tabs
-function getSessionBooted(){return sessionStorage.getItem('dvs_booted')==='1';}
-function setSessionBooted(){sessionStorage.setItem('dvs_booted','1');}
-function clearSessionBooted(){sessionStorage.removeItem('dvs_booted');}
+function saveBlockedGames(arr){
+  _blockedGames = arr;
+  db.collection('settings').doc('blockedGames').set({ ids: arr });
+}
 
-// ── SPACE BG ──
-function showSpaceBg(){
-  var bg = document.getElementById('bgWrap');
-  if(bg) bg.style.opacity = '0.18';
+function listenBlockedGames(){
+  db.collection('settings').doc('blockedGames').onSnapshot(function(doc){
+    _blockedGames = doc.exists ? (doc.data().ids || []) : [];
+    // Re-render live so blocked overlay updates instantly for everyone
+    if(currentUser) renderUserPage(currentUser);
+    else renderGuestGrid();
+    // Also refresh admin game list if panel is open
+    var apg = document.getElementById('apGameList');
+    if(apg) apg.innerHTML = renderAdminGameRows();
+  });
 }
 
 // ── MUSIC ──
@@ -37,7 +30,7 @@ function startMusic(){
   if(_musicStarted) return;
   var m = document.getElementById('bgMusic');
   if(!m) return;
-  m.volume = 0.18;
+  m.volume = 0.18; m.loop = true;
   m.play().then(function(){_musicStarted=true;}).catch(function(){
     document.addEventListener('click',function once(){
       m.play().catch(function(){});
@@ -45,6 +38,111 @@ function startMusic(){
       document.removeEventListener('click',once);
     },{once:true});
   });
+}
+
+// ── SPACE BG ──
+function showSpaceBg(){
+  var bg = document.getElementById('bgWrap');
+  if(bg) bg.style.opacity='0.18';
+}
+
+// ── AUTH STATE ──
+auth.onAuthStateChanged(function(firebaseUser){
+  if(firebaseUser){
+    db.collection('users').doc(firebaseUser.uid).get().then(function(doc){
+      if(doc.exists){
+        currentUser = doc.data();
+        currentUser.uid = firebaseUser.uid;
+        bootSignedIn(currentUser);
+        listenForNotifications(firebaseUser.uid);
+        listenForKick(firebaseUser.uid);
+        setInterval(function(){updateLastSeen(firebaseUser.uid);}, 60000);
+      } else {
+        auth.signOut();
+        showLoginModal();
+      }
+    });
+  } else {
+    currentUser = null;
+    showLoginModal();
+  }
+  startMusic();
+  listenBlockedGames();
+});
+
+function updateLastSeen(uid){
+  db.collection('users').doc(uid).update({lastSeen: firebase.firestore.FieldValue.serverTimestamp()});
+}
+
+// ── NOTIFICATIONS ──
+function listenForNotifications(uid){
+  if(unsubNotifs) unsubNotifs();
+  unsubNotifs = db.collection('users').doc(uid)
+    .collection('notifications')
+    .where('read','==',false)
+    .orderBy('ts','desc')
+    .limit(20)
+    .onSnapshot(function(snap){
+      var count = snap.size;
+      updateNotifBadge(count);
+      snap.docChanges().forEach(function(change){
+        if(change.type==='added'){
+          var n = change.doc.data();
+          showNotifToast(n.message, n.type||'info');
+        }
+      });
+    });
+}
+
+function updateNotifBadge(count){
+  var badge = document.getElementById('notifBadge');
+  if(!badge) return;
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'flex' : 'none';
+}
+
+function showNotifToast(message, type){
+  var toast = document.createElement('div');
+  var colors = {info:'#00d4ff', message:'#2ed573', update:'#FFD700', warning:'#ff4757'};
+  var color = colors[type]||colors.info;
+  toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a1a24;border:2px solid '+color+';color:#e8e8f0;padding:12px 20px;border-radius:12px;font-family:Nunito,sans-serif;font-weight:700;font-size:.88rem;z-index:9999;max-width:320px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.5);';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(function(){
+    toast.style.opacity='0';
+    toast.style.transition='opacity .5s';
+    setTimeout(function(){toast.remove();},500);
+  }, 4000);
+}
+
+function sendNotification(toUid, message, type){
+  db.collection('users').doc(toUid).collection('notifications').add({
+    message: message,
+    type: type||'info',
+    read: false,
+    ts: firebase.firestore.FieldValue.serverTimestamp()
+  });
+}
+
+function sendGlobalNotification(message, type){
+  db.collection('users').get().then(function(snap){
+    var batch = db.batch();
+    snap.forEach(function(doc){
+      var ref = db.collection('users').doc(doc.id).collection('notifications').doc();
+      batch.set(ref,{message:message, type:type||'update', read:false, ts:firebase.firestore.FieldValue.serverTimestamp()});
+    });
+    batch.commit();
+  });
+}
+
+// ── SHOW LOGIN MODAL ──
+function showLoginModal(){
+  var modal = document.getElementById('loginModal');
+  if(modal) modal.classList.remove('hidden');
+  var uv = document.getElementById('userView');
+  var gv = document.getElementById('guestView');
+  if(uv) uv.style.display='none';
+  if(gv) gv.style.display='none';
 }
 
 // ── LOGIN ──
@@ -60,120 +158,91 @@ function doLogin(){
   if(!username||username.length<2){err.textContent='Username must be at least 2 chars!';return;}
   if(!/^[a-zA-Z0-9_]+$/.test(username)){err.textContent='Letters, numbers and _ only!';return;}
 
-  var all = getAllAccounts();
-  var key = username.toLowerCase();
-  var emailLow = email.toLowerCase();
+  err.textContent='Signing in...';
+  var isAdminUser = secret===ADMIN_CODE;
 
-  var emailOwner = Object.values(all).find(function(u){
-    return u.email && u.email.toLowerCase()===emailLow;
+  db.collection('users').where('usernameLower','==',username.toLowerCase()).get().then(function(snap){
+    if(!snap.empty){
+      var existingData = snap.docs[0].data();
+      if(existingData.email && existingData.email.toLowerCase()!==email.toLowerCase()){
+        err.textContent='Username taken! Try another.'; return;
+      }
+      var password = username+'_dvs_2025_'+email.split('@')[0];
+      auth.signInWithEmailAndPassword(email, password).catch(function(){
+        signUpFirebase(name, email, username, isAdminUser);
+      });
+    } else {
+      signUpFirebase(name, email, username, isAdminUser);
+    }
+  }).catch(function(e){
+    err.textContent='Error: '+e.message;
   });
-  if(emailOwner && emailOwner.username.toLowerCase()!==key){
-    err.textContent='That email is already used by @'+emailOwner.username; return;
-  }
+}
 
-  if(getBanned().includes(key)){err.textContent='This account has been banned.';return;}
+function signUpFirebase(name, email, username, isAdminUser){
+  var err = document.getElementById('loginError');
+  var password = username+'_dvs_2025_'+email.split('@')[0];
 
-  var existing = all[key];
-  if(existing && existing.email && existing.email.toLowerCase()!==emailLow){
-    err.textContent='Username taken! Try another.'; return;
-  }
-
-  var user = existing || {
-    username:username, name:name, email:email,
-    since:new Date().toLocaleDateString(),
-    gamesPlayed:0, history:[], friends:[], friendRequests:[],
-    pfp:null, isAdmin:false, lastSeen:Date.now()
-  };
-  user.name = name;
-  user.email = email;
-  user.lastSeen = Date.now();
-  if(secret===ADMIN_CODE) user.isAdmin = true;
-
-  saveUser(user);
-  all[key] = user;
-  saveAllAccounts(all);
-  setSessionBooted();
-
-  document.getElementById('loginModal').classList.add('hidden');
-  bootSignedIn(user);
+  auth.createUserWithEmailAndPassword(email, password).then(function(cred){
+    var uid = cred.user.uid;
+    var userData = {
+      uid: uid,
+      username: username,
+      usernameLower: username.toLowerCase(),
+      name: name,
+      email: email,
+      since: new Date().toLocaleDateString(),
+      gamesPlayed: 0,
+      history: [],
+      friends: [],
+      friendRequests: [],
+      pfp: null,
+      isAdmin: isAdminUser,
+      banned: false,
+      lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    return db.collection('users').doc(uid).set(userData);
+  }).then(function(){
+    document.getElementById('loginModal').classList.add('hidden');
+  }).catch(function(e){
+    if(e.code==='auth/email-already-in-use'){
+      var password = username+'_dvs_2025_'+email.split('@')[0];
+      auth.signInWithEmailAndPassword(email, password).catch(function(e2){
+        err.textContent='Error signing in: '+e2.message;
+      });
+    } else {
+      err.textContent='Error: '+e.message;
+    }
+  });
 }
 
 function doGuest(){
   document.getElementById('loginModal').classList.add('hidden');
-  setSessionBooted();
   bootGuest();
 }
 
 function doLogout(){
-  var u = getUser();
-  if(u){
-    var all=getAllAccounts();
-    u.lastSeen=Date.now();
-    all[u.username.toLowerCase()]=u;
-    saveAllAccounts(all);
-  }
-  localStorage.removeItem('dvs_user');
-  clearSessionBooted();
-  // Reset UI without reloading
-  document.getElementById('userView').style.display='none';
-  document.getElementById('guestView').style.display='none';
-  document.getElementById('friendsNavBtn').style.display='none';
-  document.getElementById('profileNavBtn').style.display='none';
-  document.getElementById('creditsNavBtn').style.display='none';
-  document.getElementById('adminNavBtn').style.display='none';
-  document.getElementById('navLogoutBtn').style.display='none';
-  document.getElementById('navMid').style.display='none';
-  document.getElementById('navAvatar').innerHTML='G';
-  document.getElementById('navUsername').textContent='Guest';
-  document.getElementById('bgWrap').style.opacity='0';
-  document.getElementById('loginModal').classList.remove('hidden');
-}
-
-// ── KICK CHECK ──
-function checkKicked(){
-  var u=getUser();
-  if(!u)return;
-  if(getKicked().includes(u.username.toLowerCase())){
-    localStorage.removeItem('dvs_user');
-    clearSessionBooted();
-    alert('You have been kicked by an admin.');
-    location.reload();
-  }
-}
-
-// ── INIT — THE KEY FIX FOR TAB SWITCHING ──
-(function init(){
-  // Always check localStorage first — if user data exists, boot them in silently
-  // This is what was causing the flash — we were re-checking on every page load
-  var user = getUser();
-
-  if(user){
-    // Refresh from accounts store
-    var all = getAllAccounts();
-    var fresh = all[user.username.toLowerCase()];
-    if(fresh){saveUser(fresh); user=fresh;}
-
-    // Check banned
-    if(getBanned().includes(user.username.toLowerCase())){
-      localStorage.removeItem('dvs_user');
-      clearSessionBooted();
-      document.getElementById('loginModal').classList.remove('hidden');
-      return;
-    }
-
-    // Boot signed in — NO modal shown, NO flash
-    setSessionBooted();
-    bootSignedIn(user);
-    setInterval(checkKicked,5000);
-
-  } else {
-    // No saved user — show login
+  if(unsubNotifs) unsubNotifs();
+  auth.signOut().then(function(){
+    currentUser = null;
+    document.getElementById('userView').style.display='none';
+    document.getElementById('guestView').style.display='none';
+    document.getElementById('friendsNavBtn').style.display='none';
+    document.getElementById('profileNavBtn').style.display='none';
+    document.getElementById('creditsNavBtn').style.display='none';
+    document.getElementById('adminNavBtn').style.display='none';
+    document.getElementById('notifBtn').style.display='none';
+    document.getElementById('navLogoutBtn').style.display='none';
+    document.getElementById('navMid').style.display='none';
+    document.getElementById('navAvatar').innerHTML='G';
+    document.getElementById('navUsername').textContent='Guest';
+    document.getElementById('bgWrap').style.opacity='0';
     document.getElementById('loginModal').classList.remove('hidden');
-  }
+  });
+}
 
-  startMusic();
-})();
-
+// ── BOOT ──
 function bootSignedIn(user){
   document.getElementById('loginModal').classList.add('hidden');
   document.getElementById('guestView').style.display='none';
@@ -183,13 +252,10 @@ function bootSignedIn(user){
   document.getElementById('creditsNavBtn').style.display='flex';
   document.getElementById('navLogoutBtn').style.display='block';
   document.getElementById('navMid').style.display='flex';
+  document.getElementById('notifBtn').style.display='flex';
 
-  // Show admin button in navbar if admin
-  if(isAdmin(user)){
+  if(user.isAdmin){
     document.getElementById('adminNavBtn').style.display='flex';
-    document.getElementById('adminNavBtn').style.alignItems='center';
-  } else {
-    document.getElementById('adminNavBtn').style.display='none';
   }
 
   renderNav(user);
@@ -199,16 +265,16 @@ function bootSignedIn(user){
 }
 
 function bootGuest(){
-  document.getElementById('loginModal').classList.add('hidden');
   document.getElementById('guestView').style.display='block';
   document.getElementById('userView').style.display='none';
-  document.getElementById('navUsername').textContent='Guest';
-  document.getElementById('navAvatar').innerHTML='G';
-  document.getElementById('navLogoutBtn').style.display='block';
   document.getElementById('friendsNavBtn').style.display='none';
   document.getElementById('profileNavBtn').style.display='none';
   document.getElementById('creditsNavBtn').style.display='none';
   document.getElementById('adminNavBtn').style.display='none';
+  document.getElementById('notifBtn').style.display='none';
+  document.getElementById('navLogoutBtn').style.display='block';
+  document.getElementById('navAvatar').innerHTML='G';
+  document.getElementById('navUsername').textContent='Guest';
   renderGuestGrid();
   startMusic();
 }
@@ -216,106 +282,99 @@ function bootGuest(){
 function renderNav(user){
   document.getElementById('navUsername').textContent=user.username||'Guest';
   var av=document.getElementById('navAvatar');
-  if(user.pfp){
-    av.innerHTML='<img src="'+user.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
-  } else {
-    av.innerHTML=(user.username||'G')[0].toUpperCase();
-  }
-  document.getElementById('heroName').textContent=user.name||user.username||'Player';
+  av.innerHTML=user.pfp
+    ?'<img src="'+user.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">'
+    :(user.username||'G')[0].toUpperCase();
+  var hn=document.getElementById('heroName');
+  if(hn) hn.textContent=user.name||user.username||'Player';
 }
 
 // ── ADMIN PANEL ──
 function showAdminPanel(){
   var existing=document.getElementById('adminPanel');
   if(existing){existing.remove();return;}
-  renderAdminPanel();
-}
-
-function renderAdminPanel(){
-  var ep=document.getElementById('adminPanel');
-  if(ep)ep.remove();
-
-  var all=getAllAccounts();
-  var banned=getBanned();
-  var blocked=getBlockedGames();
-  var myKey=(getUser()||{username:''}).username.toLowerCase();
-  var users=Object.values(all);
 
   var panel=document.createElement('div');
   panel.id='adminPanel';
   panel.style.cssText='position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.97);overflow-y:auto;font-family:Nunito,sans-serif;color:#e8e8f0;';
-
-  var userRowsHtml = users.length===0
-    ? '<p style="color:#7878a0;padding:12px 0;">No registered users yet.</p>'
-    : users.map(function(u){
-        var k=u.username.toLowerCase();
-        var isBanned=banned.includes(k);
-        var isSelf=k===myKey;
-        var statusColor=isBanned?'#ff4757':isSelf?'#2ed573':'#00d4ff';
-        var statusLabel=isBanned?'BANNED':isSelf?'YOU':'ACTIVE';
-        return '<div class="ap-row" data-username="'+k+'" data-name="'+(u.name||'').toLowerCase()+'">' +
-          '<div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;">' +
-            '<div style="width:40px;height:40px;border-radius:50%;background:'+statusColor+';color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;overflow:hidden;">' +
-              (u.pfp?'<img src="'+u.pfp+'" style="width:100%;height:100%;object-fit:cover;">':u.username[0].toUpperCase())+
-            '</div>' +
-            '<div style="min-width:0;flex:1;">' +
-              '<div style="font-weight:900;font-size:.9rem;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">'+
-                '@'+u.username+
-                ' <span style="font-size:.58rem;background:'+statusColor+';color:#000;padding:1px 7px;border-radius:4px;font-weight:900;">'+statusLabel+'</span>'+
-                (u.isAdmin?'<span style="font-size:.58rem;background:#FFD700;color:#000;padding:1px 7px;border-radius:4px;font-weight:900;">ADMIN</span>':'')+
-              '</div>'+
-              '<div style="font-size:.72rem;color:#aaa;margin-top:1px;">'+u.name+' • '+u.email+'</div>'+
-              '<div style="font-size:.67rem;color:#666;">Last seen: '+(u.lastSeen?timeAgo(u.lastSeen):'Never')+' • '+(u.gamesPlayed||0)+' games played</div>'+
-            '</div>'+
-          '</div>'+
-          '<div style="display:flex;gap:5px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;">' +
-            (isSelf ? '' :
-              (isBanned
-                ? '<button onclick="apUnban(\''+u.username+'\')" style="background:#2ed573;color:#000;border:none;padding:6px 11px;border-radius:7px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.76rem;">Unban</button>'
-                : '<button onclick="apBan(\''+u.username+'\')" style="background:#ff4757;color:#fff;border:none;padding:6px 11px;border-radius:7px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.76rem;">Ban</button>') +
-              '<button onclick="apKick(\''+u.username+'\')" style="background:#ff6b35;color:#fff;border:none;padding:6px 11px;border-radius:7px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.76rem;">Kick</button>'
-            ) +
-          '</div>'+
-        '</div>';
-      }).join('');
-
-  var gameRowsHtml = GAMES.map(function(g){
-    var isBlocked=blocked.includes(g.id);
-    return '<div style="display:flex;align-items:center;gap:10px;background:#13131c;border:1px solid #2e2e3e;border-radius:9px;padding:8px 12px;margin-bottom:7px;">' +
-      '<img src="'+g.thumb+'" style="width:38px;height:38px;border-radius:7px;object-fit:cover;flex-shrink:0;" onerror="this.style.display=\'none\'">' +
-      '<div style="flex:1;font-weight:900;font-size:.88rem;">'+g.name+'</div>'+
-      (isBlocked
-        ? '<span style="color:#ff4757;font-size:.72rem;margin-right:5px;">🚫 BLOCKED</span><button onclick="apUnblockGame(\''+g.id+'\')" style="background:#2ed573;color:#000;border:none;padding:5px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">Unblock</button>'
-        : '<button onclick="apBlockGame(\''+g.id+'\')" style="background:#ff6b35;color:#fff;border:none;padding:5px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">Block</button>') +
+  panel.innerHTML=
+    '<div style="max-width:680px;margin:0 auto;padding:16px 14px 60px;">'+
+    '<div style="display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(0,0,0,0.97);padding:12px 0;z-index:10;border-bottom:1px solid #2e2e3e;margin-bottom:16px;">'+
+      '<div style="display:flex;align-items:center;gap:10px;">'+
+        '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbxG68RG-Zgp8zo8TpQrPJgpBFbfGMsxqbRcPlkwcMbN9rZpgdpl1Zgkz7&s=10" style="width:30px;height:30px;border-radius:7px;border:2px solid #FFD700;">'+
+        '<h2 style="color:#FFD700;font-size:1.2rem;font-weight:900;">Admin Panel</h2>'+
+      '</div>'+
+      '<button onclick="document.getElementById(\'adminPanel\').remove()" style="background:#2e2e3e;border:none;color:#e8e8f0;padding:7px 14px;border-radius:8px;cursor:pointer;font-family:Nunito,sans-serif;font-weight:900;">✕ Close</button>'+
+    '</div>'+
+    '<div id="apStats" style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;"></div>'+
+    '<div style="margin-bottom:16px;">'+
+      '<input placeholder="📢 Send announcement to ALL users..." id="apAnnounce" style="width:100%;padding:9px 12px;background:#1a1a24;border:1.5px solid #2e2e3e;border-radius:9px;color:#e8e8f0;font-size:.86rem;font-family:Nunito,sans-serif;outline:none;">'+
+      '<button onclick="apSendAnnouncement()" style="margin-top:7px;background:#FFD700;color:#000;border:none;padding:8px 18px;border-radius:8px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.84rem;width:100%;">📢 Send to All Users</button>'+
+    '</div>'+
+    '<h3 style="font-size:.92rem;font-weight:900;margin-bottom:9px;">👥 All Users</h3>'+
+    '<input id="apSearch" type="text" placeholder="🔍 Search users..." oninput="apFilterUsers(this.value)" style="width:100%;padding:9px 12px;background:#1a1a24;border:1.5px solid #2e2e3e;border-radius:9px;color:#e8e8f0;font-size:.86rem;font-family:Nunito,sans-serif;outline:none;margin-bottom:10px;">'+
+    '<div id="apUserList"><div style="color:#7878a0;padding:12px;">Loading users...</div></div>'+
+    '<h3 style="font-size:.92rem;font-weight:900;margin:18px 0 9px;">🎮 Manage Games</h3>'+
+    '<div id="apGameList">'+renderAdminGameRows()+'</div>'+
     '</div>';
-  }).join('');
-
-  panel.innerHTML =
-    '<div style="max-width:680px;margin:0 auto;padding:16px 14px 60px;">' +
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;position:sticky;top:0;background:rgba(0,0,0,0.97);padding:12px 0 10px;z-index:10;border-bottom:1px solid #2e2e3e;">' +
-        '<div style="display:flex;align-items:center;gap:10px;">' +
-          '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbxG68RG-Zgp8zo8TpQrPJgpBFbfGMsxqbRcPlkwcMbN9rZpgdpl1Zgkz7&s=10" style="width:32px;height:32px;border-radius:7px;object-fit:cover;border:2px solid #FFD700;">' +
-          '<h2 style="color:#FFD700;font-size:1.2rem;font-weight:900;">Admin Panel</h2>' +
-        '</div>'+
-        '<button onclick="document.getElementById(\'adminPanel\').remove()" style="background:#2e2e3e;border:none;color:#e8e8f0;padding:7px 14px;border-radius:8px;cursor:pointer;font-family:Nunito,sans-serif;font-weight:900;font-size:.88rem;">✕ Close</button>' +
-      '</div>' +
-      '<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">' +
-        '<div style="background:#1a1a24;border:1px solid #2e2e3e;border-radius:10px;padding:12px 18px;text-align:center;"><div style="font-size:1.6rem;font-weight:900;color:#FFD700;">'+users.length+'</div><div style="font-size:.7rem;color:#888;font-weight:700;">Total Users</div></div>' +
-        '<div style="background:#1a1a24;border:1px solid #2e2e3e;border-radius:10px;padding:12px 18px;text-align:center;"><div style="font-size:1.6rem;font-weight:900;color:#ff4757;">'+banned.length+'</div><div style="font-size:.7rem;color:#888;font-weight:700;">Banned</div></div>' +
-        '<div style="background:#1a1a24;border:1px solid #2e2e3e;border-radius:10px;padding:12px 18px;text-align:center;"><div style="font-size:1.6rem;font-weight:900;color:#ff6b35;">'+blocked.length+'</div><div style="font-size:.7rem;color:#888;font-weight:700;">Blocked Games</div></div>' +
-      '</div>' +
-      '<h3 style="font-size:.92rem;font-weight:900;margin-bottom:9px;">👥 All Registered Users ('+users.length+')</h3>' +
-      '<input id="apSearchInput" type="text" placeholder="🔍 Search by username or name..." oninput="apFilterUsers(this.value)" style="width:100%;padding:9px 12px;background:#1a1a24;border:1.5px solid #2e2e3e;border-radius:9px;color:#e8e8f0;font-size:.86rem;font-family:Nunito,sans-serif;outline:none;margin-bottom:10px;">' +
-      '<div id="apUserList">'+userRowsHtml+'</div>' +
-      '<h3 style="font-size:.92rem;font-weight:900;margin:18px 0 9px;">🎮 Manage Games</h3>' +
-      gameRowsHtml +
-    '</div>';
-
   document.body.appendChild(panel);
 
-  panel.querySelectorAll('.ap-row').forEach(function(r){
-    r.style.cssText='display:flex;align-items:center;gap:9px;background:#1a1a24;border:1px solid #2e2e3e;border-radius:10px;padding:9px 11px;margin-bottom:7px;flex-wrap:wrap;';
+  db.collection('users').orderBy('createdAt','desc').get().then(function(snap){
+    var users=[];
+    snap.forEach(function(doc){users.push(Object.assign({uid:doc.id},doc.data()));});
+    renderAdminUsers(users);
+    var statsDiv=document.getElementById('apStats');
+    if(statsDiv){
+      statsDiv.innerHTML=
+        '<div style="background:#1a1a24;border:1px solid #2e2e3e;border-radius:10px;padding:12px 18px;text-align:center;"><div style="font-size:1.6rem;font-weight:900;color:#FFD700;">'+users.length+'</div><div style="font-size:.7rem;color:#888;font-weight:700;">Total Users</div></div>'+
+        '<div style="background:#1a1a24;border:1px solid #2e2e3e;border-radius:10px;padding:12px 18px;text-align:center;"><div style="font-size:1.6rem;font-weight:900;color:#ff4757;">'+users.filter(function(u){return u.banned;}).length+'</div><div style="font-size:.7rem;color:#888;font-weight:700;">Banned</div></div>'+
+        '<div style="background:#1a1a24;border:1px solid #2e2e3e;border-radius:10px;padding:12px 18px;text-align:center;"><div style="font-size:1.6rem;font-weight:900;color:#ff6b35;">'+_blockedGames.length+'</div><div style="font-size:.7rem;color:#888;font-weight:700;">Blocked Games</div></div>';
+    }
   });
+}
+
+function renderAdminUsers(users){
+  var list=document.getElementById('apUserList');
+  if(!list)return;
+  var myUid=(currentUser||{}).uid||'';
+  list.innerHTML=users.map(function(u){
+    var isBanned=u.banned===true;
+    var isSelf=u.uid===myUid;
+    var statusColor=isBanned?'#ff4757':isSelf?'#2ed573':'#00d4ff';
+    var statusLabel=isBanned?'BANNED':isSelf?'YOU':'ACTIVE';
+    return '<div class="ap-row" data-username="'+(u.usernameLower||'')+'" data-name="'+(u.name||'').toLowerCase()+'" style="display:flex;align-items:center;gap:9px;background:#1a1a24;border:1px solid #2e2e3e;border-radius:10px;padding:9px 11px;margin-bottom:7px;flex-wrap:wrap;">'+
+      '<div style="width:40px;height:40px;border-radius:50%;background:'+statusColor+';color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;overflow:hidden;">'+(u.pfp?'<img src="'+u.pfp+'" style="width:100%;height:100%;object-fit:cover;">':(u.username||'?')[0].toUpperCase())+'</div>'+
+      '<div style="flex:1;min-width:0;">'+
+        '<div style="font-weight:900;font-size:.9rem;display:flex;align-items:center;gap:5px;flex-wrap:wrap;">@'+(u.username||'?')+
+          ' <span style="font-size:.58rem;background:'+statusColor+';color:#000;padding:1px 7px;border-radius:4px;font-weight:900;">'+statusLabel+'</span>'+
+          (u.isAdmin?'<span style="font-size:.58rem;background:#FFD700;color:#000;padding:1px 7px;border-radius:4px;font-weight:900;">ADMIN</span>':'')+
+        '</div>'+
+        '<div style="font-size:.72rem;color:#aaa;margin-top:1px;">'+(u.name||'')+' • '+(u.email||'')+'</div>'+
+        '<div style="font-size:.67rem;color:#666;">Games: '+(u.gamesPlayed||0)+' • Joined: '+(u.since||'?')+'</div>'+
+      '</div>'+
+      (isSelf?'':
+        '<div style="display:flex;gap:5px;flex-wrap:wrap;">'+
+          (isBanned
+            ?'<button onclick="apUnban(\''+u.uid+'\')" style="background:#2ed573;color:#000;border:none;padding:6px 10px;border-radius:7px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.74rem;">Unban</button>'
+            :'<button onclick="apBan(\''+u.uid+'\',\''+u.username+'\')" style="background:#ff4757;color:#fff;border:none;padding:6px 10px;border-radius:7px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.74rem;">Ban</button>')+
+          '<button onclick="apKick(\''+u.uid+'\',\''+u.username+'\')" style="background:#ff6b35;color:#fff;border:none;padding:6px 10px;border-radius:7px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.74rem;">Kick</button>'+
+        '</div>')+
+    '</div>';
+  }).join('');
+}
+
+function renderAdminGameRows(){
+  var blocked=_blockedGames;
+  return GAMES.map(function(g){
+    var isBlocked=blocked.includes(g.id);
+    return '<div style="display:flex;align-items:center;gap:10px;background:#13131c;border:1px solid #2e2e3e;border-radius:9px;padding:8px 12px;margin-bottom:7px;">'+
+      '<img src="'+g.thumb+'" style="width:38px;height:38px;border-radius:7px;object-fit:cover;flex-shrink:0;" onerror="this.style.display=\'none\'">'+
+      '<div style="flex:1;font-weight:900;font-size:.88rem;">'+g.name+'</div>'+
+      (isBlocked
+        ?'<span style="color:#ff4757;font-size:.72rem;margin-right:5px;">🚫 BLOCKED</span><button onclick="apUnblockGame(\''+g.id+'\')" style="background:#2ed573;color:#000;border:none;padding:5px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">Unblock</button>'
+        :'<button onclick="apBlockGame(\''+g.id+'\')" style="background:#ff6b35;color:#fff;border:none;padding:5px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">Block</button>')+
+    '</div>';
+  }).join('');
 }
 
 function apFilterUsers(q){
@@ -325,44 +384,86 @@ function apFilterUsers(q){
     r.style.display=(!q||un.includes(q.toLowerCase())||nm.includes(q.toLowerCase()))?'':'none';
   });
 }
-function apBan(username){var b=getBanned();if(!b.includes(username.toLowerCase()))b.push(username.toLowerCase());saveBanned(b);renderAdminPanel();}
-function apUnban(username){saveBanned(getBanned().filter(function(b){return b!==username.toLowerCase();}));renderAdminPanel();}
-function apKick(username){var k=getKicked();if(!k.includes(username.toLowerCase()))k.push(username.toLowerCase());saveKicked(k);renderAdminPanel();}
-function apBlockGame(id){var b=getBlockedGames();if(!b.includes(id))b.push(id);saveBlockedGames(b);renderAdminPanel();}
-function apUnblockGame(id){saveBlockedGames(getBlockedGames().filter(function(b){return b!==id;}));renderAdminPanel();}
+
+function apBan(uid,username){
+  db.collection('users').doc(uid).update({banned:true}).then(function(){
+    sendNotification(uid,'You have been banned from Dv\'s Unblocked Games.','warning');
+    showAdminPanel(); showAdminPanel();
+  });
+}
+function apUnban(uid){
+  db.collection('users').doc(uid).update({banned:false}).then(function(){
+    showAdminPanel(); showAdminPanel();
+  });
+}
+function apKick(uid,username){
+  db.collection('users').doc(uid).update({kicked:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){
+    sendNotification(uid,'You have been kicked by an admin.','warning');
+  });
+}
+function apBlockGame(id){
+  var b = _blockedGames.slice();
+  if(!b.includes(id)) b.push(id);
+  saveBlockedGames(b);
+  sendGlobalNotification('🚫 A game has been temporarily blocked by an admin.','warning');
+}
+function apUnblockGame(id){
+  saveBlockedGames(_blockedGames.filter(function(b){return b!==id;}));
+  sendGlobalNotification('✅ A game has been unblocked!','info');
+}
+function apSendAnnouncement(){
+  var msg=(document.getElementById('apAnnounce').value||'').trim();
+  if(!msg){alert('Type a message first!');return;}
+  sendGlobalNotification('📢 '+msg,'update');
+  document.getElementById('apAnnounce').value='';
+  alert('Announcement sent to all users!');
+}
 
 function timeAgo(ts){
-  var d=(Date.now()-ts)/1000;
+  if(!ts)return'Never';
+  var d=(Date.now()-(ts.toMillis?ts.toMillis():ts))/1000;
   if(d<60)return'Just now';
   if(d<3600)return Math.floor(d/60)+'m ago';
   if(d<86400)return Math.floor(d/3600)+'h ago';
   return Math.floor(d/86400)+'d ago';
 }
 
+// ── KICK / BAN CHECK real-time ──
+function listenForKick(uid){
+  db.collection('users').doc(uid).onSnapshot(function(doc){
+    if(!doc.exists)return;
+    var data=doc.data();
+    if(data.banned){
+      auth.signOut();
+      alert('You have been banned from Dv\'s Unblocked Games.');
+      location.reload();
+    }
+    if(data.kicked&&data.kicked.toMillis&&Date.now()-data.kicked.toMillis()<10000){
+      auth.signOut();
+      alert('You have been kicked by an admin.');
+      location.reload();
+    }
+  });
+}
+
 // ── POPUP ──
 function openPopup(game){
-  if(getBlockedGames().includes(game.id)){
-    alert('🚫 This game is blocked by an admin.\nCheck back later!');return;
-  }
+  if(_blockedGames.includes(game.id)){alert('🚫 This game is blocked by an admin. Check back later!');return;}
   currentGame=game;
   var thumb=document.getElementById('popupThumb');
-  thumb.src=game.thumb;
-  thumb.style.display='block';
+  thumb.src=game.thumb; thumb.style.display='block';
   thumb.onerror=function(){this.style.display='none';};
   document.getElementById('popupTitle').textContent=game.name;
   document.getElementById('popupDesc').textContent=game.desc;
   document.getElementById('gamePopup').classList.remove('hidden');
 }
 
-function closePopup(){
-  document.getElementById('gamePopup').classList.add('hidden');
-  currentGame=null;
-}
+function closePopup(){document.getElementById('gamePopup').classList.add('hidden');currentGame=null;}
 
 function launchGame(mode){
   if(!currentGame)return;
   saveHistory(currentGame);
-  var name=currentGame.name, url=currentGame.url;
+  var name=currentGame.name,url=currentGame.url;
   if(mode==='iframe'){
     closePopup();
     document.getElementById('inPageTitle').textContent=name;
@@ -372,10 +473,9 @@ function launchGame(mode){
     document.getElementById('bnavBar').style.display='none';
   } else if(mode==='blank'||mode==='blankfull'){
     var w=window.open('about:blank','_blank');
-    if(!w){alert('Allow pop-ups then try again!');return;}
+    if(!w){alert('Allow pop-ups!');return;}
     w.document.write('<!DOCTYPE html><html><head><title>'+name+'</title><style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;background:#000}iframe{position:fixed;inset:0;width:100%;height:100%;border:none}</style></head><body><iframe src="'+url+'" allow="autoplay;fullscreen;gamepad" allowfullscreen></iframe></body></html>');
-    w.document.close();
-    closePopup();
+    w.document.close();closePopup();
   } else if(mode==='fullscreen'){
     closePopup();
     document.getElementById('inPageTitle').textContent=name;
@@ -399,26 +499,28 @@ function closeInPage(){
 }
 
 function saveHistory(game){
-  var u=getUser();if(!u)return;
-  u.history=(u.history||[]).filter(function(h){return h.id!==game.id;});
-  u.history.unshift({id:game.id,name:game.name,thumb:game.thumb,color:game.color,ts:Date.now()});
-  if(u.history.length>12)u.history=u.history.slice(0,12);
-  u.gamesPlayed=(u.gamesPlayed||0)+1;
-  u.lastSeen=Date.now();
-  saveUser(u);
-  var all=getAllAccounts();
-  all[u.username.toLowerCase()]=u;
-  saveAllAccounts(all);
+  if(!currentUser)return;
+  var h={id:game.id,name:game.name,thumb:game.thumb,color:game.color,ts:Date.now()};
+  var history=(currentUser.history||[]).filter(function(x){return x.id!==game.id;});
+  history.unshift(h);
+  if(history.length>12)history=history.slice(0,12);
+  currentUser.history=history;
+  currentUser.gamesPlayed=(currentUser.gamesPlayed||0)+1;
+  db.collection('users').doc(currentUser.uid).update({
+    history:history,
+    gamesPlayed:firebase.firestore.FieldValue.increment(1),
+    lastSeen:firebase.firestore.FieldValue.serverTimestamp()
+  });
   var row=document.getElementById('continueRow');
   var sec=document.getElementById('continueSection');
   if(row&&sec){
     sec.style.display='block';row.innerHTML='';
-    u.history.forEach(function(h){var g=GAMES.find(function(g){return g.id===h.id;});if(g)row.appendChild(makeCard(g));});
+    history.forEach(function(h){var g=GAMES.find(function(g){return g.id===h.id;});if(g)row.appendChild(makeCard(g));});
   }
 }
 
 function makeCard(game){
-  var isBlocked=getBlockedGames().includes(game.id);
+  var isBlocked=_blockedGames.includes(game.id);
   var div=document.createElement('div');
   div.className='game-card'+(isBlocked?' card-blocked':'');
   div.setAttribute('data-name',game.name.toLowerCase());
@@ -430,7 +532,7 @@ function makeCard(game){
 }
 
 function makeGuestCard(game){
-  var isBlocked=getBlockedGames().includes(game.id);
+  var isBlocked=_blockedGames.includes(game.id);
   var div=document.createElement('div');
   div.className='c6x-card'+(isBlocked?' card-blocked':'');
   var bo=isBlocked?'<div class="blocked-overlay">🚫<div class="blocked-text">Blocked</div></div>':'';
