@@ -110,18 +110,28 @@ const GAMES = [
     thumb: "https://play-lh.googleusercontent.com/YiIdFPGRikQVMAcT8Bg5MiYRgi9YHwsFfP5RsfBcpwKqsl_y3AWqbJ8rhJ0TnLIsdg", color: "#212121"
   },
   {
-    id: "smashkarts", name: "Smash karts", desc: "Knock your opponent off the roof!", hot: false, isNew: true,
+    id: "smashkarts", name: "Smash karts", desc: "Smash your opponent", hot: false, isNew: true,
     url: "https://smashkarts.io/",
     thumb: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/9c9e529b14731be871b07b89660bbc2a/smash-karts.png", color: "#263238"
   },
   {
-    id: "vex7", name: "Vex 7", desc: "Knock your opponent off the roof!", hot: false, isNew: true,
+    id: "vex7", name: "Vex 7", desc: "Be a obbist", hot: false, isNew: true,
     url: "https://ljgjm.github.io/7/",
     thumb: "https://www.coolmathgames.com/sites/default/files/Vex7_OG-logo.jpg", color: "#263238"
   },
   {
-    id: "Five nights at Freddy's 1", name: "Fnaf 1", desc: "Knock your opponent off the roof!", hot: false, isNew: true,
+    id: "Five nights at Freddy's 1", name: "Fnaf 1", desc: "Survive till 6 Am you have 5 nights", hot: false, isNew: true,
     url: "https://irv77.github.io/hd_fnaf/1/",
     thumb: "https://media2.giphy.com/media/v1.Y2lkPTZjMDliOTUycDVmcGl4ajZmb2kwczZpNjhwMWtobzZnaTJzemFtN20wbzlqMjkyOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/NUicI56PINuzS/200w.gif", color: "#263238"
+  },
+  {
+    id: "Duckslife4", name: "Duck life 4", desc: "Eat little duck", hot: false, isNew: true,
+    url: "https://nb-ga.github.io/games-site/projects/ducklife4/index.html",
+    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn7iK0apeBrpdpwEBL8Z4UuwwV18KJyj8O7AK0GoBAUxy14yTB-jKUtaE&s=10", color: "#263238"
+  },
+  {
+    id: "Templerun", name: "Temple run", desc: "Knock your opponent off the roof!", hot: false, isNew: true,
+    url: "https://nb-ga.github.io/games-site/projects/temple-run-2/index.html",
+    thumb: "https://i.ytimg.com/vi/Ten_rU0ct08/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA7TzuO93QfHtd3OZWsLhsP4F24pw", color: "#263238"
   }
 ];
