@@ -7,59 +7,65 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-.friends-wrap{margin-top:58px;padding:20px 16px 80px;max-width:500px;margin-left:auto;margin-right:auto;}
-.search-bar{display:flex;gap:10px;margin-bottom:20px;}
-.friend-search-input{flex:1;padding:11px 14px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:.95rem;font-family:'Nunito',sans-serif;outline:none;}
-.friend-search-input:focus{border-color:var(--accent);}
-.search-go{background:var(--accent);color:#000;border:none;padding:11px 18px;border-radius:10px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;}
-.section-title{font-size:1rem;font-weight:900;margin:16px 0 10px;}
-.friend-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-.friend-avatar{width:42px;height:42px;border-radius:50%;background:var(--accent);color:#000;font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.friend-info{flex:1;}
-.friend-info h4{font-size:.95rem;font-weight:900;}
-.friend-info p{font-size:.75rem;color:var(--muted);}
-.friend-btn{border:none;padding:7px 14px;border-radius:8px;font-weight:900;cursor:pointer;font-size:.8rem;font-family:'Nunito',sans-serif;}
-.btn-add{background:var(--green);color:#000;}
-.btn-added{background:var(--surface2);color:var(--muted);border:1px solid var(--border);}
-.btn-accept{background:#1e90ff;color:#fff;}
-.btn-remove{background:var(--accent2);color:#fff;}
-.msg{color:var(--muted);font-size:.88rem;padding:10px 0;}
-.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);display:inline-block;margin-left:6px;}
+.friends-wrap{padding:20px 14px 80px;max-width:560px;margin:0 auto;}
+.search-bar{display:flex;gap:9px;margin-bottom:18px;}
+.fs-input{flex:1;padding:10px 13px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:.9rem;font-family:'Nunito',sans-serif;outline:none;}
+.fs-input:focus{border-color:var(--accent);}
+.fs-go{background:var(--accent);color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;}
+.sec-title{font-size:.95rem;font-weight:900;margin:14px 0 9px;color:var(--text);}
+.friend-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:11px;margin-bottom:9px;flex-wrap:wrap;}
+.friend-avatar{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#000;font-weight:900;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.friend-info{flex:1;min-width:0;}
+.friend-info h4{font-size:.9rem;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.friend-info p{font-size:.72rem;color:var(--muted);margin-top:1px;}
+.fbtn{border:none;padding:6px 11px;border-radius:8px;font-weight:900;cursor:pointer;font-size:.76rem;font-family:'Nunito',sans-serif;white-space:nowrap;}
+.fbtn-add{background:var(--green);color:#000;}
+.fbtn-sent{background:var(--surface2);color:var(--muted);border:1px solid var(--border);}
+.fbtn-accept{background:#1e90ff;color:#fff;}
+.fbtn-remove{background:var(--accent2);color:#fff;}
+.msg{color:var(--muted);font-size:.85rem;padding:8px 0;}
 </style>
 </head>
 <body>
 <nav class="navbar">
   <div class="nav-left">
-    <svg width="36" height="36" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#FFD700"/><rect x="10" y="24" width="44" height="8" rx="4" fill="#111"/><circle cx="26" cy="28" r="4" fill="#fff"/><circle cx="27.5" cy="27" r="2" fill="#111"/></svg>
+    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif" style="width:34px;height:34px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
     <span class="nav-brand">Dv's Unblocked Games</span>
   </div>
   <div class="nav-right">
     <div class="avatar-bubble" id="navAvatar">G</div>
-    <span class="nav-username" id="navUsername">Guest</span>
+    <span class="nav-username" id="navUsername">—</span>
     <button class="nav-logout" onclick="doLogout()">↩</button>
   </div>
 </nav>
-
-<div class="friends-wrap">
-  <div class="search-bar">
-    <input type="text" id="friendSearchInput" class="friend-search-input" placeholder="Search by username...">
-    <button class="search-go" onclick="searchUser()">Search</button>
-  </div>
-  <div id="searchResult"></div>
-
-  <div class="section-title" id="reqTitle" style="display:none">📬 Friend Requests <span class="notif-dot"></span></div>
-  <div id="requestsList"></div>
-
-  <div class="section-title">👥 My Friends</div>
-  <div id="friendsList"><p class="msg">No friends yet. Search for someone above!</p></div>
-</div>
-
 <nav class="bnav">
-  <a href="index.html" class="bnav-btn"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span></a>
-  <a href="friends.html" class="bnav-btn active"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span></a>
-  <a href="profile.html" class="bnav-btn"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span></a>
+  <a href="index.html" class="bnav-btn">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span>
+  </a>
+  <a href="friends.html" class="bnav-btn active">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span>
+  </a>
+  <a href="profile.html" class="bnav-btn">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span>
+  </a>
+  <a href="credits.html" class="bnav-btn">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span>
+  </a>
 </nav>
 
+<div class="friends-wrap" style="margin-top:var(--navbar-h);">
+  <div class="search-bar">
+    <input type="text" id="fsInput" class="fs-input" placeholder="🔍 Search all players...">
+    <button class="fs-go" onclick="searchUser()">Search</button>
+  </div>
+  <div id="searchResult"></div>
+  <div class="sec-title" id="reqTitle" style="display:none">📬 Friend Requests <span style="background:#ff4757;color:#fff;font-size:.6rem;padding:2px 6px;border-radius:999px;margin-left:4px;" id="reqCount"></span></div>
+  <div id="requestsList"></div>
+  <div class="sec-title">👥 All Players</div>
+  <div id="allPlayersList"></div>
+  <div class="sec-title">🤝 My Friends</div>
+  <div id="friendsList"><p class="msg">No friends yet!</p></div>
+</div>
 <script>
 function getUser(){try{return JSON.parse(localStorage.getItem('dvs_user'))||null;}catch(e){return null;}}
 function getAllAccounts(){try{return JSON.parse(localStorage.getItem('dvs_accounts'))||{};}catch(e){return{};}}
@@ -67,70 +73,98 @@ function saveAllAccounts(a){localStorage.setItem('dvs_accounts',JSON.stringify(a
 function saveUser(u){localStorage.setItem('dvs_user',JSON.stringify(u));}
 function doLogout(){localStorage.removeItem('dvs_user');location.href='index.html';}
 
-var me = null;
+var me=null;
 
 function render(){
-  me = getUser();
+  me=getUser();
   if(!me){location.href='index.html';return;}
-  var all = getAllAccounts();
-  me = all[me.username.toLowerCase()] || me;
+  var all=getAllAccounts();
+  me=all[me.username.toLowerCase()]||me;
   saveUser(me);
+  document.getElementById('navAvatar').innerHTML=me.pfp?'<img src="'+me.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">':me.username[0].toUpperCase();
+  document.getElementById('navUsername').textContent=me.username;
 
-  document.getElementById('navAvatar').textContent=(me.username||'G')[0].toUpperCase();
-  document.getElementById('navUsername').textContent=me.username||'Guest';
-
-  // Friend requests
-  var reqs = me.friendRequests||[];
-  var reqDiv = document.getElementById('requestsList');
-  var reqTitle = document.getElementById('reqTitle');
+  // Requests
+  var reqs=me.friendRequests||[];
+  var reqDiv=document.getElementById('requestsList');
+  var reqTitle=document.getElementById('reqTitle');
+  var reqCount=document.getElementById('reqCount');
   reqDiv.innerHTML='';
   if(reqs.length>0){
     reqTitle.style.display='block';
+    reqCount.textContent=reqs.length;
     reqs.forEach(function(un){
       var them=all[un.toLowerCase()];
       if(!them)return;
-      var card=document.createElement('div');
-      card.className='friend-card';
-      card.innerHTML='<div class="friend-avatar">'+un[0].toUpperCase()+'</div><div class="friend-info"><h4>@'+un+'</h4><p>'+them.name+'</p></div><button class="friend-btn btn-accept" onclick="acceptFriend(\''+un+'\')">Accept</button>';
-      reqDiv.appendChild(card);
+      reqDiv.appendChild(makeFriendCard(them,all,'request'));
     });
   } else { reqTitle.style.display='none'; }
 
-  // Friends list
-  var friends = me.friends||[];
-  var fDiv = document.getElementById('friendsList');
+  // All players
+  var allDiv=document.getElementById('allPlayersList');
+  allDiv.innerHTML='';
+  var myFriends=(me.friends||[]).map(function(f){return f.toLowerCase();});
+  var myReqs=(me.friendRequests||[]).map(function(f){return f.toLowerCase();});
+  Object.values(all).forEach(function(u){
+    if(u.username.toLowerCase()===me.username.toLowerCase()) return;
+    allDiv.appendChild(makeFriendCard(u,all,'all'));
+  });
+  if(allDiv.innerHTML==='') allDiv.innerHTML='<p class="msg">No other players have signed up yet!</p>';
+
+  // Friends
+  var friends=me.friends||[];
+  var fDiv=document.getElementById('friendsList');
   fDiv.innerHTML='';
   if(friends.length===0){
-    fDiv.innerHTML='<p class="msg">No friends yet. Search for someone above!</p>';
+    fDiv.innerHTML='<p class="msg">No friends yet. Add someone above!</p>';
   } else {
     friends.forEach(function(un){
       var them=all[un.toLowerCase()];
       if(!them)return;
-      var card=document.createElement('div');
-      card.className='friend-card';
-      card.innerHTML='<div class="friend-avatar">'+un[0].toUpperCase()+'</div><div class="friend-info"><h4>@'+un+'</h4><p>'+them.name+' • '+( them.gamesPlayed||0)+' games played</p></div><button class="friend-btn btn-remove" onclick="removeFriend(\''+un+'\')">Remove</button>';
-      fDiv.appendChild(card);
+      fDiv.appendChild(makeFriendCard(them,all,'friend'));
     });
   }
 }
 
-function searchUser(){
-  var q=(document.getElementById('friendSearchInput').value||'').trim().toLowerCase();
-  var res=document.getElementById('searchResult');
-  res.innerHTML='';
-  if(!q){return;}
-  var all=getAllAccounts();
-  var them=all[q];
-  if(!them||q===me.username.toLowerCase()){
-    res.innerHTML='<p class="msg">User not found.</p>';return;
-  }
-  var isFriend=(me.friends||[]).map(function(f){return f.toLowerCase();}).includes(q);
-  var sentReq=(them.friendRequests||[]).map(function(f){return f.toLowerCase();}).includes(me.username.toLowerCase());
-  var btnHtml=isFriend?'<button class="friend-btn btn-added">Already Friends</button>':sentReq?'<button class="friend-btn btn-added">Request Sent</button>':'<button class="friend-btn btn-add" onclick="sendRequest(\''+them.username+'\')">+ Add Friend</button>';
+function makeFriendCard(u,all,type){
+  var myFriends=(me.friends||[]).map(function(f){return f.toLowerCase();});
+  var sentTo=all[u.username.toLowerCase()];
+  var sentReq=sentTo&&(sentTo.friendRequests||[]).map(function(f){return f.toLowerCase();}).includes(me.username.toLowerCase());
+  var isFriend=myFriends.includes(u.username.toLowerCase());
+  var isReq=(me.friendRequests||[]).map(function(f){return f.toLowerCase();}).includes(u.username.toLowerCase());
   var card=document.createElement('div');
   card.className='friend-card';
-  card.innerHTML='<div class="friend-avatar">'+them.username[0].toUpperCase()+'</div><div class="friend-info"><h4>@'+them.username+'</h4><p>'+them.name+'</p></div>'+btnHtml;
-  res.appendChild(card);
+  var avHtml=u.pfp?'<img src="'+u.pfp+'" style="width:100%;height:100%;object-fit:cover;">':u.username[0].toUpperCase();
+  var gamesInfo=u.gamesPlayed?u.gamesPlayed+' games':'New player';
+  var btnHtml='';
+  if(type==='request'){
+    btnHtml='<button class="fbtn fbtn-accept" onclick="acceptFriend(\''+u.username+'\')">Accept</button>';
+  } else if(type==='friend'){
+    btnHtml='<button class="fbtn fbtn-remove" onclick="removeFriend(\''+u.username+'\')">Remove</button>';
+  } else {
+    if(isFriend) btnHtml='<button class="fbtn fbtn-sent">Friends ✓</button>';
+    else if(isReq) btnHtml='<button class="fbtn fbtn-accept" onclick="acceptFriend(\''+u.username+'\')">Accept</button>';
+    else if(sentReq) btnHtml='<button class="fbtn fbtn-sent">Sent ✓</button>';
+    else btnHtml='<button class="fbtn fbtn-add" onclick="sendRequest(\''+u.username+'\')">+ Add</button>';
+  }
+  card.innerHTML='<div class="friend-avatar">'+avHtml+'</div><div class="friend-info"><h4>@'+u.username+'</h4><p>'+u.name+' • '+gamesInfo+'</p></div>'+btnHtml;
+  return card;
+}
+
+function searchUser(){
+  var q=(document.getElementById('fsInput').value||'').trim().toLowerCase();
+  var res=document.getElementById('searchResult');
+  res.innerHTML='';
+  if(!q)return;
+  var all=getAllAccounts();
+  var results=Object.values(all).filter(function(u){
+    return u.username.toLowerCase().includes(q)||u.name.toLowerCase().includes(q);
+  });
+  if(results.length===0){res.innerHTML='<p class="msg">No users found.</p>';return;}
+  results.forEach(function(u){
+    if(u.username.toLowerCase()===me.username.toLowerCase())return;
+    res.appendChild(makeFriendCard(u,all,'all'));
+  });
 }
 
 function sendRequest(toUsername){
@@ -138,21 +172,26 @@ function sendRequest(toUsername){
   var them=all[toUsername.toLowerCase()];
   if(!them)return;
   them.friendRequests=them.friendRequests||[];
-  if(!them.friendRequests.includes(me.username)) them.friendRequests.push(me.username);
+  if(!them.friendRequests.map(function(f){return f.toLowerCase();}).includes(me.username.toLowerCase()))
+    them.friendRequests.push(me.username);
   all[toUsername.toLowerCase()]=them;
   saveAllAccounts(all);
-  searchUser();
+  render();
+  document.getElementById('searchResult').innerHTML='';
 }
 
 function acceptFriend(fromUsername){
   var all=getAllAccounts();
+  me=all[me.username.toLowerCase()]||me;
   me.friends=me.friends||[];
   me.friendRequests=(me.friendRequests||[]).filter(function(f){return f.toLowerCase()!==fromUsername.toLowerCase();});
-  if(!me.friends.map(function(f){return f.toLowerCase();}).includes(fromUsername.toLowerCase())) me.friends.push(fromUsername);
+  if(!me.friends.map(function(f){return f.toLowerCase();}).includes(fromUsername.toLowerCase()))
+    me.friends.push(fromUsername);
   var them=all[fromUsername.toLowerCase()];
   if(them){
     them.friends=them.friends||[];
-    if(!them.friends.map(function(f){return f.toLowerCase();}).includes(me.username.toLowerCase())) them.friends.push(me.username);
+    if(!them.friends.map(function(f){return f.toLowerCase();}).includes(me.username.toLowerCase()))
+      them.friends.push(me.username);
     all[fromUsername.toLowerCase()]=them;
   }
   all[me.username.toLowerCase()]=me;
@@ -163,6 +202,7 @@ function acceptFriend(fromUsername){
 
 function removeFriend(username){
   var all=getAllAccounts();
+  me=all[me.username.toLowerCase()]||me;
   me.friends=(me.friends||[]).filter(function(f){return f.toLowerCase()!==username.toLowerCase();});
   var them=all[username.toLowerCase()];
   if(them){
@@ -175,8 +215,8 @@ function removeFriend(username){
   render();
 }
 
+document.getElementById('fsInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchUser();});
 render();
-document.getElementById('friendSearchInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchUser();});
 </script>
 </body>
 </html>
