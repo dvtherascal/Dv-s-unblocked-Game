@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports — Dv's Unblocked Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.rw{padding:16px 14px 80px;max-width:600px;margin:0 auto;}
+.r-hero{background:linear-gradient(135deg,#13132a,#1a1a2e);border-bottom:1px solid var(--border);padding:18px 16px;text-align:center;}
+.r-hero h1{font-size:1.4rem;font-weight:900;margin-bottom:5px;}
+.r-hero p{color:var(--muted);font-size:.84rem;}
+.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:16px;}
+.tab-btn{flex:1;padding:10px;background:none;border:none;color:var(--muted);font-weight:900;font-size:.84rem;cursor:pointer;font-family:'Nunito',sans-serif;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .15s;}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.new-report-form{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;}
+.new-report-form h3{font-size:.92rem;font-weight:900;margin-bottom:12px;color:var(--accent);}
+.ri{width:100%;padding:9px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:.86rem;font-family:'Nunito',sans-serif;outline:none;box-sizing:border-box;margin-bottom:8px;}
+.ri:focus{border-color:var(--accent);}
+.rt{width:100%;padding:9px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:.86rem;font-family:'Nunito',sans-serif;outline:none;box-sizing:border-box;margin-bottom:8px;resize:vertical;min-height:80px;}
+.rt:focus{border-color:var(--accent);}
+.cat-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.cat-pill{padding:5px 12px;border-radius:999px;font-size:.74rem;font-weight:900;cursor:pointer;border:1.5px solid var(--border);background:var(--bg);color:var(--muted);font-family:'Nunito',sans-serif;}
+.cat-pill.selected{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,.1);}
+.submit-btn{width:100%;padding:11px;background:var(--accent);color:#000;border:none;border-radius:10px;font-weight:900;font-size:.9rem;font-family:'Nunito',sans-serif;cursor:pointer;}
+.report-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;cursor:pointer;transition:border-color .15s;}
+.report-card:hover{border-color:var(--accent);}
+.report-card.open-card{border-color:var(--accent);}
+.rc-top{display:flex;align-items:flex-start;gap:10px;}
+.rc-avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#000;font-weight:900;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.rc-avatar img{width:100%;height:100%;object-fit:cover;}
+.rc-title{font-weight:900;font-size:.92rem;margin-bottom:3px;}
+.rc-meta{font-size:.72rem;color:var(--muted);}
+.rc-body{font-size:.82rem;color:#ccc;margin-top:8px;line-height:1.5;}
+.rc-footer{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;}
+.status-pill{padding:2px 10px;border-radius:999px;font-size:.68rem;font-weight:900;}
+.sp-open{background:#ff6b35;color:#fff;}
+.sp-investigating{background:#FFD700;color:#000;}
+.sp-resolved{background:#2ed573;color:#000;}
+.sp-closed{background:#555;color:#fff;}
+.cat-tag{padding:2px 9px;border-radius:6px;font-size:.68rem;font-weight:900;background:rgba(0,212,255,.15);color:var(--accent);}
+.upvote-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:3px 9px;border-radius:8px;cursor:pointer;font-size:.76rem;font-weight:900;font-family:'Nunito',sans-serif;}
+.upvote-btn.upvoted{background:var(--accent);color:#000;border-color:var(--accent);}
+.comments-section{margin-top:12px;border-top:1px solid var(--border);padding-top:12px;display:none;}
+.comments-section.open{display:block;}
+.comment{display:flex;gap:9px;margin-bottom:10px;}
+.comment-av{width:28px;height:28px;border-radius:50%;background:var(--surface2);color:var(--text);font-size:.72rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.comment-av img{width:100%;height:100%;object-fit:cover;}
+.comment-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:8px 11px;flex:1;}
+.comment-user{font-size:.72rem;font-weight:900;display:flex;align-items:center;gap:5px;}
+.comment-text{font-size:.82rem;color:#ccc;margin-top:3px;line-height:1.4;}
+.comment-time{font-size:.65rem;color:var(--muted);margin-top:3px;}
+.comment-input-row{display:flex;gap:8px;margin-top:10px;}
+.comment-input{flex:1;padding:8px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:999px;color:var(--text);font-size:.84rem;font-family:'Nunito',sans-serif;outline:none;}
+.comment-input:focus{border-color:var(--accent);}
+.comment-send{background:var(--accent);color:#000;border:none;padding:8px 14px;border-radius:999px;font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.8rem;}
+.staff-controls{background:rgba(255,215,0,.07);border:1px solid #FFD700;border-radius:9px;padding:9px 12px;margin-top:10px;}
+.staff-controls div{font-size:.72rem;font-weight:900;color:#FFD700;margin-bottom:7px;}
+.no-reports{text-align:center;color:var(--muted);padding:30px;font-size:.88rem;}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="https://i.natgeofe.com/n/3155c2a7-2bfc-4bf4-92bd-5d3455a64c36/neworig-2210_020_AR_EN_1.gif"
+         style="width:34px;height:34px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">
+    <span class="nav-brand">Dv's Unblocked Games</span>
+  </div>
+  <div class="nav-right">
+    <div class="avatar-bubble" id="navAvatar">G</div>
+    <span class="nav-username" id="navUsername">—</span>
+    <button class="nav-logout" onclick="doLogout()">↩</button>
+  </div>
+</nav>
+
+<nav class="bnav">
+  <a href="index.html" class="bnav-btn">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span>
+  </a>
+  <a href="friends.html" class="bnav-btn">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Friends</span>
+  </a>
+  <a href="profile.html" class="bnav-btn">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg><span>Profile</span>
+  </a>
+  <a href="reports.html" class="bnav-btn active">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg><span>Reports</span>
+  </a>
+  <a href="credits.html" class="bnav-btn">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg><span>Credits</span>
+  </a>
+</nav>
+
+<div class="r-hero" style="margin-top:var(--navbar-h);">
+  <h1>📋 Reports & Bug Forum</h1>
+  <p>Report bugs, suggest features, or flag issues. Staff can view and respond here.</p>
+</div>
+
+<div class="rw">
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tab-all" onclick="switchTab('all')">📋 All Reports</button>
+    <button class="tab-btn" id="tab-bugs" onclick="switchTab('bug')">🐛 Bugs</button>
+    <button class="tab-btn" id="tab-suggest" onclick="switchTab('suggestion')">💡 Suggestions</button>
+    <button class="tab-btn" id="tab-mine" onclick="switchTab('mine')">👤 Mine</button>
+  </div>
+
+  <!-- New report form -->
+  <div class="new-report-form" id="newReportForm">
+    <h3>➕ Submit a Report</h3>
+    <input type="text" id="repTitle" class="ri" placeholder="Title (e.g. OvO game won't load)..." maxlength="80">
+    <div class="cat-pills" id="catPills">
+      <button class="cat-pill selected" data-cat="bug" onclick="selectCat(this)">🐛 Bug</button>
+      <button class="cat-pill" data-cat="suggestion" onclick="selectCat(this)">💡 Suggestion</button>
+      <button class="cat-pill" data-cat="game-issue" onclick="selectCat(this)">🎮 Game Issue</button>
+      <button class="cat-pill" data-cat="ui" onclick="selectCat(this)">🎨 UI/Design</button>
+      <button class="cat-pill" data-cat="other" onclick="selectCat(this)">❓ Other</button>
+    </div>
+    <textarea id="repBody" class="rt" placeholder="Describe the issue in detail. What happened? What were you doing? What device/browser?"></textarea>
+    <button class="submit-btn" onclick="submitReport()">📋 Submit Report</button>
+  </div>
+
+  <div id="reportsList"><div class="no-reports">Loading reports...</div></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+var me = null;
+var currentTab = 'all';
+var selectedCat = 'bug';
+var allReports = [];
+
+function doLogout(){ auth.signOut().then(function(){location.href='index.html';}); }
+
+function getUserRole(user){
+  if(!user)return'user';
+  if(user.role==='owner'||user.isOwner)return'owner';
+  if(user.role==='developer'||user.isDeveloper)return'developer';
+  if(user.role==='admin'||user.isAdmin)return'admin';
+  if(user.role==='mod'||user.isMod)return'mod';
+  if(user.role==='helper'||user.isHelper)return'helper';
+  return'user';
+}
+var ROLE_RANK={owner:5,developer:4,admin:3,mod:2,helper:1,user:0};
+function getRoleBadge(role){
+  var b={owner:'👑',developer:'⚙️',admin:'🛡️',mod:'🔨',helper:'🤝'};
+  return b[role]?b[role]+' '+role.toUpperCase():'';
+}
+function isStaff(user){return ROLE_RANK[getUserRole(user)]>=1;}
+
+auth.onAuthStateChanged(function(firebaseUser){
+  if(!firebaseUser){location.href='index.html';return;}
+  db.collection('users').doc(firebaseUser.uid).get().then(function(doc){
+    if(!doc.exists){location.href='index.html';return;}
+    me=Object.assign({uid:firebaseUser.uid},doc.data());
+    var av=document.getElementById('navAvatar');
+    av.innerHTML=me.pfp?'<img src="'+me.pfp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">':me.username[0].toUpperCase();
+    document.getElementById('navUsername').textContent=me.username;
+    loadReports();
+  });
+});
+
+function selectCat(el){
+  document.querySelectorAll('.cat-pill').forEach(function(p){p.classList.remove('selected');});
+  el.classList.add('selected');
+  selectedCat=el.getAttribute('data-cat');
+}
+
+function switchTab(tab){
+  currentTab=tab;
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+tab).classList.add('active');
+  renderReports();
+}
+// Override tab IDs for named tabs
+function switchTab(tab){
+  currentTab=tab;
+  ['all','bugs','suggest','mine'].forEach(function(t){
+    var el=document.getElementById('tab-'+t);
+    if(el)el.classList.remove('active');
+  });
+  var map={'all':'all','bug':'bugs','suggestion':'suggest','mine':'mine'};
+  var tabId='tab-'+(map[tab]||tab);
+  var el=document.getElementById(tabId);if(el)el.classList.add('active');
+  renderReports();
+}
+
+function loadReports(){
+  db.collection('reports').orderBy('ts','desc').limit(100)
+    .onSnapshot(function(snap){
+      allReports=[];
+      snap.forEach(function(doc){allReports.push(Object.assign({id:doc.id},doc.data()));});
+      renderReports();
+    });
+}
+
+function renderReports(){
+  var list=document.getElementById('reportsList');
+  var filtered=allReports.filter(function(r){
+    if(currentTab==='all')return true;
+    if(currentTab==='mine')return r.authorUid===me.uid;
+    return r.category===currentTab;
+  });
+  if(filtered.length===0){list.innerHTML='<div class="no-reports">No reports here yet! Be the first to submit one. 📋</div>';return;}
+  list.innerHTML='';
+  filtered.forEach(function(r){list.appendChild(makeReportCard(r));});
+}
+
+function makeReportCard(r){
+  var card=document.createElement('div');
+  card.className='report-card'+(r.status==='open'?' open-card':'');
+  card.id='report-'+r.id;
+
+  var statusClass={open:'sp-open',investigating:'sp-investigating',resolved:'sp-resolved',closed:'sp-closed'};
+  var catColors={'bug':'#ff4757','suggestion':'#2ed573','game-issue':'#ff6b35','ui':'#8e24aa','other':'#7878a0'};
+  var catColor=catColors[r.category]||'#7878a0';
+
+  var upvoted=(r.upvotes||[]).includes(me.uid);
+  var upvoteCount=(r.upvotes||[]).length;
+
+  var myRoleBadge=r.authorRole?getRoleBadge(r.authorRole):'';
+
+  card.innerHTML=
+    '<div class="rc-top">'+
+      '<div class="rc-avatar" style="background:'+catColor+'">'+
+        (r.authorPfp?'<img src="'+r.authorPfp+'">':( r.authorUsername||'?')[0].toUpperCase())+
+      '</div>'+
+      '<div style="flex:1;min-width:0;">'+
+        '<div class="rc-title">'+escHtml(r.title)+'</div>'+
+        '<div class="rc-meta">@'+r.authorUsername+(myRoleBadge?' • <span style="color:#FFD700;font-size:.68rem;">'+myRoleBadge+'</span>':'')+'  •  '+timeAgo(r.ts)+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="rc-body">'+escHtml((r.body||'').substring(0,200))+(r.body&&r.body.length>200?'...':'')+'</div>'+
+    '<div class="rc-footer">'+
+      '<span class="status-pill '+(statusClass[r.status]||'sp-open')+'">'+( r.status||'open').toUpperCase()+'</span>'+
+      '<span class="cat-tag" style="background:'+catColor+'22;color:'+catColor+';">'+r.category+'</span>'+
+      '<button class="upvote-btn'+(upvoted?' upvoted':'')+'" onclick="toggleUpvote(\''+r.id+'\',event)">'+
+        '▲ '+(upvoteCount>0?upvoteCount:'')+' Upvote'+(upvoteCount!==1?'s':'')+
+      '</button>'+
+      '<span style="font-size:.72rem;color:var(--muted);margin-left:auto;">'+( r.commentCount||0)+' comment'+(r.commentCount!==1?'s':'')+'</span>'+
+      '<button onclick="toggleComments(\''+r.id+'\',event)" style="background:none;border:1px solid var(--border);color:var(--muted);padding:3px 9px;border-radius:8px;cursor:pointer;font-size:.74rem;font-weight:900;font-family:Nunito,sans-serif;">'+
+        '💬 Comments'+
+      '</button>'+
+    '</div>'+
+    // Staff controls
+    (isStaff(me)?
+      '<div class="staff-controls">'+
+        '<div>⚙️ Staff Controls</div>'+
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;">'+
+          '<button onclick="setReportStatus(\''+r.id+'\',\'investigating\')" style="background:#FFD700;color:#000;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">🔍 Investigating</button>'+
+          '<button onclick="setReportStatus(\''+r.id+'\',\'resolved\')" style="background:#2ed573;color:#000;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">✅ Resolved</button>'+
+          '<button onclick="setReportStatus(\''+r.id+'\',\'closed\')" style="background:#555;color:#fff;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">🔒 Close</button>'+
+          '<button onclick="setReportStatus(\''+r.id+'\',\'open\')" style="background:#ff6b35;color:#fff;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">🔓 Reopen</button>'+
+          (ROLE_RANK[getUserRole(me)]>=3?'<button onclick="deleteReport(\''+r.id+'\')" style="background:#ff4757;color:#fff;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">🗑️ Delete</button>':'')+
+          '<button onclick="pingStaffAboutReport(\''+r.id+'\',\''+escHtml(r.title)+'\')" style="background:#e040fb;color:#fff;border:none;padding:4px 9px;border-radius:6px;font-weight:900;cursor:pointer;font-family:Nunito,sans-serif;font-size:.72rem;">📣 Ping Dev</button>'+
+        '</div>'+
+      '</div>'
+    :'')+
+    // Comments section
+    '<div class="comments-section" id="comments-'+r.id+'">'+
+      '<div id="commentsList-'+r.id+'"><div style="color:var(--muted);font-size:.8rem;padding:8px 0;">Loading comments...</div></div>'+
+      '<div class="comment-input-row">'+
+        '<input class="comment-input" id="commentInput-'+r.id+'" placeholder="Add a comment..." onkeydown="if(event.key===\'Enter\')postComment(\''+r.id+'\')">'+
+        '<button class="comment-send" onclick="postComment(\''+r.id+'\')">Send</button>'+
+      '</div>'+
+    '</div>';
+
+  return card;
+}
+
+function toggleComments(reportId, e){
+  if(e)e.stopPropagation();
+  var sec=document.getElementById('comments-'+reportId);
+  if(!sec)return;
+  var isOpen=sec.classList.contains('open');
+  sec.classList.toggle('open');
+  if(!isOpen) loadComments(reportId);
+}
+
+function loadComments(reportId){
+  var list=document.getElementById('commentsList-'+reportId);
+  if(!list)return;
+  db.collection('reports').doc(reportId).collection('comments')
+    .orderBy('ts','asc').limit(50)
+    .onSnapshot(function(snap){
+      if(snap.empty){list.innerHTML='<div style="color:var(--muted);font-size:.8rem;padding:4px 0;">No comments yet. Be the first!</div>';return;}
+      list.innerHTML='';
+      snap.forEach(function(doc){
+        var c=doc.data();
+        var roleB=c.authorRole&&c.authorRole!=='user'?getRoleBadge(c.authorRole):'';
+        var div=document.createElement('div');
+        div.className='comment';
+        div.innerHTML=
+          '<div class="comment-av" style="'+(c.authorRole&&c.authorRole!=='user'?'border:2px solid #FFD700;':'')+'">'+
+            (c.authorPfp?'<img src="'+c.authorPfp+'">':(c.authorUsername||'?')[0].toUpperCase())+
+          '</div>'+
+          '<div class="comment-box">'+
+            '<div class="comment-user">@'+c.authorUsername+(roleB?' <span style="font-size:.62rem;color:#FFD700;">'+roleB+'</span>':'')+
+              (c.authorUid===me.uid?' <span style="font-size:.6rem;color:var(--accent);">(you)</span>':'')+
+            '</div>'+
+            '<div class="comment-text">'+escHtml(c.text)+'</div>'+
+            '<div class="comment-time">'+timeAgo(c.ts)+'</div>'+
+          '</div>';
+        list.appendChild(div);
+      });
+    });
+}
+
+function postComment(reportId){
+  var input=document.getElementById('commentInput-'+reportId);
+  var text=(input.value||'').trim();
+  if(!text)return;
+  input.value='';
+  var role=getUserRole(me);
+  db.collection('reports').doc(reportId).collection('comments').add({
+    authorUid:me.uid,
+    authorUsername:me.username,
+    authorPfp:me.pfp||null,
+    authorRole:role,
+    text:text,
+    ts:firebase.firestore.FieldValue.serverTimestamp()
+  });
+  db.collection('reports').doc(reportId).update({
+    commentCount:firebase.firestore.FieldValue.increment(1)
+  });
+  // Notify report author if it's not themselves
+  db.collection('reports').doc(reportId).get().then(function(doc){
+    if(doc.exists&&doc.data().authorUid!==me.uid){
+      db.collection('users').doc(doc.data().authorUid).collection('notifications').add({
+        message:'💬 @'+me.username+' commented on your report: "'+text.substring(0,40)+'"',
+        type:'info',read:false,ts:firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+  });
+}
+
+function toggleUpvote(reportId, e){
+  if(e)e.stopPropagation();
+  var ref=db.collection('reports').doc(reportId);
+  ref.get().then(function(doc){
+    if(!doc.exists)return;
+    var upvotes=doc.data().upvotes||[];
+    if(upvotes.includes(me.uid)){
+      ref.update({upvotes:firebase.firestore.FieldValue.arrayRemove(me.uid)});
+    } else {
+      ref.update({upvotes:firebase.firestore.FieldValue.arrayUnion(me.uid)});
+    }
+  });
+}
+
+function submitReport(){
+  var title=(document.getElementById('repTitle').value||'').trim();
+  var body=(document.getElementById('repBody').value||'').trim();
+  if(!title){alert('Please enter a title!');return;}
+  if(!body){alert('Please describe the issue!');return;}
+  var role=getUserRole(me);
+  db.collection('reports').add({
+    title:title,
+    body:body,
+    category:selectedCat,
+    status:'open',
+    authorUid:me.uid,
+    authorUsername:me.username,
+    authorPfp:me.pfp||null,
+    authorRole:role,
+    upvotes:[],
+    commentCount:0,
+    ts:firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    document.getElementById('repTitle').value='';
+    document.getElementById('repBody').value='';
+    // Notify all staff about new report
+    db.collection('users').where('role','in',['admin','developer','owner','mod','helper']).get().then(function(snap){
+      snap.forEach(function(doc){
+        if(doc.id!==me.uid){
+          db.collection('users').doc(doc.id).collection('notifications').add({
+            message:'📋 New report by @'+me.username+': "'+title+'"',
+            type:'info',read:false,ts:firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+      });
+    });
+    showToast('Report submitted! Staff have been notified. ✅');
+  }).catch(function(e){alert('Error: '+e.message);});
+}
+
+function setReportStatus(reportId, status){
+  db.collection('reports').doc(reportId).update({status:status}).then(function(){
+    showToast('Status updated to: '+status);
+    // Notify report author
+    db.collection('reports').doc(reportId).get().then(function(doc){
+      if(doc.exists){
+        db.collection('users').doc(doc.data().authorUid).collection('notifications').add({
+          message:'📋 Your report "'+doc.data().title+'" status changed to: '+status.toUpperCase(),
+          type:'update',read:false,ts:firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+    });
+  });
+}
+
+function deleteReport(reportId){
+  if(!confirm('Delete this report permanently?'))return;
+  db.collection('reports').doc(reportId).delete().then(function(){
+    showToast('Report deleted.');
+  });
+}
+
+function pingStaffAboutReport(reportId, title){
+  db.collection('users').where('role','in',['developer','owner']).get().then(function(snap){
+    snap.forEach(function(doc){
+      db.collection('users').doc(doc.id).collection('notifications').add({
+        message:'📣 @'+me.username+' flagged a report for dev attention: "'+title+'"',
+        type:'warning',read:false,ts:firebase.firestore.FieldValue.serverTimestamp()
+      });
+    });
+    showToast('Developers have been pinged! 📣');
+  });
+}
+
+function showToast(msg){
+  var t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a1a24;border:2px solid #00d4ff;color:#e8e8f0;padding:12px 20px;border-radius:12px;font-family:Nunito,sans-serif;font-weight:700;font-size:.88rem;z-index:9999;max-width:300px;width:90%;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.5);';
+  t.textContent=msg; document.body.appendChild(t);
+  setTimeout(function(){t.style.opacity='0';t.style.transition='opacity .5s';setTimeout(function(){t.remove();},500);},3500);
+}
+
+function timeAgo(ts){
+  if(!ts)return'';
+  var d=(Date.now()-(ts.toMillis?ts.toMillis():ts))/1000;
+  if(d<60)return'Just now';
+  if(d<3600)return Math.floor(d/60)+'m ago';
+  if(d<86400)return Math.floor(d/3600)+'h ago';
+  return Math.floor(d/86400)+'d ago';
+}
+function escHtml(str){
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
