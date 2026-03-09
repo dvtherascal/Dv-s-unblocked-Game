@@ -197,7 +197,7 @@ const GAMES = [
   {
     id: "fivenightsatfreddysthree", name: "fnaf 3", desc: "survive to six am again", hot: false, isNew: true,
     url: "https://games-site.github.io/projects/fnaf-3/index.html",
-    thumb: "https://static.wikia.nocookie.net/freddy-fazbears-pizza/images/8/89/SpringtrapTitleScreen.gif/revision/latest/scale-to-width-down/250?cb=20150527195049", color: "#263238"
+    thumb: "https://static.wikia.nocookie.net/2e625d63-96cb-4a5b-9ed3-d68c6b832de5/scale-to-width/755", color: "#263238"
   },
   {
     id: "fivenightsatfreddysfour", name: "fnaf 4", desc: "survive because its late", hot: false, isNew: true,
