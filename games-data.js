@@ -201,17 +201,17 @@ const GAMES = [
   },
   {
     id: "fivenightsatfreddysfour", name: "fnaf 4", desc: "survive because its late", hot: false, isNew: true,
-    url: "",
+    url: "https://games-site.github.io/projects/fnaf-4/index.html",
     thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrxCVg84zrfRwFgqfHzQ5tlbBPAilsiMTMXQ&s", color: "#263238"
   },
   {
     id: "fivenightsatfreddyssisterlocation", name: "fnaf sister location", desc: "michealllll", hot: false, isNew: true,
-    url: "",
+    url: "https://games-site.github.io/projects/fnaf-5/index.html",
     thumb: "https://images.steamusercontent.com/ugc/254843729507870261/677E68DEAC707B9FDEB7E52B5E51A9EAC11FBC59/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false", color: "#263238"
   },
   {
     id: "fivenightsatfreddysultimatecustomnight", name: "ultimate custom night", desc: "fight all or die", hot: false, isNew: true,
-    url: "",
+    url: "https://games-site.github.io/projects/fnaf-ucn/index.html",
     thumb: "https://images.steamusercontent.com/ugc/2038481091991368999/36D14366AFB7755A42D3428DFFDFA2EEF9E186D8/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true", color: "#263238"
   }
 ];
