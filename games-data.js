@@ -148,5 +148,36 @@ const GAMES = [
     id: "RandomBasketball", name: "Random Basketball", desc: "Basket", hot: false, isNew: true,
     url: "https://games-site.github.io/projects/basket-random/frame.html",
     thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOOqOc5iuDD8BP5iD34PeOBcof3HTZQed2iSCiSqDzEw&s=10", color: "#263238"
-  }
+  },
+  {
+    id: "Jetpackjoyride", name: "Jetpack joy ride", desc: "joy ride", hot: false, isNew: true,
+    url: "https://hub-pro.github.io/games/jetpackjoyride/index.html",
+    thumb: "https://imgs.crazygames.com/jetpack-joyride-pcp_16x9/20250121090354/jetpack-joyride-pcp_16x9-cover?metadata=none&quality=60&height=2530", color: "#263238"
+  },
+  {
+    id: "Henrystickman1", name: "Henry stickman", desc: "breaking the bank", hot: false, isNew: true,
+    url: "https://hub-pro.github.io/games/henrystickmin/breakingthebank/index.html",
+    thumb: "https://i.makeagif.com/media/3-30-2023/7xLlVX.gif", color: "#263238"
+  },
+  {
+    id: "Henrystickman2", name: "Henry stickman2", desc: "Escaping the prison", hot: false, isNew: true,
+    url: "https://hub-pro.github.io/games/henrystickmin/escapingtheprison/index.html",
+    thumb: "https://media.tenor.com/C8yLmSCL4D4AAAAM/henry-stickmin-dance.gif", color: "#263238"
+  },
+  {
+    id: "Henrystickman3", name: "Henry stickman3", desc: "Stealing the diamond", hot: false, isNew: true,
+    url: "https://hub-pro.github.io/games/henrystickmin/stealingthediamond/index.html",
+    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-A9qhzK15QzukcJ2-q2I1RbThk0LPxGK-Kw&s", color: "#263238"
+  },
+  {
+    id: "Henrystickman4", name: "Henry stickman4", desc: "infiltrating the airship", hot: false, isNew: true,
+    url: "https://hub-pro.github.io/games/henrystickmin/infiltratingtheairship/index.html",
+    thumb: "https://i.makeagif.com/media/4-19-2024/oCgs7r.gif", color: "#263238"
+  },
+  {
+    id: "Henrystickman5", name: "Henry stickman5", desc: "Fleeing the complex", hot: false, isNew: true,
+    url: "https://hub-pro.github.io/games/henrystickmin/fleeingthecomplex/index.html",
+    thumb: "https://64.media.tumblr.com/c5a6e8929f1e96ea3f3a05d504cde544/tumblr_nxycfdl83o1upp723o4_1280.gif", color: "#263238"
+  },
+  {
 ];
