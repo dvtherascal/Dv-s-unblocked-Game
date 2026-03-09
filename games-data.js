@@ -218,5 +218,10 @@ const GAMES = [
     id: "baldisbasic", name: "baldis basics", desc: "solve math questions", hot: false, isNew: true,
     url: "https://games-site.github.io/projects/baldis-basics/index.html",
     thumb: "https://media.tenor.com/QRNWJWwYol4AAAAj/baldi-baldis-basics.gif", color: "#263238"
+  },
+  {
+    id: "fivenightsatepsteins", name: "five nights at epsteins", desc: "survive or get diddled", hot: false, isNew: true,
+    url: "https://harshulmoon.github.io/fnae.html",
+    thumb: "https://i.ytimg.com/vi/lS02HW0OVb4/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLB2MDYDtxL4aimOtvhvLzBgymZzNA", color: "#263238"
   }
 ];
