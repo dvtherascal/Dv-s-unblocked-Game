@@ -186,12 +186,12 @@ const GAMES = [
   },
   {
     id: "fivenightsatfreddystwo", name: "fnaf 2", desc: "Survive till six am", hot: false, isNew: true,
-    url: "",
-    thumb: "", color: "#263238"
+    url: "https://games-site.github.io/projects/fnaf-2/index.html",
+    thumb: "https://media.tenor.com/8QMT9vrbWLcAAAAM/fnaf2-toy-chica.gif", color: "#263238"
   },
   {
     id: "rooftopsnipers", name: "Rooftop snipers", desc: "Snipe", hot: false, isNew: true,
-    url: "",
-    thumb: "", color: "#263238"
+    url: "https://calculatorgames.github.io/actual/roof/index.html",
+    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDjVtwb3oKqoMOKxJAUtD-2o-BID9QOKyeSSeV5UtyI6eXWDhAEaif4Zw&s=10", color: "#263238"
   }
 ];
