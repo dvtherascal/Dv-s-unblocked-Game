@@ -178,5 +178,20 @@ const GAMES = [
     id: "henrystickman5", name: "Henry Stickman 5", desc: "Fleeing the complex!", hot: false, isNew: true,
     url: "https://hub-pro.github.io/games/henrystickmin/fleeingthecomplex/index.html",
     thumb: "https://64.media.tumblr.com/c5a6e8929f1e96ea3f3a05d504cde544/tumblr_nxycfdl83o1upp723o4_1280.gif", color: "#263238"
+  },
+  {
+    id: "stickmandragonfight", name: "stickman dragon fight", desc: "Dragon ball", hot: false, isNew: true,
+    url: "https://bitlifeonline.github.io/stickman-dragon-fight/",
+    thumb: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=314,height=314,fit=cover,f=auto/c7d21e8c3962488f12ef86e2521b6697/stickman-dragon-fight.png", color: "#263238"
+  },
+  {
+    id: "fivenightsatfreddystwo", name: "fnaf 2", desc: "Survive till six am", hot: false, isNew: true,
+    url: "",
+    thumb: "", color: "#263238"
+  },
+  {
+    id: "rooftopsnipers", name: "Rooftop snipers", desc: "Snipe", hot: false, isNew: true,
+    url: "",
+    thumb: "", color: "#263238"
   }
 ];
