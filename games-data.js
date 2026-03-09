@@ -213,5 +213,10 @@ const GAMES = [
     id: "fivenightsatfreddysultimatecustomnight", name: "ultimate custom night", desc: "fight all or die", hot: false, isNew: true,
     url: "https://games-site.github.io/projects/fnaf-ucn/index.html",
     thumb: "https://images.steamusercontent.com/ugc/2038481091991368999/36D14366AFB7755A42D3428DFFDFA2EEF9E186D8/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true", color: "#263238"
+  },
+  {
+    id: "baldisbasic", name: "baldis basics", desc: "solve math questions", hot: false, isNew: true,
+    url: "https://games-site.github.io/projects/baldis-basics/index.html",
+    thumb: "https://media.tenor.com/QRNWJWwYol4AAAAj/baldi-baldis-basics.gif", color: "#263238"
   }
 ];
