@@ -71,7 +71,7 @@ const GAMES = [
   },
   {
     id: "ultrakill", name: "Ultrakill Demo", desc: "MANKIND IS DEAD. BLOOD IS FUEL. HELL IS FULL.", hot: true, isNew: true,
-    url: "https://cake-logic.itch.io/ultrakill-web-port",
+    url: "https://gamaverse.com/c/f/g/ultrakill-prelude-1750934621/?forcetouch=lol",
     thumb: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1229490/capsule_616x353.jpg?t=1771983912", color: "#7f0000"
   },
   {
