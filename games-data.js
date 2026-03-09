@@ -36,7 +36,7 @@ const GAMES = [
   },
   {
     id: "geometrydash", name: "Geometry Dash", desc: "Jump to the beat!", hot: true, isNew: false,
-    url: "soteris24.github.io/genetrydash.github.io/",
+    url: "https://soteris24.github.io/genetrydash.github.io/",
     thumb: "https://m.media-amazon.com/images/I/61mVIP6Oo1L.png", color: "#1a237e"
   },
   {
@@ -110,72 +110,72 @@ const GAMES = [
     thumb: "https://play-lh.googleusercontent.com/YiIdFPGRikQVMAcT8Bg5MiYRgi9YHwsFfP5RsfBcpwKqsl_y3AWqbJ8rhJ0TnLIsdg", color: "#212121"
   },
   {
-    id: "smashkarts", name: "Smash karts", desc: "Smash your opponent", hot: false, isNew: true,
+    id: "smashkarts", name: "Smash Karts", desc: "Smash your opponent!", hot: false, isNew: true,
     url: "https://smashkarts.io/",
     thumb: "https://img.poki-cdn.com/cdn-cgi/image/q=78,scq=50,width=1200,height=1200,fit=cover,f=png/9c9e529b14731be871b07b89660bbc2a/smash-karts.png", color: "#263238"
   },
   {
-    id: "vex7", name: "Vex 7", desc: "Be a obbist", hot: false, isNew: true,
+    id: "vex7", name: "Vex 7", desc: "Be an obbist!", hot: false, isNew: true,
     url: "https://ljgjm.github.io/7/",
     thumb: "https://www.coolmathgames.com/sites/default/files/Vex7_OG-logo.jpg", color: "#263238"
   },
   {
-    id: "Five nights at Freddy's 1", name: "Fnaf 1", desc: "Survive till 6 Am you have 5 nights", hot: false, isNew: true,
+    id: "fnaf1", name: "FNAF 1", desc: "Survive till 6 AM. You have 5 nights.", hot: false, isNew: true,
     url: "https://irv77.github.io/hd_fnaf/1/",
     thumb: "https://media2.giphy.com/media/v1.Y2lkPTZjMDliOTUycDVmcGl4ajZmb2kwczZpNjhwMWtobzZnaTJzemFtN20wbzlqMjkyOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/NUicI56PINuzS/200w.gif", color: "#263238"
   },
   {
-    id: "Duckslife4", name: "Duck life 4", desc: "Eat little duck", hot: false, isNew: true,
+    id: "ducklife4", name: "Duck Life 4", desc: "Train your little duck!", hot: false, isNew: true,
     url: "https://nb-ga.github.io/games-site/projects/ducklife4/index.html",
     thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn7iK0apeBrpdpwEBL8Z4UuwwV18KJyj8O7AK0GoBAUxy14yTB-jKUtaE&s=10", color: "#263238"
   },
   {
-    id: "Templerun", name: "Temple run", desc: "Runn", hot: false, isNew: true,
+    id: "templerun", name: "Temple Run", desc: "Run for your life!", hot: false, isNew: true,
     url: "https://nb-ga.github.io/games-site/projects/temple-run-2/index.html",
     thumb: "https://i.ytimg.com/vi/Ten_rU0ct08/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA7TzuO93QfHtd3OZWsLhsP4F24pw", color: "#263238"
   },
   {
-    id: "Driftboss", name: "Drift boss", desc: "Drift like a boss", hot: false, isNew: true,
+    id: "driftboss", name: "Drift Boss", desc: "Drift like a boss!", hot: false, isNew: true,
     url: "https://nb-ga.github.io/games-site/projects/drift-boss/index.html",
     thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8tcCD8A5Tj8jITRkENdYgP7NECj9firPbDTEdE8ZA9Jmav2HXDmx3Br4&s=10", color: "#263238"
   },
   {
-    id: "Basketball", name: "Basket&ball", desc: "Basket and ball", hot: false, isNew: true,
+    id: "basketandball", name: "Basket & Ball", desc: "Basket and ball!", hot: false, isNew: true,
     url: "https://games-site.github.io/projects/basket-and-ball/index.html",
     thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTe-YKtsh0rhOBfRF2CEYs0H4E9BjRXGKESm0Kvum3QQ&s", color: "#263238"
   },
   {
-    id: "RandomBasketball", name: "Random Basketball", desc: "Basket", hot: false, isNew: true,
+    id: "randombasketball", name: "Random Basketball", desc: "Random basketball chaos!", hot: false, isNew: true,
     url: "https://games-site.github.io/projects/basket-random/frame.html",
     thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOOqOc5iuDD8BP5iD34PeOBcof3HTZQed2iSCiSqDzEw&s=10", color: "#263238"
   },
   {
-    id: "Jetpackjoyride", name: "Jetpack joy ride", desc: "joy ride", hot: false, isNew: true,
+    id: "jetpackjoyride", name: "Jetpack Joyride", desc: "Joy ride with a jetpack!", hot: false, isNew: true,
     url: "https://hub-pro.github.io/games/jetpackjoyride/index.html",
     thumb: "https://imgs.crazygames.com/jetpack-joyride-pcp_16x9/20250121090354/jetpack-joyride-pcp_16x9-cover?metadata=none&quality=60&height=2530", color: "#263238"
   },
   {
-    id: "Henrystickman1", name: "Henry stickman", desc: "breaking the bank", hot: false, isNew: true,
+    id: "henrystickman1", name: "Henry Stickman 1", desc: "Breaking the bank!", hot: false, isNew: true,
     url: "https://hub-pro.github.io/games/henrystickmin/breakingthebank/index.html",
     thumb: "https://i.makeagif.com/media/3-30-2023/7xLlVX.gif", color: "#263238"
   },
   {
-    id: "Henrystickman2", name: "Henry stickman2", desc: "Escaping the prison", hot: false, isNew: true,
+    id: "henrystickman2", name: "Henry Stickman 2", desc: "Escaping the prison!", hot: false, isNew: true,
     url: "https://hub-pro.github.io/games/henrystickmin/escapingtheprison/index.html",
     thumb: "https://media.tenor.com/C8yLmSCL4D4AAAAM/henry-stickmin-dance.gif", color: "#263238"
   },
   {
-    id: "Henrystickman3", name: "Henry stickman3", desc: "Stealing the diamond", hot: false, isNew: true,
+    id: "henrystickman3", name: "Henry Stickman 3", desc: "Stealing the diamond!", hot: false, isNew: true,
     url: "https://hub-pro.github.io/games/henrystickmin/stealingthediamond/index.html",
     thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-A9qhzK15QzukcJ2-q2I1RbThk0LPxGK-Kw&s", color: "#263238"
   },
   {
-    id: "Henrystickman4", name: "Henry stickman4", desc: "infiltrating the airship", hot: false, isNew: true,
+    id: "henrystickman4", name: "Henry Stickman 4", desc: "Infiltrating the airship!", hot: false, isNew: true,
     url: "https://hub-pro.github.io/games/henrystickmin/infiltratingtheairship/index.html",
     thumb: "https://i.makeagif.com/media/4-19-2024/oCgs7r.gif", color: "#263238"
   },
   {
-    id: "Henrystickman5", name: "Henry stickman5", desc: "Fleeing the complex", hot: false, isNew: true,
+    id: "henrystickman5", name: "Henry Stickman 5", desc: "Fleeing the complex!", hot: false, isNew: true,
     url: "https://hub-pro.github.io/games/henrystickmin/fleeingthecomplex/index.html",
     thumb: "https://64.media.tumblr.com/c5a6e8929f1e96ea3f3a05d504cde544/tumblr_nxycfdl83o1upp723o4_1280.gif", color: "#263238"
   }
