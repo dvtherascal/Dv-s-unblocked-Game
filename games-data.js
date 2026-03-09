@@ -193,5 +193,25 @@ const GAMES = [
     id: "rooftopsnipers", name: "Rooftop snipers", desc: "Snipe", hot: false, isNew: true,
     url: "https://calculatorgames.github.io/actual/roof/index.html",
     thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDjVtwb3oKqoMOKxJAUtD-2o-BID9QOKyeSSeV5UtyI6eXWDhAEaif4Zw&s=10", color: "#263238"
+  },
+  {
+    id: "fivenightsatfreddysthree", name: "fnaf 3", desc: "survive to six am again", hot: false, isNew: true,
+    url: "https://games-site.github.io/projects/fnaf-3/index.html",
+    thumb: "https://static.wikia.nocookie.net/freddy-fazbears-pizza/images/8/89/SpringtrapTitleScreen.gif/revision/latest/scale-to-width-down/250?cb=20150527195049", color: "#263238"
+  },
+  {
+    id: "fivenightsatfreddysfour", name: "fnaf 4", desc: "survive because its late", hot: false, isNew: true,
+    url: "",
+    thumb: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrxCVg84zrfRwFgqfHzQ5tlbBPAilsiMTMXQ&s", color: "#263238"
+  },
+  {
+    id: "fivenightsatfreddyssisterlocation", name: "fnaf sister location", desc: "michealllll", hot: false, isNew: true,
+    url: "",
+    thumb: "https://images.steamusercontent.com/ugc/254843729507870261/677E68DEAC707B9FDEB7E52B5E51A9EAC11FBC59/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false", color: "#263238"
+  },
+  {
+    id: "fivenightsatfreddysultimatecustomnight", name: "ultimate custom night", desc: "fight all or die", hot: false, isNew: true,
+    url: "",
+    thumb: "https://images.steamusercontent.com/ugc/2038481091991368999/36D14366AFB7755A42D3428DFFDFA2EEF9E186D8/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true", color: "#263238"
   }
 ];
