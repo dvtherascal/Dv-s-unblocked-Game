@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════
-// DV'S UNBLOCKED GAMES — app.js v2.2
+// DV'S UNBLOCKED GAMES — app.js v2.3
 // ═══════════════════════════════════════════════
 
 var currentGame = null;
@@ -7,8 +7,8 @@ var currentUser = null;
 var _blockedGames = [];
 var _ownerStep1Passed = false;
 var unsubNotifs = null;
-var ANNOUNCEMENT_TTL_MS = 60 * 1000;         // 1 min fade on screen
-var ANNOUNCEMENT_STORE_MS = 24 * 60 * 60 * 1000; // 24h kept in Firestore
+var ANNOUNCEMENT_TTL_MS = 60 * 1000;
+var ANNOUNCEMENT_STORE_MS = 24 * 60 * 60 * 1000;
 
 var OWNER_CODE_STEP1 = "Lakayden young";
 var OWNER_CODE_STEP2 = "BP28Lakayden";
@@ -122,7 +122,11 @@ function bootSignedIn(user){
     });
     var lo=document.getElementById('navLogoutBtn');if(lo)lo.style.display='block';
     var nm=document.getElementById('navMid');if(nm)nm.style.display='flex';
-    var nb=document.getElementById('notifBtn');if(nb)nb.style.display='flex';
+    var nb=document.getElementById('notifBtn');if(nb){
+      nb.style.display='flex';
+      nb.style.position='relative';
+      nb.onclick=function(){showNotificationsPanel();};
+    }
     var ub=document.getElementById('updatesBtn');if(ub)ub.style.display='flex';
 
     var role=getUserRole(user);
@@ -237,7 +241,8 @@ function signUpFirebase(name,email,username,role,isOwner,isDeveloper,isAdmin,isM
       uid:cred.user.uid,username:username,usernameLower:username.toLowerCase(),
       name:name,email:email,since:new Date().toLocaleDateString(),
       gamesPlayed:0,history:[],friends:[],friendRequests:[],
-      pfp:null,role:role,isOwner:isOwner,isDeveloper:isDeveloper,
+      pfp:null,description:'',
+      role:role,isOwner:isOwner,isDeveloper:isDeveloper,
       isAdmin:isAdmin,isMod:isMod,isHelper:isHelper,
       banned:false,tempBannedUntil:null,currentGame:null,
       lastSeen:firebase.firestore.FieldValue.serverTimestamp(),
@@ -273,28 +278,114 @@ function doLogout(){
 }
 
 // ══════════════════════════════
-// NOTIFICATIONS
+// NOTIFICATIONS — FIXED + PANEL
 // ══════════════════════════════
 function listenForNotifications(uid){
   try{
     if(unsubNotifs)unsubNotifs();
+    var isFirst=true;
     unsubNotifs=db.collection('users').doc(uid).collection('notifications')
-      .where('read','==',false).orderBy('ts','desc').limit(20)
+      .where('read','==',false).orderBy('ts','desc').limit(50)
       .onSnapshot(function(snap){
         updateNotifBadge(snap.size);
-        snap.docChanges().forEach(function(change){
-          if(change.type==='added'){
-            var n=change.doc.data();
-            showNotifToast(n.message,n.type||'info');
-          }
-        });
+        if(!isFirst){
+          snap.docChanges().forEach(function(change){
+            if(change.type==='added'){
+              var n=change.doc.data();
+              showNotifToast(n.message,n.type||'info');
+            }
+          });
+        }
+        isFirst=false;
       });
   }catch(e){console.warn('listenForNotifications',e);}
 }
 
 function updateNotifBadge(count){
-  var b=document.getElementById('notifBadge');if(!b)return;
-  b.textContent=count;b.style.display=count>0?'flex':'none';
+  var btn=document.getElementById('notifBtn');if(!btn)return;
+  btn.style.position='relative';
+  var existing=document.getElementById('notifBadge');
+  if(!existing){
+    var b=document.createElement('div');
+    b.id='notifBadge';
+    b.style.cssText='position:absolute;top:-5px;right:-5px;background:#ff4757;color:#fff;border-radius:999px;font-size:.6rem;font-weight:900;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #0f0f13;font-family:Nunito,sans-serif;pointer-events:none;z-index:10;';
+    btn.appendChild(b);
+    existing=b;
+  }
+  existing.textContent=count>99?'99+':String(count);
+  existing.style.display=count>0?'flex':'none';
+}
+
+function showNotificationsPanel(){
+  var ex=document.getElementById('notifsPanel');if(ex){ex.remove();return;}
+  var panel=document.createElement('div');
+  panel.id='notifsPanel';
+  panel.style.cssText='position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.97);overflow-y:auto;font-family:Nunito,sans-serif;color:#e8e8f0;';
+  panel.innerHTML=
+    '<div style="max-width:600px;margin:0 auto;padding:16px 14px 80px;">'+
+    '<div style="display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(0,0,0,0.97);padding:12px 0;z-index:10;border-bottom:1px solid #2e2e3e;margin-bottom:14px;">'+
+      '<h2 style="color:#00d4ff;font-size:1.1rem;font-weight:900;margin:0;">🔔 Notifications</h2>'+
+      '<div style="display:flex;gap:8px;">'+
+        '<button onclick="markAllNotifsRead()" style="background:#1a1a24;border:1px solid #2e2e3e;color:#7878a0;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:Nunito,sans-serif;font-weight:700;font-size:.76rem;">Mark all read</button>'+
+        '<button onclick="document.getElementById(\'notifsPanel\').remove()" style="background:#2e2e3e;border:none;color:#e8e8f0;padding:7px 14px;border-radius:8px;cursor:pointer;font-family:Nunito,sans-serif;font-weight:900;">✕ Close</button>'+
+      '</div>'+
+    '</div>'+
+    '<div id="notifsList"><div style="color:#7878a0;text-align:center;padding:30px;font-size:.88rem;">Loading...</div></div>'+
+    '</div>';
+  document.body.appendChild(panel);
+  loadNotificationsPanel();
+}
+
+function loadNotificationsPanel(){
+  if(!currentUser)return;
+  var list=document.getElementById('notifsList');if(!list)return;
+  db.collection('users').doc(currentUser.uid).collection('notifications')
+    .orderBy('ts','desc').limit(50).get().then(function(snap){
+      if(snap.empty){
+        list.innerHTML='<div style="text-align:center;color:#7878a0;padding:40px;font-size:.88rem;">No notifications yet.</div>';
+        return;
+      }
+      list.innerHTML='';
+      var typeColors={info:'#00d4ff',message:'#2ed573',update:'#FFD700',warning:'#ff4757'};
+      var typeIcons={info:'ℹ️',message:'💬',update:'📢',warning:'⚠️'};
+      snap.forEach(function(docSnap){
+        var n=docSnap.data();
+        var color=typeColors[n.type||'info']||'#00d4ff';
+        var icon=typeIcons[n.type||'info']||'🔔';
+        var div=document.createElement('div');
+        div.style.cssText='background:#1a1a24;border:1.5px solid '+(n.read?'#2e2e3e':color)+';border-radius:11px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:11px;cursor:pointer;transition:border-color .15s;';
+        div.innerHTML=
+          '<div style="width:36px;height:36px;border-radius:50%;background:'+(n.read?'#2e2e3e':color)+';display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem;">'+icon+'</div>'+
+          '<div style="flex:1;min-width:0;">'+
+            '<div style="font-size:.86rem;font-weight:'+(n.read?'400':'700')+';color:'+(n.read?'#aaa':'#e8e8f0')+';line-height:1.45;">'+escHtml(n.message||'')+'</div>'+
+            '<div style="font-size:.68rem;color:#7878a0;margin-top:3px;">'+timeAgo(n.ts)+'</div>'+
+          '</div>'+
+          (!n.read?'<div style="width:8px;height:8px;border-radius:50%;background:'+color+';flex-shrink:0;margin-top:4px;"></div>':'');
+        div.onclick=function(){
+          db.collection('users').doc(currentUser.uid).collection('notifications').doc(docSnap.id).update({read:true});
+          div.style.borderColor='#2e2e3e';
+          var dot=div.querySelector('[style*="width:8px"]');if(dot)dot.remove();
+        };
+        list.appendChild(div);
+      });
+    }).catch(function(e){
+      var list2=document.getElementById('notifsList');
+      if(list2)list2.innerHTML='<div style="color:#ff4757;padding:20px;text-align:center;">Error loading notifications.</div>';
+    });
+}
+
+function markAllNotifsRead(){
+  if(!currentUser)return;
+  db.collection('users').doc(currentUser.uid).collection('notifications')
+    .where('read','==',false).get().then(function(snap){
+      var batch=db.batch();
+      snap.forEach(function(doc){batch.update(doc.ref,{read:true});});
+      batch.commit().then(function(){
+        updateNotifBadge(0);
+        loadNotificationsPanel();
+        showNotifToast('All notifications marked as read.','info');
+      });
+    });
 }
 
 function showNotifToast(message,type){
@@ -339,7 +430,7 @@ function sendGlobalNotification(message,type,senderUid,senderUsername,senderPfp,
 }
 
 // ══════════════════════════════
-// ANNOUNCEMENTS — fade after 1 min
+// ANNOUNCEMENTS
 // ══════════════════════════════
 function listenAnnouncements(){
   try{
@@ -362,7 +453,6 @@ function listenAnnouncements(){
           var dot=document.getElementById('updatesDot');if(dot)dot.style.display='block';
         }
       });
-    // Purge expired
     db.collection('announcements')
       .where('expiresAt','<',firebase.firestore.Timestamp.fromDate(new Date()))
       .get().then(function(snap){
@@ -378,7 +468,7 @@ function updateAnnouncementBanner(a){
     var banner=document.getElementById('latestAnnouncementBanner');if(!banner)return;
     var roleColors={owner:'#FFD700',developer:'#e040fb',admin:'#00d4ff',mod:'#8e24aa',helper:'#43a047'};
     var color=roleColors[a.senderRole]||'#FFD700';
-    banner.style.borderColor=color;banner.style.display='block';banner.style.opacity='1';
+    banner.style.borderColor=color;banner.style.display='block';banner.style.opacity='1';banner.style.transition='';
     var label=banner.querySelector('.ann-label');if(label)label.style.color=color;
     var av=document.getElementById('latestAnnouncerAvatar');
     if(av){
@@ -389,17 +479,12 @@ function updateAnnouncementBanner(a){
     }
     var nm=document.getElementById('latestAnnouncerName');if(nm){nm.textContent='@'+a.senderUsername;nm.style.color=color;}
     var msg=document.getElementById('latestAnnouncementMsg');if(msg)msg.textContent=a.message;
-    // Fade after 1 minute
     clearTimeout(window._annBannerTimer);
     window._annBannerTimer=setTimeout(function(){
       if(!banner)return;
       banner.style.transition='opacity 2s';
       banner.style.opacity='0';
-      setTimeout(function(){
-        banner.style.display='none';
-        banner.style.transition='';
-        banner.style.opacity='1';
-      },2000);
+      setTimeout(function(){banner.style.display='none';banner.style.transition='';banner.style.opacity='1';},2000);
     },ANNOUNCEMENT_TTL_MS);
   }catch(e){}
 }
@@ -450,15 +535,14 @@ function showUpdatesPanel(){
 
 function loadUpdatesLog(){
   var container=document.getElementById('updatesLogContent');if(!container)return;
-  // Hardcoded base entries
   var base=[
-    {version:'v2.2 — Final Touches',color:'#FFD700',author:'@DvRascal',role:'Owner',items:['Custom notifications (no more browser alerts)','Group chats load fix — no composite index needed','Staff can view & join all group chats','Discord server added to credits','Admins/Devs auto-appear in credits','Announcements fade after 1 minute','Owner/Dev can post update logs','Owner force-friend button in panel']},
-    {version:'v2.1 — Update',color:'#e040fb',author:'@DvRascal',role:'Owner',items:['Announcements auto-expire after 24h','Group chats with real-time messaging','Space background fixed on all tabs','Auto-login — stays signed in 48h','View: see live game user is playing','Watch: full panel with kick option','Admins can view & delete chat messages']},
-    {version:'v2.0 — Major Update',color:'#00d4ff',author:'@DvRascal',role:'Owner',items:['5-tier staff system (Owner/Dev/Admin/Mod/Helper)','Reports & Bug Forum','Global Announcements with staff pfp','Temp ban system','Real-time game blocking','Real-time friend chat']},
-    {version:'v1.0 — Launch',color:'#2ed573',author:'@DvRascal',role:'Owner',items:['27 unblocked games verified and working','Hot games section + search','about:blank trick for school filters','Dark theme with space background','Background music']}
+    {version:'v2.3 — Reactions, Replies, Images, Notifications',color:'#FFD700',author:'@DvRascal',role:'Owner',items:['Message reactions with long-press + custom emojis','Reply to messages in chat','Send images and GIFs in chats','Fixed notifications — now clickable with red badge count','Profile descriptions','Communities system coming soon']},
+    {version:'v2.2 — Final Touches',color:'#e040fb',author:'@DvRascal',role:'Owner',items:['Custom notifications','Group chats load fix','Staff can view all group chats','Discord server added to credits','Admins/Devs auto-appear in credits','Announcements fade after 1 minute','Owner/Dev can post update logs','Owner force-friend button']},
+    {version:'v2.1 — Update',color:'#00d4ff',author:'@DvRascal',role:'Owner',items:['Announcements auto-expire 24h','Group chats real-time','Space background all tabs','Auto-login 48h','View/Watch live panels','Chat moderation for admins']},
+    {version:'v2.0 — Major',color:'#2ed573',author:'@DvRascal',role:'Owner',items:['5-tier staff system','Reports forum','Global announcements','Temp ban system','Game blocking','Friend chat']},
+    {version:'v1.0 — Launch',color:'#aaa',author:'@DvRascal',role:'Owner',items:['27 unblocked games','Hot games + search','about:blank trick','Dark space theme','Background music']}
   ];
   container.innerHTML='';
-  // Load dynamic entries from Firebase first
   db.collection('updateLog').orderBy('ts','desc').limit(20).get().then(function(snap){
     var roleColors={owner:'#FFD700',developer:'#e040fb',admin:'#00d4ff'};
     snap.forEach(function(doc){
@@ -467,32 +551,27 @@ function loadUpdatesLog(){
       var items=(d.body||'').split('\n').filter(function(l){return l.trim();});
       container.appendChild(makeLogCard(d.version||'Update',color,'@'+(d.authorUsername||'?'),d.authorRole||'',items,d.authorPfp));
     });
-    base.forEach(function(b){
-      container.appendChild(makeLogCard(b.version,b.color,b.author,b.role,b.items,null));
-    });
+    base.forEach(function(b){container.appendChild(makeLogCard(b.version,b.color,b.author,b.role,b.items,null));});
   }).catch(function(){
-    base.forEach(function(b){
-      container.appendChild(makeLogCard(b.version,b.color,b.author,b.role,b.items,null));
-    });
+    base.forEach(function(b){container.appendChild(makeLogCard(b.version,b.color,b.author,b.role,b.items,null));});
   });
 }
 
 function makeLogCard(version,color,author,role,items,pfp){
   var div=document.createElement('div');
   div.style.cssText='background:#1a1a24;border:1.5px solid '+color+';border-radius:13px;padding:15px;margin-bottom:13px;';
+  var initial=(author||'?').replace('@','')[0]||'?';
   div.innerHTML=
     '<div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">'+
-      '<div style="width:28px;height:28px;border-radius:50%;background:'+(pfp?'transparent':color)+';color:'+(color==='#FFD700'||color==='#2ed573'?'#000':'#fff')+';display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.7rem;flex-shrink:0;overflow:hidden;">'+
-        (pfp?'<img src="'+pfp+'" style="width:100%;height:100%;object-fit:cover;">':(author||'?')[1].toUpperCase())+
+      '<div style="width:28px;height:28px;border-radius:50%;background:'+(pfp?'transparent':color)+';color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.7rem;flex-shrink:0;overflow:hidden;">'+
+        (pfp?'<img src="'+pfp+'" style="width:100%;height:100%;object-fit:cover;">':initial)+
       '</div>'+
       '<div>'+
         '<div style="font-weight:900;font-size:.92rem;color:'+color+';">'+escHtml(version)+'</div>'+
         '<div style="font-size:.68rem;color:#7878a0;">by '+escHtml(author)+' · '+escHtml(role)+'</div>'+
       '</div>'+
     '</div>'+
-    '<div style="font-size:.8rem;color:#ccc;line-height:1.75;">'+
-      items.map(function(i){return'• '+escHtml(i);}).join('<br>')+
-    '</div>';
+    '<div style="font-size:.8rem;color:#ccc;line-height:1.75;">'+items.map(function(i){return'• '+escHtml(i);}).join('<br>')+'</div>';
   return div;
 }
 
@@ -512,7 +591,7 @@ function getRoleBadgeHtml(role){
   var colors={owner:'#FFD700',developer:'#e040fb',admin:'#00d4ff',mod:'#8e24aa',helper:'#43a047'};
   var labels={owner:'OWNER',developer:'DEV',admin:'ADMIN',mod:'MOD',helper:'HELPER'};
   if(!colors[role])return'';
-  return'<span style="font-size:.58rem;background:'+colors[role]+';color:'+(role==='mod'?'#fff':role==='developer'?'#fff':'#000')+';padding:2px 7px;border-radius:4px;font-weight:900;">'+labels[role]+'</span>';
+  return'<span style="font-size:.58rem;background:'+colors[role]+';color:'+(role==='developer'||role==='mod'?'#fff':'#000')+';padding:2px 7px;border-radius:4px;font-weight:900;">'+labels[role]+'</span>';
 }
 
 // ══════════════════════════════
@@ -555,7 +634,7 @@ function showOwnerPanel(){
     sCard(sTitle('📢 Global Announcement','#FFD700')+
       '<input id="apAnnounce" placeholder="Message (fades after 1 min on screen)..." style="'+iS()+'">'+
       '<button onclick="apSendAnnouncement()" style="'+bS('#FFD700','#000')+'width:100%;padding:9px;">Send Announcement</button>')+
-    sCard(sTitle('💬 Message Specific User','#FFD700')+
+    sCard(sTitle('💬 Message User','#FFD700')+
       '<input id="ownerMsgU" placeholder="Username..." style="'+iS()+'">'+
       '<input id="ownerMsgT" placeholder="Message..." style="'+iS()+'">'+
       '<button onclick="ownerSendMessage()" style="'+bS('#00d4ff','#000')+'width:100%;padding:9px;">Send Message</button>')+
@@ -734,11 +813,14 @@ function staffOpenChat(chatId,chatName){
         var m=msgDoc.data();
         var row=document.createElement('div');
         row.style.cssText='display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid #1a1a24;';
+        var content=m.deleted?'<i style="opacity:.4;">deleted</i>':
+          m.type==='image'?'<img src="'+escHtml(m.imageUrl||'')+'" style="max-width:200px;border-radius:8px;">':
+          escHtml(m.text||'');
         row.innerHTML=
           '<div style="flex:1;">'+
             '<div style="font-size:.78rem;font-weight:900;color:#00d4ff;">@'+escHtml(m.senderUsername||'?')+
               ' <span style="color:#7878a0;font-weight:400;">'+timeAgo(m.ts)+'</span></div>'+
-            '<div style="font-size:.84rem;margin-top:2px;">'+(m.deleted?'<i style="opacity:.4;">deleted</i>':escHtml(m.text||''))+'</div>'+
+            '<div style="font-size:.84rem;margin-top:2px;">'+content+'</div>'+
           '</div>'+
           (!m.deleted?'<button onclick="staffDeleteMsg(\''+chatId+'\',\''+msgDoc.id+'\')" style="'+bS('#ff4757','#fff')+'padding:4px 8px;flex-shrink:0;">🗑</button>':'');
         container.appendChild(row);
@@ -749,7 +831,7 @@ function staffOpenChat(chatId,chatName){
 function staffDeleteMsg(chatId,msgId){
   if(!confirm('Delete this message?'))return;
   db.collection('chats').doc(chatId).collection('messages').doc(msgId)
-    .update({deleted:true,text:''})
+    .update({deleted:true,text:'',imageUrl:''})
     .then(function(){showNotifToast('Message deleted.','info');});
 }
 
@@ -888,6 +970,184 @@ function panelWatchUser(uid,username){
 }
 
 // ══════════════════════════════
+// MESSAGE REACTIONS
+// ══════════════════════════════
+var DEFAULT_REACTIONS = ['👍','❤️','😂','😮','😢','🔥','💯','🎮'];
+
+function showReactionPicker(chatId,msgId,existingReactions,anchorEl){
+  var ex=document.getElementById('reactionPicker');if(ex)ex.remove();
+  var picker=document.createElement('div');
+  picker.id='reactionPicker';
+  picker.style.cssText='position:fixed;z-index:6000;background:#1a1a24;border:2px solid #2e2e3e;border-radius:14px;padding:10px 12px;box-shadow:0 8px 32px rgba(0,0,0,.8);display:flex;flex-wrap:wrap;gap:6px;max-width:260px;font-family:Nunito,sans-serif;';
+
+  // Position near anchor
+  if(anchorEl){
+    var rect=anchorEl.getBoundingClientRect();
+    var top=rect.top-80;
+    if(top<10)top=rect.bottom+8;
+    picker.style.top=top+'px';
+    picker.style.left=Math.min(rect.left,window.innerWidth-270)+'px';
+  }else{
+    picker.style.top='50%';picker.style.left='50%';
+    picker.style.transform='translate(-50%,-50%)';
+  }
+
+  DEFAULT_REACTIONS.forEach(function(emoji){
+    var btn=document.createElement('button');
+    btn.style.cssText='background:none;border:none;font-size:1.4rem;cursor:pointer;padding:4px 6px;border-radius:8px;transition:background .1s;';
+    btn.textContent=emoji;
+    btn.onmouseenter=function(){btn.style.background='rgba(255,255,255,.1)';};
+    btn.onmouseleave=function(){btn.style.background='none';};
+    btn.onclick=function(){
+      addReaction(chatId,msgId,emoji);
+      picker.remove();
+    };
+    picker.appendChild(btn);
+  });
+
+  // Custom emoji input
+  var customRow=document.createElement('div');
+  customRow.style.cssText='width:100%;display:flex;gap:6px;margin-top:4px;border-top:1px solid #2e2e3e;padding-top:8px;';
+  customRow.innerHTML=
+    '<input id="customEmojiInput" placeholder="Custom emoji..." style="flex:1;padding:5px 8px;background:#0f0f13;border:1px solid #2e2e3e;border-radius:7px;color:#e8e8f0;font-size:.82rem;outline:none;font-family:Nunito,sans-serif;">'+
+    '<button onclick="addCustomReaction(\''+chatId+'\',\''+msgId+'\')" style="background:#00d4ff;color:#000;border:none;padding:5px 10px;border-radius:7px;font-weight:900;cursor:pointer;font-size:.78rem;font-family:Nunito,sans-serif;">Add</button>';
+  picker.appendChild(customRow);
+
+  document.body.appendChild(picker);
+  setTimeout(function(){
+    document.addEventListener('click',function closePicker(e){
+      if(!picker.contains(e.target)){picker.remove();document.removeEventListener('click',closePicker);}
+    });
+  },100);
+}
+
+function addCustomReaction(chatId,msgId){
+  var inp=document.getElementById('customEmojiInput');
+  var emoji=(inp?inp.value:'').trim();
+  if(!emoji)return;
+  addReaction(chatId,msgId,emoji);
+  var p=document.getElementById('reactionPicker');if(p)p.remove();
+}
+
+function addReaction(chatId,msgId,emoji){
+  if(!currentUser)return;
+  var ref=db.collection('chats').doc(chatId).collection('messages').doc(msgId);
+  ref.get().then(function(doc){
+    if(!doc.exists)return;
+    var reactions=doc.data().reactions||{};
+    var users=reactions[emoji]||[];
+    if(users.includes(currentUser.uid)){
+      // Toggle off
+      users=users.filter(function(id){return id!==currentUser.uid;});
+    }else{
+      users=users.concat([currentUser.uid]);
+    }
+    reactions[emoji]=users;
+    if(users.length===0)delete reactions[emoji];
+    ref.update({reactions:reactions});
+  });
+}
+
+function renderReactions(reactions,chatId,msgId,isMine){
+  if(!reactions||!Object.keys(reactions).length)return'';
+  var html='<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;">';
+  Object.keys(reactions).forEach(function(emoji){
+    var users=reactions[emoji]||[];
+    if(!users.length)return;
+    var myReacted=currentUser&&users.includes(currentUser.uid);
+    html+='<button onclick="addReaction(\''+chatId+'\',\''+msgId+'\',\''+emoji+'\')" style="'+
+      'background:'+(myReacted?'rgba(0,212,255,.2)':'rgba(255,255,255,.07)')+';'+
+      'border:1px solid '+(myReacted?'#00d4ff':'rgba(255,255,255,.15)')+';'+
+      'border-radius:999px;padding:2px 8px;cursor:pointer;font-size:.82rem;display:inline-flex;align-items:center;gap:4px;'+
+      'color:#e8e8f0;font-family:Nunito,sans-serif;font-weight:700;">'+
+      emoji+' <span style="font-size:.7rem;">'+users.length+'</span></button>';
+  });
+  html+='</div>';
+  return html;
+}
+
+// ══════════════════════════════
+// MESSAGE REPLY
+// ══════════════════════════════
+var _replyTo = null;
+
+function setReply(msgId,senderUsername,text){
+  _replyTo={msgId:msgId,senderUsername:senderUsername,text:text};
+  var bar=document.getElementById('replyBar');
+  if(!bar){
+    bar=document.createElement('div');
+    bar.id='replyBar';
+    bar.style.cssText='background:#13132a;border-top:2px solid #00d4ff;padding:7px 12px;display:flex;align-items:center;gap:8px;font-family:Nunito,sans-serif;flex-shrink:0;';
+    var inputBar=document.querySelector('.chat-input-bar');
+    if(inputBar)inputBar.parentNode.insertBefore(bar,inputBar);
+  }
+  bar.innerHTML=
+    '<div style="flex:1;min-width:0;">'+
+      '<div style="font-size:.66rem;color:#00d4ff;font-weight:900;">↩ Replying to @'+escHtml(senderUsername)+'</div>'+
+      '<div style="font-size:.74rem;color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+escHtml((text||'').substring(0,60))+'</div>'+
+    '</div>'+
+    '<button onclick="clearReply()" style="background:none;border:none;color:#7878a0;cursor:pointer;font-size:1.1rem;padding:0;">×</button>';
+}
+
+function clearReply(){
+  _replyTo=null;
+  var bar=document.getElementById('replyBar');if(bar)bar.remove();
+}
+
+function renderReplyQuote(replyTo){
+  if(!replyTo)return'';
+  return'<div style="background:rgba(0,212,255,.08);border-left:3px solid #00d4ff;border-radius:4px;padding:4px 8px;margin-bottom:5px;font-size:.72rem;">'+
+    '<div style="color:#00d4ff;font-weight:900;">↩ @'+escHtml(replyTo.senderUsername||'?')+'</div>'+
+    '<div style="color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px;">'+escHtml((replyTo.text||'Image').substring(0,60))+'</div>'+
+  '</div>';
+}
+
+// ══════════════════════════════
+// IMAGE / GIF SENDING
+// ══════════════════════════════
+function openImagePicker(chatId){
+  var inp=document.createElement('input');
+  inp.type='file';
+  inp.accept='image/*,image/gif';
+  inp.style.display='none';
+  inp.onchange=function(){
+    var file=inp.files[0];if(!file)return;
+    if(file.size>4*1024*1024){showNotifToast('Image must be under 4MB!','warning');return;}
+    var reader=new FileReader();
+    reader.onload=function(e){
+      sendImageMessage(chatId,e.target.result,file.type);
+    };
+    reader.readAsDataURL(file);
+  };
+  document.body.appendChild(inp);
+  inp.click();
+  setTimeout(function(){inp.remove();},5000);
+}
+
+function sendImageMessage(chatId,dataUrl,mimeType){
+  if(!currentUser||!chatId)return;
+  db.collection('chats').doc(chatId).collection('messages').add({
+    senderUid:currentUser.uid,
+    senderUsername:currentUser.username,
+    senderPfp:currentUser.pfp||null,
+    type:'image',
+    imageUrl:dataUrl,
+    mimeType:mimeType||'image/png',
+    text:'',
+    deleted:false,
+    reactions:{},
+    replyTo:_replyTo||null,
+    ts:firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    clearReply();
+    db.collection('chats').doc(chatId).update({
+      lastMsg:'📷 Image',
+      lastMsgTs:firebase.firestore.FieldValue.serverTimestamp()
+    });
+  });
+}
+
+// ══════════════════════════════
 // STAFF ACTIONS
 // ══════════════════════════════
 function ownerSendMessage(){
@@ -922,8 +1182,7 @@ function ownerSetRoleUid(uid,newRole){
     var msgs={developer:'⚙️ You\'ve been made a Developer!',admin:'🛡️ You\'ve been made an Admin!',
       mod:'🔨 You\'ve been made a Mod!',helper:'🤝 You\'ve been made a Helper!',user:'Your staff role has been removed.'};
     sendNotification(uid,msgs[newRole]||'Role updated.','info');
-    var p=document.getElementById('rolePanel');if(p)p.remove();
-    showRolePanel();
+    var p=document.getElementById('rolePanel');if(p)p.remove();showRolePanel();
   });
 }
 
@@ -938,7 +1197,7 @@ function ownerTempBan(){
       tempBannedUntil:firebase.firestore.Timestamp.fromDate(until),
       kicked:firebase.firestore.FieldValue.serverTimestamp()
     }).then(function(){
-      sendNotification(snap.docs[0].id,'⏰ You\'ve been temp banned for '+hrs+' hour(s).','warning');
+      sendNotification(snap.docs[0].id,'⏰ You have been temp banned for '+hrs+' hour(s).','warning');
       document.getElementById('tempBanU').value='';
       showNotifToast('Temp ban applied!','info');
     });
@@ -1069,14 +1328,20 @@ function listenForKick(uid){
   db.collection('users').doc(uid).onSnapshot(function(doc){
     if(!doc.exists)return;
     var d=doc.data();
-    if(d.banned){clearSession();auth.signOut();showNotifToast('You have been banned.','warning');setTimeout(function(){location.reload();},2000);return;}
+    if(d.banned){
+      clearSession();auth.signOut();
+      showNotifToast('You have been banned.','warning');
+      setTimeout(function(){location.reload();},2000);return;
+    }
     if(d.tempBannedUntil&&d.tempBannedUntil.toMillis&&d.tempBannedUntil.toMillis()>Date.now()){
       clearSession();auth.signOut();
       showNotifToast('Temp banned for '+Math.ceil((d.tempBannedUntil.toMillis()-Date.now())/3600000)+' more hour(s).','warning');
       setTimeout(function(){location.reload();},2000);return;
     }
     if(d.kickedFromSite&&d.kickedFromSite.toMillis&&Date.now()-d.kickedFromSite.toMillis()<15000){
-      clearSession();auth.signOut();showNotifToast('You have been kicked off the site.','warning');setTimeout(function(){location.reload();},2000);return;
+      clearSession();auth.signOut();
+      showNotifToast('You have been kicked off the site.','warning');
+      setTimeout(function(){location.reload();},2000);return;
     }
     if(d.kicked&&d.kicked.toMillis&&Date.now()-d.kicked.toMillis()<10000){
       showNotifToast('You were kicked from your game.','warning');closeInPage();
@@ -1247,6 +1512,18 @@ function filterGames(){
 }
 
 // ══════════════════════════════
+// PROFILE DESCRIPTION
+// ══════════════════════════════
+function saveProfileDescription(desc){
+  if(!currentUser)return;
+  desc=(desc||'').trim().substring(0,200);
+  db.collection('users').doc(currentUser.uid).update({description:desc}).then(function(){
+    currentUser.description=desc;
+    showNotifToast('Description saved!','info');
+  });
+}
+
+// ══════════════════════════════
 // UTILS
 // ══════════════════════════════
 function timeAgo(ts){
@@ -1259,4 +1536,4 @@ function timeAgo(ts){
 }
 function escHtml(str){
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-      }
+}
